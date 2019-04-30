@@ -1,0 +1,67 @@
+package dk.kea.stud.biotrio.cinema;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.jdbc.support.rowset.SqlRowSet;
+import org.springframework.stereotype.Repository;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+
+@Repository
+public class MovieRepository {
+
+    @Autowired
+    private JdbcTemplate jdbc;
+
+    public List<Movie> findAllMovies() {
+        SqlRowSet rs = jdbc.queryForRowSet( "SELECT * FROM movies" );
+        List<Movie> moviesList = new ArrayList<>();
+        while (rs.next()) {
+            Movie movie = new Movie();
+            movie.setId( rs.getInt( "id" ) );
+            movie.setTitle( rs.getString( "title" ) );
+            movie.setRuntime( rs.getInt( "runtime" ) );
+            movie.setSynopsis( rs.getString( "synopsis" ) );
+            movie.setGenre( rs.getString( "genre" ) );
+            movie.setLanguage( rs.getString( "language" ) );
+            movie.setSubtitles( rs.getString( "subtitles" ) );
+            movie.setProjectionType( rs.getString( "projection_type" ) );
+            movie.setTrailerLink( rs.getString( "trailer_link" ) );
+            Timestamp ts = rs.getTimestamp( "release_date" );
+            movie.setReleaseDate( ts == null ? null : ts.toLocalDateTime().toLocalDate() );
+            movie.setCast( rs.getString( "cast" ) );
+            movie.setDirector( rs.getString( "director" ) );
+            movie.setAgeRestriction( rs.getString( "age_restriction" ) );
+            movie.setPoster( rs.getString( "poster" ) );
+
+            moviesList.add( movie );
+        }
+        return moviesList;
+    }
+
+    public int addMovie(Movie movie) {
+        PreparedStatementCreator psc = new PreparedStatementCreator() {
+            @Override
+            public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
+                PreparedStatement ps = connection.prepareStatement( "INSERT INTO movies (title, runtime, synopsis, genre) values (?,?,?,?);", new String[]{"id"} );
+                ps.setString( 1, movie.getTitle() );
+                ps.setInt( 2, movie.getRuntime() );
+                ps.setString( 3, movie.getSynopsis() );
+                ps.setString( 4, movie.getGenre() );
+                return ps;
+            }
+        };
+        KeyHolder id = new GeneratedKeyHolder();
+        jdbc.update( psc, id );
+
+        return id.getKey().intValue();
+    }
+}
