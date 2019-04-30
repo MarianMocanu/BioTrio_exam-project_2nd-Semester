@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<html lang="en" xmlns:th="http://www.thymeleaf.org/" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <title></title>
     <meta charset="UTF-8">
@@ -22,12 +22,12 @@
                 <a class="nav-link" href="/">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/blog">Blog</a>
+                <a class="nav-link" href="/movies">Movies</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" sec:authorized="!authenticated">
                 <a class="nav-link" href="/login">Login</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" sec:authorized="authenticated">
                 <a class="nav-link" href="/logout">Logout</a>
             </li>
         </ul>
@@ -36,7 +36,7 @@
 
 <footer class="container-fluid w-100 py-3" th:fragment="footer">
     <div class="container text-center">
-        <span class="text-muted">Krisztian Szabo © 2019</span>
+        <span class="text-muted">BioTrio © 2019</span>
     </div>
 </footer>
 
