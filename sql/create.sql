@@ -72,7 +72,7 @@ CREATE TABLE roles
 CREATE TABLE users
 (
     id          INT NOT NULL AUTO_INCREMENT UNIQUE,
-    username    VARCHAR(255),
+    username    VARCHAR(255) UNIQUE,
     password    VARCHAR(255),
     role        INT,
     employee_id INT,
