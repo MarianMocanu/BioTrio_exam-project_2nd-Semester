@@ -24,7 +24,10 @@
             <li class="nav-item">
                 <a class="nav-link" href="/movies">Movies</a>
             </li>
-            <li class="nav-item" sec:authorize="!authenticated">
+            <li class="nav-item">
+                <a class="nav-link" href="/theaters">Theaters</a>
+            </li>
+            <li class="nav-item" sec:authorized="!authenticated">
                 <a class="nav-link" href="/login">Login</a>
             </li>
             <li class="nav-item" sec:authorize="authenticated">
