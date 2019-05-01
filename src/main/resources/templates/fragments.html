@@ -24,13 +24,19 @@
             <li class="nav-item">
                 <a class="nav-link" href="/movies">Movies</a>
             </li>
-            <li class="nav-item" sec:authorized="!authenticated">
+            <li class="nav-item" sec:authorize="!authenticated">
                 <a class="nav-link" href="/login">Login</a>
             </li>
-            <li class="nav-item" sec:authorized="authenticated">
+            <li class="nav-item" sec:authorize="authenticated">
                 <a class="nav-link" href="/logout">Logout</a>
             </li>
         </ul>
+    </div>
+
+    <div class="float-right">
+        <div sec:authorize="authenticated">
+            <span sec:authentication="name"></span>
+        </div>
     </div>
 </nav>
 
