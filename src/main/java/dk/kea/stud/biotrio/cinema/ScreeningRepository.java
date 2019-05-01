@@ -2,9 +2,15 @@ package dk.kea.stud.biotrio.cinema;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 
 @Repository
@@ -29,5 +35,44 @@ public class ScreeningRepository {
     }
 
     return result;
+  }
+
+  public Screening addScreening(Screening screening) {
+    PreparedStatementCreator psc = new PreparedStatementCreator() {
+      @Override
+      public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
+        PreparedStatement ps = connection.prepareStatement(
+            "INSERT INTO screenings (movie_id, theater_id, start_time) " +
+                "VALUES (?, ?, ?)", new String[]{"id"}
+        );
+        ps.setInt(1, screening.getMovie().getId());
+        ps.setInt(2, screening.getTheater().getId());
+        ps.setTimestamp(3, Timestamp.valueOf(screening.getStartTime()));
+        return null;
+      }
+    };
+
+    KeyHolder key = new GeneratedKeyHolder();
+    jdbc.update(psc, key);
+
+    screening.setId(key.getKey().intValue());
+    return screening;
+  }
+
+  public void updateScreening(Screening screening) {
+    String query = "UPDATE screenings SET " +
+        "movie_id = ?, " +
+        "theater_id = ?, " +
+        "start_time = ? " +
+        "WHERE id = ?;";
+    jdbc.update(query,
+        screening.getMovie().getId(),
+        screening.getTheater().getId(),
+        screening.getStartTime() == null ? null : Timestamp.valueOf(screening.getStartTime()),
+        screening.getId());
+  }
+
+  public void deleteScreening(int id) {
+    jdbc.update("DELETE FROM screenings WHERE id = ?;", id);
   }
 }
