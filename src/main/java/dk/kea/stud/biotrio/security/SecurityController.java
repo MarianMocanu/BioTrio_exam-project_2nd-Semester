@@ -20,4 +20,9 @@ public class SecurityController {
 
         return "security/login";
     }
+
+    @GetMapping("/error")
+    public String error() {
+        return "security/error";
+    }
 }
