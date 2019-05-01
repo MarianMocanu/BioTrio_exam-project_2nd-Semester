@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -20,23 +21,36 @@ public class TheaterController {
         List<Theater> theaterList = theaterRepo.findAllTheaters();
         m.addAttribute("theaterlist", theaterList);
         // TODO theaters.html in resources
+        //TODO maybe makes sense to have total no of seats in the view instead of noOfRows and seatsPerRow?
         return "theaters";
     }
-    @GetMapping ("/theaters/create")
+    /*@GetMapping ("/theaters/create")
     public String create (Model m){
-        m.addAttribute("theatreform", new Theater());
+        m.addAttribute("theaterform", new Theater());
 
         return "createTheater";
     }
     @PostMapping("/theaters/savetheater")
     public String saveTheater (@ModelAttribute Theater t){
         theaterRepo.insert(t);
+        // why "redirect:" and not just theaters
         return "redirect:/theaters";
     }
 
-    //TODO something
-    //@GetMapping ("theaters/update")
-    //public String
+    @GetMapping("/theaters/update")
+    public String update(@RequestParam("id") int id, Model m){
+        m.addAttribute("theater", theaterRepo.findTheater(id));
+
+        return "updateTheater";
+    }
+
+    @PostMapping("/theaters/update")
+    public String update(@ModelAttribute Theater t){
+        theaterRepo.update(t);
+
+        return "redirect:/theaters";
+    }*/
+
 
 }
 

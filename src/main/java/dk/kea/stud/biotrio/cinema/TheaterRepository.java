@@ -48,7 +48,7 @@ public class TheaterRepository {
         jdbc.update("UPDATE theaters SET name =? ,no_of_rows =? , seats_per_row =?  WHERE id = ?",
                 theater.getName(),theater.getNoOfRows(), theater.getSeatsPerRow(), theater.getId() );
     }
-    // do delete--------->
+    // TODO delete() repo+controller+view
     public void delete(Theater theater){
 
     }
