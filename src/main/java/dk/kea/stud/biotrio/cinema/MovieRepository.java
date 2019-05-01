@@ -19,8 +19,11 @@ public class MovieRepository {
     private JdbcTemplate jdbc;
 
     public List<Movie> findAllMovies() {
-        SqlRowSet rs = jdbc.queryForRowSet( "SELECT * FROM movies" );
         List<Movie> moviesList = new ArrayList<>();
+
+        String query = "SELECT * FROM movies";
+        SqlRowSet rs = jdbc.queryForRowSet( query );
+
         while (rs.next()) {
             Movie movie = new Movie();
             movie.setId( rs.getInt( "id" ) );
@@ -45,9 +48,14 @@ public class MovieRepository {
     }
 
     public Movie findMovieById(int id) {
-        Movie movie = new Movie();
-        SqlRowSet rs = jdbc.queryForRowSet( "SELECT * FROM movies WHERE id = " + id );
+        Movie movie = null;
+
+        String query = "SELECT * FROM movies WHERE id = ?";
+        SqlRowSet rs = jdbc.queryForRowSet( query, id );
+
         while (rs.next()) {
+            movie = new Movie();
+
             movie.setId( rs.getInt( "id" ) );
             movie.setTitle( rs.getString( "title" ) );
             movie.setRuntime( rs.getInt( "runtime" ) );
@@ -71,7 +79,9 @@ public class MovieRepository {
         PreparedStatementCreator psc = new PreparedStatementCreator() {
             @Override
             public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
-                PreparedStatement ps = connection.prepareStatement( "INSERT INTO movies (title, runtime, synopsis, genre) values (?,?,?,?);", new String[]{"id"} );
+                PreparedStatement ps = connection.prepareStatement(
+                        "INSERT INTO movies (title, runtime, synopsis, genre) " +
+                                "VALUES  (?,?,?,?);", new String[]{"id"} );
                 ps.setString( 1, movie.getTitle() );
                 ps.setInt( 2, movie.getRuntime() );
                 ps.setString( 3, movie.getSynopsis() );
@@ -79,8 +89,10 @@ public class MovieRepository {
                 return ps;
             }
         };
+
         KeyHolder id = new GeneratedKeyHolder();
         jdbc.update( psc, id );
+
         movie.setId( id.getKey().intValue() );
         return movie;
     }
