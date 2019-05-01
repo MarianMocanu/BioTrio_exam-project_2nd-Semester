@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head>
     <meta charset="UTF-8">
-    <title>Movies View</title>
+    <title>Movies View </title>
 
     <div th:replace="fragments :: bootstrap_head"></div>
 </head>
@@ -23,7 +23,7 @@
                         <th scope="col">Runtime</th>
                         <th scope="col">Synopsis</th>
                         <th scope="col">Genre</th>
-                        <th scope="col">Language</th>
+                        <!--<th scope="col">Language</th>-->
                         <!--<th scope="col">Subtitles</th>-->
                         <!--<th scope="col">Projection Type</th>-->
                         <!--<th scope="col">Trailer Link</th>-->
@@ -47,7 +47,7 @@
                         <td th:text="${movie.runtime}"></td>
                         <td th:text="${movie.synopsis}"></td>
                         <td th:text="${movie.genre}"></td>
-                        <td th:text="${movie.language}"></td>
+                        <!--<td th:text="${movie.language}"></td>-->
                         <!--<td th:text="${movie.subtitles}"></td>-->
                         <!--<td th:text="${movie.projectionType}"></td>-->
                         <!--<td th:text="${movie.trailerLink}"></td>-->
