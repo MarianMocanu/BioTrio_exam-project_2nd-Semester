@@ -21,7 +21,7 @@ public class MovieController {
 
     //TODO @GetMapping("/manage")
 
-     @GetMapping("/manage/movies")
+    @GetMapping("/manage/movies")
     public String manageMovies(Model model){
          model.addAttribute( "movies", movieRepo.findAllMovies() );
         return "movies/manage-movies";

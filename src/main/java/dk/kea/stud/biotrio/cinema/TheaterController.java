@@ -22,13 +22,13 @@ public class TheaterController {
         m.addAttribute("theaterlist", theaterList);
         // TODO theaters.html in resources
         //TODO maybe makes sense to have total no of seats in the view instead of noOfRows and seatsPerRow?
-        return "theaters";
+        return "theaters/theaters";
     }
-    /*@GetMapping ("/theaters/create")
+    @GetMapping ("/theaters/add")
     public String create (Model m){
         m.addAttribute("theaterform", new Theater());
 
-        return "createTheater";
+        return "theaters/add-theater";
     }
     @PostMapping("/theaters/savetheater")
     public String saveTheater (@ModelAttribute Theater t){
@@ -36,7 +36,7 @@ public class TheaterController {
         // why "redirect:" and not just theaters
         return "redirect:/theaters";
     }
-
+    /*
     @GetMapping("/theaters/update")
     public String update(@RequestParam("id") int id, Model m){
         m.addAttribute("theater", theaterRepo.findTheater(id));
