@@ -12,7 +12,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -28,13 +28,32 @@ public class ScreeningRepository {
     Screening result = null;
     String query = "SELECT * FROM screenings WHERE id = ?";
     SqlRowSet rs = jdbc.queryForRowSet(query, id);
+
     if (rs.first()) {
       result = new Screening();
       result.setId(id);
       result.setMovie(movieRepo.findMovieById(rs.getInt("movie_id")));
-      result.setTheater(null/*TODO theaterRepo.findTheaterById(rs.getInt("theater_id"))*/);
+      result.setTheater(theaterRepo.findTheater(rs.getInt("theater_id")));
       Timestamp ts = rs.getTimestamp("start_time");
       result.setStartTime(ts == null ? null : ts.toLocalDateTime());
+    }
+
+    return result;
+  }
+
+  public List<Screening> findUpcomingScreenings() {
+    List<Screening> result = new ArrayList<>();
+    String query = "SELECT * FROM screenings WHERE start_time >= CURDATE() ORDER BY start_time";
+    SqlRowSet rs = jdbc.queryForRowSet(query);
+
+    if (rs.first()) {
+      Screening screening = new Screening();
+      screening.setId(rs.getInt("id"));
+      screening.setMovie(movieRepo.findMovieById(rs.getInt("movie_id")));
+      screening.setTheater(theaterRepo.findTheater(rs.getInt("theater_id")));
+      Timestamp start = rs.getTimestamp("start_time");
+      screening.setStartTime(start == null ? null : start.toLocalDateTime());
+      result.add(screening);
     }
 
     return result;
