@@ -3,9 +3,15 @@ package dk.kea.stud.biotrio.ticketing;
 import dk.kea.stud.biotrio.cinema.ScreeningRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,10 +63,49 @@ public class BookingRepository {
     return screeningBookings;
   }
 
-  //TODO public Booking addBooking(Booking booking) {}
 
-  //TODO public void updateBooking(Booking booking) {}
+  public Booking addBooking(Booking booking) {
+    PreparedStatementCreator psc = new PreparedStatementCreator() {
+      @Override
+      public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
+        PreparedStatement ps = connection.prepareStatement(
+            "INSERT INTO bookings (phone_no, code, screening_id) " +
+                "VALUES (?, ?, ?)", new String[]{"id"}
+        );
+        ps.setString(1, booking.getPhoneNo());
+        ps.setString(2, booking.getCode());
+        ps.setInt(3, booking.getScreening().getId());
+        return ps;
+      }
+    };
 
-  //TODO public void deleteBooking(int id) {}
+    KeyHolder key = new GeneratedKeyHolder();
+    jdbc.update(psc, key);
 
+    booking.setId(key.getKey().intValue());
+    return booking;
+  }
+
+  //TODO public void addBookedSeats(Booking booking){}
+
+  public void updateBooking(Booking booking) {
+    String query = "UPDATE bookings SET " +
+        "phone_no = ?, " +
+        "code = ?, " +
+        "screening_id = ? " +
+        "WHERE id = ?;";
+    jdbc.update(query,
+        booking.getPhoneNo(),
+        booking.getCode(),
+        booking.getScreening().getId(),
+        booking.getId());
+  }
+
+  //TODO public void updateBookedSeats(Booking booking){}
+
+  public void deleteBooking(int id) {
+    jdbc.update("DELETE FROM bookings WHERE id = ?;", id);
+  }
+
+  //TODO public void deleteBookedSeats(int bookingId){}
 }
