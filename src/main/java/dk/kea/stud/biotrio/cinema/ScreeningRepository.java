@@ -12,6 +12,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.util.List;
 
 @Repository
 public class ScreeningRepository {
@@ -19,22 +21,39 @@ public class ScreeningRepository {
     private JdbcTemplate jdbc;
     @Autowired
     private MovieRepository movieRepo;
+    @Autowired
+    private TheaterRepository theaterRepo;
 
     public Screening findById(int id) {
         Screening result = null;
         String query = "SELECT * FROM screenings WHERE id = ?";
-        SqlRowSet rs = jdbc.queryForRowSet( query, id );
+        SqlRowSet rs = jdbc.queryForRowSet(query, id);
 
         if (rs.first()) {
             result = new Screening();
-            result.setId( id );
-            result.setMovie( movieRepo.findMovieById( rs.getInt( "movie_id" ) ) );
-            result.setTheater( null/*TODO theaterRepo.findTheaterById(rs.getInt("theater_id"))*/ );
-            Timestamp ts = rs.getTimestamp( "start_time" );
-            result.setStartTime( ts == null ? null : ts.toLocalDateTime() );
+            result.setId(id);
+            result.setMovie(movieRepo.findMovieById(rs.getInt("movie_id")));
+            result.setTheater(theaterRepo.findTheater(rs.getInt("theater_id")));
+            Timestamp ts = rs.getTimestamp("start_time");
+            result.setStartTime(ts == null ? null : ts.toLocalDateTime());
         }
 
         return result;
+    }
+
+    public List<Screening> findAllScreenings() {
+        //TODO
+        return null;
+    }
+
+    public List<Screening> findScreeningsAfterDate(LocalDate date) {
+        //TODO
+        return null;
+    }
+
+    public List<Screening> findScreeningsOnDate(LocalDate date) {
+        //TODO
+        return null;
     }
 
     public Screening addScreening(Screening screening) {
@@ -45,16 +64,16 @@ public class ScreeningRepository {
                         "INSERT INTO screenings (movie_id, theater_id, start_time) " +
                                 "VALUES (?, ?, ?)", new String[]{"id"}
                 );
-                ps.setInt( 1, screening.getMovie().getId() );
-                ps.setInt( 2, screening.getTheater().getId() );
-                ps.setTimestamp( 3, Timestamp.valueOf( screening.getStartTime() ) );
+                ps.setInt(1, screening.getMovie().getId());
+                ps.setInt(2, screening.getTheater().getId());
+                ps.setTimestamp(3, Timestamp.valueOf(screening.getStartTime()));
                 return ps;
             }
         };
         KeyHolder key = new GeneratedKeyHolder();
-        jdbc.update( psc, key );
+        jdbc.update(psc, key);
 
-        screening.setId( key.getKey().intValue() );
+        screening.setId(key.getKey().intValue());
         return screening;
     }
 
@@ -64,14 +83,14 @@ public class ScreeningRepository {
                 "theater_id = ?, " +
                 "start_time = ? " +
                 "WHERE id = ?;";
-        jdbc.update( query,
+        jdbc.update(query,
                 screening.getMovie().getId(),
                 screening.getTheater().getId(),
-                screening.getStartTime() == null ? null : Timestamp.valueOf( screening.getStartTime() ),
-                screening.getId() );
+                screening.getStartTime() == null ? null : Timestamp.valueOf(screening.getStartTime()),
+                screening.getId());
     }
 
     public void deleteScreening(int id) {
-        jdbc.update( "DELETE FROM screenings WHERE id = ?;", id );
+        jdbc.update("DELETE FROM screenings WHERE id = ?;", id);
     }
 }

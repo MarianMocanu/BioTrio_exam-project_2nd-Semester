@@ -53,7 +53,7 @@ public class MovieRepository {
         String query = "SELECT * FROM movies WHERE id = ?";
         SqlRowSet rs = jdbc.queryForRowSet( query, id );
 
-        while (rs.next()) {
+        if (rs.first()) {
             movie = new Movie();
 
             movie.setId( rs.getInt( "id" ) );

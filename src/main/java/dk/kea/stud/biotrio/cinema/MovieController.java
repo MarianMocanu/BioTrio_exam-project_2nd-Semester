@@ -14,15 +14,16 @@ public class MovieController {
     @Autowired
     private MovieRepository movieRepo;
 
-    //not necessary so far
-    @GetMapping("/movies")
-    public String findMovies(Model model){
-        model.addAttribute( "movies", movieRepo.findAllMovies() );
+    // For the end-users
+    @GetMapping("/movie/{id}")
+    public String findMovies(@PathVariable(name="id") int id, Model model){
+        model.addAttribute( "movies", movieRepo.findMovieById(id) );
         return "movies/movies-view";
     }
 
     //TODO @GetMapping("/manage")
 
+    // For the staff
     @GetMapping("/manage/movies")
     public String manageMovies(Model model){
          model.addAttribute( "movies", movieRepo.findAllMovies() );

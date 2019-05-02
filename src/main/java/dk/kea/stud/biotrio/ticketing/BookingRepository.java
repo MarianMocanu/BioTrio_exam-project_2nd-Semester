@@ -33,15 +33,14 @@ public class BookingRepository {
             booking.setScreening( screeningRepo.findById( bookingsRS.getInt( "screening_id" ) ) );
 
             //Booking object has an array of Seat objects
-            Seat seat = null;
-            List bookingSeats = new ArrayList<>();
+            List<Seat> bookingSeats = new ArrayList<>();
 
             String queryForSeats = "SELECT * FROM booked_seats WHERE booking_id = ?";
             SqlRowSet seatsRS = jdbc.queryForRowSet( queryForSeats, booking.getId() );
 
             //iteration for setting the seats received from database
             while (seatsRS.next()) {
-                seat = new Seat();
+                Seat seat = new Seat();
                 seat.setRowNo( seatsRS.getInt( "row_no" ) );
                 seat.setSeatNo( seatsRS.getInt( "seat_no" ) );
 
