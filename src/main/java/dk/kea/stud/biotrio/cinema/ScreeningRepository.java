@@ -42,16 +42,28 @@ public class ScreeningRepository {
   }
 
   public List<Screening> findUpcomingScreenings() {
-    List<Screening> result = new ArrayList<>();
     String query = "SELECT * FROM screenings WHERE start_time >= CURDATE() ORDER BY start_time";
     SqlRowSet rs = jdbc.queryForRowSet(query);
 
-    if (rs.first()) {
+    return getScreeningsListFromRowSet(rs);
+  }
+
+  public List<Screening> findTodaysScreenings() {
+    String query = "SELECT * FROM screenings WHERE DATE(start_time) = CURDATE() ORDER BY start_time";
+    SqlRowSet rs = jdbc.queryForRowSet(query);
+
+    return getScreeningsListFromRowSet(rs);
+  }
+
+  private List<Screening> getScreeningsListFromRowSet(SqlRowSet rowSet) {
+    List<Screening> result = new ArrayList<>();
+
+    while (rowSet.next()) {
       Screening screening = new Screening();
-      screening.setId(rs.getInt("id"));
-      screening.setMovie(movieRepo.findMovieById(rs.getInt("movie_id")));
-      screening.setTheater(theaterRepo.findTheater(rs.getInt("theater_id")));
-      Timestamp start = rs.getTimestamp("start_time");
+      screening.setId(rowSet.getInt("id"));
+      screening.setMovie(movieRepo.findMovieById(rowSet.getInt("movie_id")));
+      screening.setTheater(theaterRepo.findTheater(rowSet.getInt("theater_id")));
+      Timestamp start = rowSet.getTimestamp("start_time");
       screening.setStartTime(start == null ? null : start.toLocalDateTime());
       result.add(screening);
     }

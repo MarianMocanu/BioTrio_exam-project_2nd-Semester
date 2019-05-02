@@ -37,4 +37,12 @@ public class Theater {
   public void setSeatsPerRow(int seatsPerRow) {
     this.seatsPerRow = seatsPerRow;
   }
+
+  @Override
+  public String toString() {
+    return "Theater{" +
+        "id=" + id +
+        ", name='" + name + '\'' +
+        '}';
+  }
 }

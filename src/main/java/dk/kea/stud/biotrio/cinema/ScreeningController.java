@@ -4,6 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Controller
 public class ScreeningController {
@@ -26,9 +31,26 @@ public class ScreeningController {
   public String manageScreenings(Model model) {
     model.addAttribute("movies", movieRepo.findAllMovies());
     model.addAttribute("theaters", theaterRepo.findAllTheaters());
-    model.addAttribute("screening", new Screening());
+    model.addAttribute("screeningForm", new ScreeningForm());
     return "screenings/screenings-add";
   }
 
-
+  @PostMapping("/manage/screenings/save")
+  public String addScreening(@ModelAttribute ScreeningForm screeningForm) {
+    System.out.println(screeningForm);
+    Screening screening = new Screening();
+    screening.setMovie(movieRepo.findMovieById(screeningForm.getId()));
+    screening.setTheater(theaterRepo.findTheater(screeningForm.getId()));
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+    LocalDateTime startTime;
+    try {
+       startTime = LocalDateTime.parse(screeningForm.getStartTime(), formatter);
+    } catch (Exception e) {
+      return "redirect:/manage/screenings/add?start_time_error";
+    }
+    screening.setStartTime(startTime);
+    System.out.println(screening);
+    screeningRepo.addScreening(screening);
+    return "redirect:/screenings";
+  }
 }

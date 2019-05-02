@@ -15,24 +15,24 @@
             <div class="jumbotron text-dark rounded bg-light border border-dark">
                 <h1 class="display-4">Add a new screening!</h1>
 
-                <form action="/manage/screenings/save" th:object="${screening}" method="post">
+                <form action="/manage/screenings/save" th:object="${screeningForm}" method="post">
                     <div class="form-group">
-                        <label for="title">Title</label>
-                        <select class="form-control" th:field="${screening.movie}" id="title" name="title">
+                        <label for="movie">Movie</label>
+                        <select class="form-control" th:field="${screeningForm.movieId}" id="movie" name="movie">
+                            <option th:each="movie:${movies}" th:text="${movie.getTitle()}" th:value="${movie.getId()}"></option>
+                        </select>
                     </div>
                     <div class="form-group">
-                        <label for="runtime">Runtime</label>
-                        <input type="text" class="form-control" th:field="${movie.runtime}" id="runtime" name="runtime">
+                        <label for="theater">Theater</label>
+                        <select class="form-control" th:field="${screeningForm.theaterId}" id="theater" name="theater">
+                            <option th:each="theater:${theaters}" th:text="${theater.getName()}" th:value="${theater.getId()}"></option>
+                        </select>
                     </div>
                     <div class="form-group">
-                        <label for="synopsis">Synopsis</label>
-                        <input type="text" class="form-control" th:field="${movie.synopsis}" id="synopsis" name="synopsis">
+                        <label for="start_time">Date & Time</label>
+                        <input type="text" class="form-control" th:field="${screeningForm.startTime}" id="start_time" name="start_time">
                     </div>
-                    <div class="form-group">
-                        <label for="genre">Genre</label>
-                        <input type="text" class="form-control" th:field="${movie.genre}" name="genre" id="genre">
-                    </div>
-                    <button type="submit" class="btn btn-primary">Add Movie</button>
+                    <button type="submit" class="btn btn-primary">Create screening</button>
                     <button type="reset" class="btn btn-primary">Cancel</button>
                 </form>
             </div>

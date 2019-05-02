@@ -129,4 +129,12 @@ public class Movie {
   public void setPoster(String poster) {
     this.poster = poster;
   }
+
+  @Override
+  public String toString() {
+    return "Movie{" +
+        "id=" + id +
+        ", title='" + title + '\'' +
+        '}';
+  }
 }
