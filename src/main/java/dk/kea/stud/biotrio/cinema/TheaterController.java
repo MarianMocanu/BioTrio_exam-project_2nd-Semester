@@ -13,41 +13,41 @@ public class TheaterController {
   @Autowired
   private TheaterRepository theaterRepo;
 
-  @GetMapping("/theaters")
+  @GetMapping("/manage/theaters")
   public String theaters(Model m) {
     List<Theater> theaterList = theaterRepo.findAllTheaters();
     m.addAttribute("theaterlist", theaterList);
-    // TODO theaters.html in resources
     //TODO maybe makes sense to have total no of seats in the view instead of noOfRows and seatsPerRow?
     return "theaters/theaters";
   }
 
-  @GetMapping("/theaters/add")
+  @GetMapping("/manage/theaters/add")
   public String create(Model m) {
     m.addAttribute("theaterform", new Theater());
 
     return "theaters/add-theater";
   }
 
-  @PostMapping("/theaters/savetheater")
+  @PostMapping("/manage/theaters/add")
   public String saveTheater(@ModelAttribute Theater t) {
     theaterRepo.insert(t);
-    // why "redirect:" and not just theaters
-    return "redirect:/theaters";
+    // why "redirect:" and not just theaters:
+    //because after posting we need @GetMapping to be able to read what's on /theaters
+    return "redirect:/manage/theaters";
   }
 
-  @GetMapping("/theaters/edit")
-  public String update(@RequestParam("id") int id, Model m) {
+  @GetMapping("/manage/theaters/edit/{id}")
+  public String update(@PathVariable(name = "id") int id, Model m) {
     m.addAttribute("theater", theaterRepo.findTheater(id));
 
-    return "edit-theater";
+    return "theaters/edit-theater";
   }
 
-  @PostMapping("/theaters/update")
+  @PostMapping("/manage/theaters/edit")
   public String update(@ModelAttribute Theater t) {
     theaterRepo.update(t);
 
-    return "redirect:/theaters";
+    return "redirect:/manage/theaters/";
   }
 
   @GetMapping("/manage/theaters/delete/{id}")
