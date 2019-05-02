@@ -11,30 +11,30 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private CustomAuthentication customAuthentication;
+  @Autowired
+  private CustomAuthentication customAuthentication;
 
-    @Override
-    protected void configure(final HttpSecurity http) throws Exception {
-        http.csrf().disable();
+  @Override
+  protected void configure(final HttpSecurity http) throws Exception {
+    http.csrf().disable();
 
-        http.authorizeRequests().antMatchers("/**").permitAll();
+    http.authorizeRequests().antMatchers("/**").permitAll();
 
-        http.authorizeRequests().and().formLogin().loginProcessingUrl("/login").loginPage("/login")
-                .defaultSuccessUrl("/").failureUrl("/login?error=true")
-                .usernameParameter("username").passwordParameter("password")
-                .and()
-                .logout().logoutSuccessUrl("/login?logout");
+    http.authorizeRequests().and().formLogin().loginProcessingUrl("/login").loginPage("/login")
+        .defaultSuccessUrl("/").failureUrl("/login?error=true")
+        .usernameParameter("username").passwordParameter("password")
+        .and()
+        .logout().logoutSuccessUrl("/login?logout");
 
 //        http.authorizeRequests().antMatchers("/**").authenticated();
 //
 //        http.authorizeRequests().antMatchers("/admin/users/**").hasRole("ADMIN");
 
-        http.authorizeRequests().and().exceptionHandling().accessDeniedPage("/accessdenied");
-    }
+    http.authorizeRequests().and().exceptionHandling().accessDeniedPage("/accessdenied");
+  }
 
-    @Autowired
-    public void configure(AuthenticationManagerBuilder auth) {
-        auth.authenticationProvider(customAuthentication);
-    }
+  @Autowired
+  public void configure(AuthenticationManagerBuilder auth) {
+    auth.authenticationProvider(customAuthentication);
+  }
 }

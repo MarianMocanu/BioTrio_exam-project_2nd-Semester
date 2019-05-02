@@ -10,50 +10,54 @@ import java.util.List;
 
 @Repository
 public class TheaterRepository {
-    @Autowired
-    private JdbcTemplate jdbc;
+  @Autowired
+  private JdbcTemplate jdbc;
 
-    public Theater findTheater(int id){
-        SqlRowSet rs = jdbc.queryForRowSet("SELECT * FROM theaters WHERE id = ?",id);
-        Theater theater = new Theater();
-        //while (rs.next()) - reads all the results and then picks the one with the unique id.
-        //since the id is unique we know that we get only one result
-        // so we use conditioning to read the first (and only row)
-        if (rs.first()){
-            theater.setId(rs.getInt("id"));
-            theater.setName(rs.getString("name"));
-            theater.setNoOfRows(rs.getInt("no_of_rows"));
-            theater.setSeatsPerRow(rs.getInt("seats_per_row"));
-        }
-        return theater;
+  public Theater findTheater(int id) {
+    SqlRowSet rs = jdbc.queryForRowSet("SELECT * FROM theaters WHERE id = ?", id);
+    Theater theater = new Theater();
+    //while (rs.next()) - reads all the results and then picks the one with the unique id.
+    //since the id is unique we know that we get only one result
+    // so we use conditioning to read the first (and only row)
+    if (rs.first()) {
+      theater.setId(rs.getInt("id"));
+      theater.setName(rs.getString("name"));
+      theater.setNoOfRows(rs.getInt("no_of_rows"));
+      theater.setSeatsPerRow(rs.getInt("seats_per_row"));
     }
-    public List<Theater> findAllTheaters(){
-        SqlRowSet rs = jdbc.queryForRowSet("SELECT * FROM theaters");
-        List<Theater> theaterList = new ArrayList<>();
-        while (rs.next()){
-            Theater theater = new Theater();
-            theater.setId(rs.getInt("id"));
-            theater.setName(rs.getString("name"));
-            theater.setNoOfRows(rs.getInt("no_of_rows"));
-            theater.setSeatsPerRow(rs.getInt("seats_per_row"));
+    return theater;
+  }
 
-            theaterList.add(theater);
-        }
-        return theaterList;
-    }
-    public void insert(Theater theater){
-        //this works like prepared statement
-        jdbc.update("INSERT INTO theaters(name, no_of_rows, seats_per_row) VALUES(?,?,?)",
-                theater.getName(),theater.getNoOfRows(), theater.getSeatsPerRow());
-    }
-    public void update(Theater theater) {
+  public List<Theater> findAllTheaters() {
+    SqlRowSet rs = jdbc.queryForRowSet("SELECT * FROM theaters");
+    List<Theater> theaterList = new ArrayList<>();
+    while (rs.next()) {
+      Theater theater = new Theater();
+      theater.setId(rs.getInt("id"));
+      theater.setName(rs.getString("name"));
+      theater.setNoOfRows(rs.getInt("no_of_rows"));
+      theater.setSeatsPerRow(rs.getInt("seats_per_row"));
 
-        jdbc.update("UPDATE theaters SET name =? ,no_of_rows =? , seats_per_row =?  WHERE id = ?",
-                theater.getName(),theater.getNoOfRows(), theater.getSeatsPerRow(), theater.getId() );
+      theaterList.add(theater);
     }
-    // TODO delete() repo+controller+view
-    public void deleteTheater(int id) {
-        jdbc.update( "DELETE FROM theaters WHERE id = ?", id );
-    }
+    return theaterList;
+  }
+
+  public void insert(Theater theater) {
+    //this works like prepared statement
+    jdbc.update("INSERT INTO theaters(name, no_of_rows, seats_per_row) VALUES(?,?,?)",
+        theater.getName(), theater.getNoOfRows(), theater.getSeatsPerRow());
+  }
+
+  public void update(Theater theater) {
+
+    jdbc.update("UPDATE theaters SET name =? ,no_of_rows =? , seats_per_row =?  WHERE id = ?",
+        theater.getName(), theater.getNoOfRows(), theater.getSeatsPerRow(), theater.getId());
+  }
+
+  // TODO delete() repo+controller+view
+  public void deleteTheater(int id) {
+    jdbc.update("DELETE FROM theaters WHERE id = ?", id);
+  }
 
 }

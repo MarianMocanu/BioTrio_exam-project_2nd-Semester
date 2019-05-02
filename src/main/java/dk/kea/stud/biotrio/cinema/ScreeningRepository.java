@@ -17,12 +17,12 @@ import java.util.List;
 
 @Repository
 public class ScreeningRepository {
-    @Autowired
-    private JdbcTemplate jdbc;
-    @Autowired
-    private MovieRepository movieRepo;
-    @Autowired
-    private TheaterRepository theaterRepo;
+  @Autowired
+  private JdbcTemplate jdbc;
+  @Autowired
+  private MovieRepository movieRepo;
+  @Autowired
+  private TheaterRepository theaterRepo;
 
   public Screening findById(int id) {
     Screening result = null;

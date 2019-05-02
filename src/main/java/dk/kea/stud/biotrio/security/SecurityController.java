@@ -7,22 +7,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class SecurityController {
-    @GetMapping(value="/login")
-    public String showLogin(@RequestParam(value = "error", required = false) String error, String logout, Model model) {
+  @GetMapping(value = "/login")
+  public String showLogin(@RequestParam(value = "error", required = false) String error, String logout, Model model) {
 
-        if(logout!=null) {
-            model.addAttribute("logoutmsg", "You've been logged out Successfully");
-        }
-
-        if(error == null || !error.isEmpty()) {
-            model.addAttribute("error", error);
-        }
-
-        return "security/login";
+    if (logout != null) {
+      model.addAttribute("logoutmsg", "You've been logged out Successfully");
     }
 
-    @GetMapping("/error")
-    public String error() {
-        return "security/error";
+    if (error == null || !error.isEmpty()) {
+      model.addAttribute("error", error);
     }
+
+    return "security/login";
+  }
+
+  @GetMapping("/error")
+  public String error() {
+    return "security/error";
+  }
 }

@@ -15,37 +15,37 @@ import java.util.List;
 @Configuration
 public class CustomAuthentication implements AuthenticationProvider {
 
-    @Autowired
-    private UserRepository userRepo;
+  @Autowired
+  private UserRepository userRepo;
 
-    @Override
-    public Authentication authenticate(Authentication auth)
-            throws AuthenticationException {
+  @Override
+  public Authentication authenticate(Authentication auth)
+      throws AuthenticationException {
 
-        String username = auth.getName();
-        String password = auth.getCredentials().toString();
+    String username = auth.getName();
+    String password = auth.getCredentials().toString();
 
-        User user = userRepo.findByUsername(username);
+    User user = userRepo.findByUsername(username);
 
-        if(user==null){
-            throw new BadCredentialsException("Username Not Found");
-        }
-
-        if(!password.equals(user.getPassword())){
-            throw new BadCredentialsException("Username Or Password Is invalid");
-        }
-
-        List<SimpleGrantedAuthority> role = new ArrayList<>();
-        if(user.getRole() != null) {
-            role.add(new SimpleGrantedAuthority(user.getRole()));
-        }
-
-        return new UsernamePasswordAuthenticationToken(username, password, role);
+    if (user == null) {
+      throw new BadCredentialsException("Username Not Found");
     }
 
-    @Override
-    public boolean supports(Class<?> arg0) {
-        return true;
+    if (!password.equals(user.getPassword())) {
+      throw new BadCredentialsException("Username Or Password Is invalid");
     }
+
+    List<SimpleGrantedAuthority> role = new ArrayList<>();
+    if (user.getRole() != null) {
+      role.add(new SimpleGrantedAuthority(user.getRole()));
+    }
+
+    return new UsernamePasswordAuthenticationToken(username, password, role);
+  }
+
+  @Override
+  public boolean supports(Class<?> arg0) {
+    return true;
+  }
 
 }
