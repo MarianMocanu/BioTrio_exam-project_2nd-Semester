@@ -16,7 +16,10 @@ public class TheaterRepository {
     public Theater findTheater(int id){
         SqlRowSet rs = jdbc.queryForRowSet("SELECT * FROM theaters WHERE id = ?",id);
         Theater theater = new Theater();
-        while (rs.next()){
+        //while (rs.next()) - reads all the results and then picks the one with the unique id.
+        //since the id is unique we know that we get only one result
+        // so we use conditioning to read the first (and only row)
+        if (rs.first()){
             theater.setId(rs.getInt("id"));
             theater.setName(rs.getString("name"));
             theater.setNoOfRows(rs.getInt("no_of_rows"));
@@ -49,8 +52,8 @@ public class TheaterRepository {
                 theater.getName(),theater.getNoOfRows(), theater.getSeatsPerRow(), theater.getId() );
     }
     // TODO delete() repo+controller+view
-    public void delete(Theater theater){
-
+    public void deleteTheater(int id) {
+        jdbc.update( "DELETE FROM theaters WHERE id = ?", id );
     }
 
 }
