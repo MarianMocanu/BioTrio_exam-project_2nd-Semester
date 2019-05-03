@@ -31,9 +31,25 @@
                         <td th:text="${theater.name}"></td>
                         <td th:text="${theater.noOfRows}"></td>
                         <td th:text="${theater.seatsPerRow}"></td>
+                        <td>
+                            <abbr title="Edit theater"><a th:href="'/manage/theaters/edit/' + ${theater.id}">
+                                <button class="btn btn-success">Edit</button>
+                            </a></abbr>
+                        </td>
+                        <td>
+                            <abbr title="Delete movie"><a th:href="'/manage/theaters/delete/' + ${theater.id}">
+                                <button class="btn btn-danger">Delete</button>
+                            </a></abbr>
+                        </td>
                     </tr>
                     </tbody>
+
                 </table>
+                <th scope="col">
+                    <abbr title="Add a theater"><a th:href="'/manage/theaters/add'">
+                        <button class="btn btn-primary">Add theater</button>
+                    </a></abbr>
+                </th>
             </div>
         </div>
     </main>
