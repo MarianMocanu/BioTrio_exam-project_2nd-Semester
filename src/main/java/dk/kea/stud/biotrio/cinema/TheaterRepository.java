@@ -28,6 +28,24 @@ public class TheaterRepository {
     return theater;
   }
 
+  public Theater findTheaterForScreening(int screening_id) {
+    Theater result = new Theater();
+    String query = "SELECT theaters.id, theaters.name, theaters.no_of_rows, theaters.seats_per_row " +
+        "FROM theaters INNER JOIN screenings " +
+        "ON theaters.id = screenings.theater_id " +
+        "WHERE screenings.id = ? ";
+    SqlRowSet rs = jdbc.queryForRowSet(query, screening_id);
+
+    if (rs.first()) {
+      result.setId(rs.getInt("id"));
+      result.setName(rs.getString("name"));
+      result.setNoOfRows(rs.getInt("no_of_rows"));
+      result.setSeatsPerRow(rs.getInt("seats_per_row"));
+    }
+    return result;
+  }
+
+
   public List<Theater> findAllTheaters() {
     SqlRowSet rs = jdbc.queryForRowSet("SELECT * FROM theaters");
     List<Theater> theaterList = new ArrayList<>();

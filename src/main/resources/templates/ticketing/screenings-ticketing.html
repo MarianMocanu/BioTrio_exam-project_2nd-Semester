@@ -29,7 +29,7 @@
                         <td th:text="${screening.id}"></td>
                         <td th:text="${screening.movie.title}"></td>
                         <td th:text="${screening.theater.name}"></td>
-                        <td th:text="${screening.startTime.toLocalTime}"></td>
+                        <td th:text="${screening.startTime.toLocalTime()}"></td>
                         <td>
                             <abbr title="Ticketing"><a th:href="'/manage/screening/'+${screening.id}+'/ticketing'">
                             <button class="btn btn-primary">Ticketing</button>

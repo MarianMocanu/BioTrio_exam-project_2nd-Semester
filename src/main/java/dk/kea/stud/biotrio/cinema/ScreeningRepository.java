@@ -46,7 +46,7 @@ public class ScreeningRepository {
     String query = "SELECT * FROM screenings WHERE start_time >= CURDATE() ORDER BY start_time";
     SqlRowSet rs = jdbc.queryForRowSet(query);
 
-    if (rs.first()) {
+    while (rs.next()) {
       Screening screening = new Screening();
       screening.setId(rs.getInt("id"));
       screening.setMovie(movieRepo.findMovieById(rs.getInt("movie_id")));
