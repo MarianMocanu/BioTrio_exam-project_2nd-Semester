@@ -21,7 +21,6 @@
                     <tr>
                         <th scope="col">ID</th>
                         <th scope="col">Name</th>
-                        <th scope="col">Number of rows</th>
                         <th scope="col">Number of seats</th>
                     </tr>
                     </thead>
@@ -29,8 +28,7 @@
                     <tr th:each="theater:${theaterlist}">
                         <th scope="row" th:text="${theater.id}">1</th>
                         <td th:text="${theater.name}"></td>
-                        <td th:text="${theater.noOfRows}"></td>
-                        <td th:text="${theater.seatsPerRow}"></td>
+                        <td th:text="${theater.seatsPerRow} * ${theater.noOfRows}"></td>
                         <td>
                             <abbr title="Edit theater"><a th:href="'/manage/theaters/edit/' + ${theater.id}">
                                 <button class="btn btn-success">Edit</button>
