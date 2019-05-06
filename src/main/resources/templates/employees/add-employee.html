@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Add employee</title>
+
+    <div th:replace="fragments :: bootstrap_head"></div>
+</head>
+<body>
+<div class="d-flex flex-column sticky-footer-wrapper">
+    <div th:replace="fragments :: navbar"></div>
+
+    <main class="flex-fill">
+        <div class="container">
+            <div class="jumbotron text-dark rounded bg-light border border-dark">
+                <h1 class="display-4">Add a new employee</h1>
+
+                <form action="/manage/employees/add" method="post" th:object="${employeeform}">
+                    <div class="form-group">
+                        <label for="first_name">First name:</label>
+                        <input type="text" class="form-control" th:field="${employeeform.firstName}" id="first_name">
+                    </div>
+                    <div class="form-group">
+                        <label for="last_name">Last name:</label>
+                        <input type="text" class="form-control" th:field="${employeeform.lastName}" id="last_name">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add employee</button>
+                    <button type="reset" class="btn btn-primary">Cancel</button>
+                </form>
+
+            </div>
+        </div>
+    </main>
+
+    <div th:replace="fragments :: footer"></div>
+</div>
+<div th:replace="fragments :: bootstrap_body"></div>
+</body>
+</html>

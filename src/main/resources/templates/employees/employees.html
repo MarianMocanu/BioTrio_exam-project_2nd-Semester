@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head>
     <meta charset="UTF-8">
-    <title>Theaters</title>
+    <title>Employees</title>
 
     <div th:replace="fragments :: bootstrap_head"></div>
 </head>
@@ -13,29 +13,27 @@
     <main class="flex-fill">
         <div class="container">
             <div class="jumbotron text-dark rounded bg-light border border-dark">
-                <h1 class="display-4">About cinema</h1>
-                <!--<h6 class="display-4">BioTrio is located in a shiny hill and has comfortable seats available.</h6>
-                <h6 class="display-4">Here is the list of our theaters:</h6>-->
+                <h1 class="display-4">About employees</h1>
                 <table class="table table-hover">
                     <thead>
                     <tr>
                         <th scope="col">ID</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Number of seats</th>
+                        <th scope="col">First name</th>
+                        <th scope="col">Last name</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="theater:${theaterlist}">
-                        <th scope="row" th:text="${theater.id}">1</th>
-                        <td th:text="${theater.name}"></td>
-                        <td th:text="${theater.seatsPerRow} * ${theater.noOfRows}"></td>
+                    <tr th:each="employee:${employeelist}">
+                        <th scope="row" th:text="${employee.id}">1</th>
+                        <td th:text="${employee.firstName}"></td>
+                        <td th:text="${employee.lastName}"></td>
                         <td>
-                            <abbr title="Edit theater"><a th:href="'/manage/theaters/edit/' + ${theater.id}">
+                            <abbr title="Edit theater"><a th:href="'/manage/employees/edit/' + ${employee.id}">
                                 <button class="btn btn-success">Edit</button>
                             </a></abbr>
                         </td>
                         <td>
-                            <abbr title="Delete movie"><a th:href="'/manage/theaters/delete/' + ${theater.id}">
+                            <abbr title="Delete movie"><a th:href="'/manage/employees/delete/' + ${employee.id}">
                                 <button class="btn btn-danger">Delete</button>
                             </a></abbr>
                         </td>
@@ -44,8 +42,8 @@
 
                 </table>
                 <th scope="col">
-                    <abbr title="Add a theater"><a th:href="'/manage/theaters/add'">
-                        <button class="btn btn-primary">Add theater</button>
+                    <abbr title="Add an employee"><a th:href="'/manage/employees/add'">
+                        <button class="btn btn-primary">Add employee</button>
                     </a></abbr>
                 </th>
             </div>

@@ -47,6 +47,7 @@ public class ScreeningController {
     } catch (Exception e) {
       return "redirect:/manage/screenings/add?start_time_error";
     }
+    screening.setStartTime(startTime);
     screeningRepo.addScreening(screening);
     return "redirect:/screenings";
   }
