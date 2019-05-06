@@ -49,6 +49,8 @@ public class BookingRepository {
         Seat seat = new Seat();
         seat.setRowNo(seatsRS.getInt("row_no"));
         seat.setSeatNo(seatsRS.getInt("seat_no"));
+        seat.setAvailable(false);
+        seat.setSold(false);
 
         //adding the booked seat in the array
         bookingSeats.add(seat);
