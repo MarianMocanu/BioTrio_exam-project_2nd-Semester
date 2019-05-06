@@ -4,6 +4,15 @@ public class Seat {
   private int rowNo;
   private int seatNo;
   private boolean isAvailalble;
+  private boolean isSold;
+
+  public boolean isSold() {
+    return isSold;
+  }
+
+  public void setSold(boolean sold) {
+    isSold = sold;
+  }
 
   public boolean isAvailalble() {
     return isAvailalble;

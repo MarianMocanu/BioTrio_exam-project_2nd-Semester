@@ -22,7 +22,9 @@
                             <td th:each="seat, seatNo:${row}">
                                 <div class="form-check">
                                     <input class="form-check-input position-static" type="checkbox"
-                                           th:id="'chk' + ${rowNo.index} + '_' + ${seatNo.index}" th:value="${seat} ? 'checked' : 'unchecked'">
+                                           th:id="'chk' + ${rowNo.index} + '_' + ${seatNo.index}"
+                                           th:disabled="${!seat.isAvailalble()}"
+                                           th:checked="${seat.isSold}">
                                 </div>
                             </td>
                         </tbody>
