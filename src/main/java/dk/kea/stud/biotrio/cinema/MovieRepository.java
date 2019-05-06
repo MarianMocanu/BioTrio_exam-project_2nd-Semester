@@ -52,7 +52,6 @@ public class MovieRepository {
 
     String query = "SELECT * FROM movies WHERE id = ?";
     SqlRowSet rs = jdbc.queryForRowSet(query, id);
-
     if (rs.first()) {
       movie = new Movie();
 

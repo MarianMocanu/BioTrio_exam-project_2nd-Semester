@@ -22,7 +22,7 @@ public class SecurityController {
   }
 
   @GetMapping("/error")
-  public String error() {
+  public String showError() {
     return "security/error";
   }
 }

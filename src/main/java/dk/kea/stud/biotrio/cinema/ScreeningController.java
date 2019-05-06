@@ -37,10 +37,9 @@ public class ScreeningController {
 
   @PostMapping("/manage/screenings/save")
   public String addScreening(@ModelAttribute ScreeningForm screeningForm) {
-    System.out.println(screeningForm);
     Screening screening = new Screening();
-    screening.setMovie(movieRepo.findMovieById(screeningForm.getId()));
-    screening.setTheater(theaterRepo.findTheater(screeningForm.getId()));
+    screening.setMovie(movieRepo.findMovieById(screeningForm.getMovieId()));
+    screening.setTheater(theaterRepo.findTheater(screeningForm.getTheaterId()));
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
     LocalDateTime startTime;
     try {
@@ -48,8 +47,6 @@ public class ScreeningController {
     } catch (Exception e) {
       return "redirect:/manage/screenings/add?start_time_error";
     }
-    screening.setStartTime(startTime);
-    System.out.println(screening);
     screeningRepo.addScreening(screening);
     return "redirect:/screenings";
   }
