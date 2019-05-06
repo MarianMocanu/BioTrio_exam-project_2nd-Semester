@@ -55,7 +55,6 @@ public class TheaterRepository {
         theater.getName(), theater.getNoOfRows(), theater.getSeatsPerRow(), theater.getId());
   }
 
-  // TODO delete() repo+controller+view
   public void deleteTheater(int id) {
     jdbc.update("DELETE FROM theaters WHERE id = ?", id);
   }
