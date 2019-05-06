@@ -1,10 +1,57 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>Employees</title>
+
+    <div th:replace="fragments :: bootstrap_head"></div>
 </head>
 <body>
-$END$
+<div class="d-flex flex-column sticky-footer-wrapper">
+    <div th:replace="fragments :: navbar"></div>
+
+    <main class="flex-fill">
+        <div class="container">
+            <div class="jumbotron text-dark rounded bg-light border border-dark">
+                <h1 class="display-4">About employees</h1>
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">First name</th>
+                        <th scope="col">Last name</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="employee:${employeelist}">
+                        <th scope="row" th:text="${employee.id}">1</th>
+                        <td th:text="${employee.firstName}"></td>
+                        <td th:text="${employee.lastName}"></td>
+                        <td>
+                            <abbr title="Edit theater"><a th:href="'/manage/employees/edit/' + ${employee.id}">
+                                <button class="btn btn-success">Edit</button>
+                            </a></abbr>
+                        </td>
+                        <td>
+                            <abbr title="Delete movie"><a th:href="'/manage/employees/delete/' + ${employee.id}">
+                                <button class="btn btn-danger">Delete</button>
+                            </a></abbr>
+                        </td>
+                    </tr>
+                    </tbody>
+
+                </table>
+                <th scope="col">
+                    <abbr title="Add an employee"><a th:href="'/manage/employees/add'">
+                        <button class="btn btn-primary">Add employee</button>
+                    </a></abbr>
+                </th>
+            </div>
+        </div>
+    </main>
+
+    <div th:replace="fragments :: footer"></div>
+</div>
+<div th:replace="fragments :: bootstrap_body"></div>
 </body>
 </html>

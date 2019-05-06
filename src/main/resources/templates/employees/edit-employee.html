@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head>
     <meta charset="UTF-8">
-    <title>Add employee</title>
+    <title>Edit employee</title>
 
     <div th:replace="fragments :: bootstrap_head"></div>
 </head>
@@ -13,18 +13,19 @@
     <main class="flex-fill">
         <div class="container">
             <div class="jumbotron text-dark rounded bg-light border border-dark">
-                <h1 class="display-4">Add a new employee</h1>
+                <h1 class="display-4">Edit an employee</h1>
 
-                <form action="/manage/employees/add" method="post" th:object="${employeeform}">
+                <form action="/manage/employees/edit/" method="post" th:object="${employee}">
+                    <input type="hidden" th:value="${employee.id}" th:field="${employee.id}" name="id">
                     <div class="form-group">
                         <label for="first_name">First name:</label>
-                        <input type="text" class="form-control" th:field="${employeeform.firstName}" id="first_name">
+                        <input type="text" class="form-control" th:field="${employee.firstName}" id="first_name">
                     </div>
                     <div class="form-group">
                         <label for="last_name">Last name:</label>
-                        <input type="text" class="form-control" th:field="${employeeform.lastName}" id="last_name">
+                        <input type="text" class="form-control" th:field="${employee.lastName}" id="last_name">
                     </div>
-                    <button type="submit" class="btn btn-primary">Add employee</button>
+                    <button type="submit" class="btn btn-primary">Submit changes</button>
                     <button type="reset" class="btn btn-primary">Cancel</button>
                 </form>
 

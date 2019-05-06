@@ -50,7 +50,7 @@ public class TheaterController {
     return "redirect:/manage/theaters/";
   }
 
-  @GetMapping("/manage/theaters/delete/{id}")
+  @PostMapping("/manage/theaters/delete/{id}")
   public String deleteTheater(@PathVariable("id") int id) {
     theaterRepo.deleteTheater(id);
 
