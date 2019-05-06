@@ -38,39 +38,45 @@ public class ScreeningController {
   public String manageScreenings(Model model) {
     model.addAttribute("movies", movieRepo.findAllMovies());
     model.addAttribute("theaters", theaterRepo.findAllTheaters());
-    model.addAttribute("screening", new Screening());
+    model.addAttribute("screeningForm", new ScreeningForm());
     return "screenings/screenings-add";
   }
 
   @PostMapping("/manage/screenings/save")
-  public String addScreening(@ModelAttribute Screening screening) {
-//    Screening screening = new Screening();
-//    screening.setMovie(movieRepo.findMovieById(screeningForm.getMovieId()));
-//    screening.setTheater(theaterRepo.findTheater(screeningForm.getTheaterId()));
-//    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-//    LocalDateTime startTime;
-//    try {
-//       startTime = LocalDateTime.parse(screeningForm.getStartTime(), formatter);
-//    } catch (Exception e) {
-//      return "redirect:/manage/screenings/add?start_time_error";
-//    }
-//    screening.setStartTime(startTime);
-    System.out.println(screening);
+  public String addScreening(@ModelAttribute ScreeningForm screeningForm) {
+    Screening screening = new Screening();
+    screening.setMovie(movieRepo.findMovieById(screeningForm.getMovieId()));
+    screening.setTheater(theaterRepo.findTheater(screeningForm.getTheaterId()));
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+    LocalDateTime startTime;
+    try {
+       startTime = LocalDateTime.parse(screeningForm.getStartTime(), formatter);
+    } catch (Exception e) {
+      return "redirect:/manage/screenings/add?start_time_error";
+    }
+    screening.setStartTime(startTime);
     screeningRepo.addScreening(screening);
     return "redirect:/manage/screenings";
   }
 
   @GetMapping("/manage/screenings/edit/{id}")
   public String editScreening(@PathVariable("id") int id, Model model) {
-    model.addAttribute("selectedScreening", screeningRepo.findById(id));
+    Screening screening = screeningRepo.findById(id);
+    ScreeningForm formData = new ScreeningForm();
+    formData.setId(id);
+    formData.setMovieId(screening.getMovie().getId());
+    formData.setTheaterId(screening.getTheater().getId());
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+    formData.setStartTime(screening.getStartTime().format(formatter));
+    model.addAttribute("selectedScreening", formData);
     model.addAttribute("movies", movieRepo.findAllMovies());
     model.addAttribute("theaters", theaterRepo.findAllTheaters());
     return "screenings/screenings-edit";
   }
 
   @PostMapping("/manage/screenings/edit")
-  public String commitEdit(@ModelAttribute Screening screening) {
-    screeningRepo.updateScreening(screening);
+  public String commitEdit(@ModelAttribute ScreeningForm screeningForm) {
+    //TODO screeningRepo.updateScreening(screening);
     return "redirect:/manage/screenings";
   }
 

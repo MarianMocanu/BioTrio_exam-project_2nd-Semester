@@ -15,25 +15,25 @@
             <div class="jumbotron text-dark rounded bg-light border border-dark">
                 <h1 class="display-4">Add a new screening!</h1>
 
-                <form action="/manage/screenings/save" th:object="${screening}" method="post">
+                <form action="/manage/screenings/save" th:object="${screeningForm}" method="post">
                     <div class="form-group">
                         <label for="movie">Movie</label>
-                        <select class="form-control" th:field="${screening.movie}" id="movie" name="movie">
+                        <select class="form-control" th:field="${screeningForm.movieId}" id="movie" name="movie">
                             <option th:each="movie:${movies}" th:text="${movie.getTitle()}" th:value="${movie.getId()}"></option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="theater">Theater</label>
-                        <select class="form-control" th:field="${screening.theater}" id="theater" name="theater">
+                        <select class="form-control" th:field="${screeningForm.theaterId}" id="theater" name="theater">
                             <option th:each="theater:${theaters}" th:text="${theater.getName()}" th:value="${theater.getId()}"></option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="start_time">Date & Time</label>
-                        <input type="text" class="form-control" th:field="${screening.startTime}" id="start_time" name="start_time">
+                        <input type="text" class="form-control" th:field="${screeningForm.startTime}" id="start_time" name="start_time" placeholder="YYYY-MM-DD HH:MM">
                     </div>
                     <button type="submit" class="btn btn-primary">Create screening</button>
-                    <button type="reset" class="btn btn-primary">Cancel</button>
+                    <a href="/manage/screenings" class="btn btn-primary">Cancel</a>
                 </form>
             </div>
         </div>

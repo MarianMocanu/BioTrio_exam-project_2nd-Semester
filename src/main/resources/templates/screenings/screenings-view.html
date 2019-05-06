@@ -21,8 +21,9 @@
                             <th scope="col">Time</th>
                             <th scope="col">Movie</th>
                             <th scope="col">Seats</th>
-                            <th scope="col"></th>
-                            <th scope="col"></th>
+                            <th scope="col">Edit</th>
+                            <th scope="col">Delete</th>
+                            <th scope="col">Ticketing</th>
                         </tr>
                     </thead>
                     <tbody th:each="screening:${screenings}">
@@ -33,6 +34,7 @@
                             <td>[No. of seats]</td>
                             <td><a class="btn btn-primary" th:href="'/manage/screenings/edit/' + ${screening.getId()}">Edit</a></td>
                             <td><a class="btn btn-danger" th:href="'/manage/screenings/delete/' + ${screening.getId()}">Delete</a></td>
+                            <td><a class="btn btn-primary" th:href="'/manage/screening/'+${screening.id}+'/ticketing'">Ticketing</a></td>
                         </tr>
                     </tbody>
                 </table>

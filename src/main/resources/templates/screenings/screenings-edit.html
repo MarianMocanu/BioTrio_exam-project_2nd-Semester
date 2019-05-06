@@ -16,16 +16,17 @@
                 <h1 class="display-4">Add a new screening!</h1>
 
                 <form action="/manage/screenings/save" th:object="${selectedScreening}" method="post">
+                    <input type="hidden" name="id" th:value="${selectedScreening.getId()}">
                     <div class="form-group">
                         <label for="movie">Movie</label>
-                        <select class="form-control" th:field="${selectedScreening.movie}" id="movie" name="movie">
-                            <option th:each="movie:${movies}" th:text="${movie.getTitle()}" th:value="${movie.getId()}"></option>
+                        <select class="form-control" th:field="${selectedScreening.movieId}" id="movie" name="movie">
+                            <option th:each="movie:${movies}" th:text="${movie.getTitle()}" th:value="${movie.getId()}" th:selected="${selectedScreening.getMovieId()} == ${movie.getId()}"></option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="theater">Theater</label>
-                        <select class="form-control" th:field="${selectedScreening.theater}" id="theater" name="theater">
-                            <option th:each="theater:${theaters}" th:text="${theater.getName()}" th:value="${theater.getId()}"></option>
+                        <select class="form-control" th:field="${selectedScreening.theaterId}" id="theater" name="theater">
+                            <option th:each="theater:${theaters}" th:text="${theater.getName()}" th:value="${theater.getId()}" th:selected="${selectedScreening.getTheaterId()} == ${theater.getId()}"></option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -33,7 +34,7 @@
                         <input type="text" class="form-control" th:field="${selectedScreening.startTime}" id="start_time" name="start_time">
                     </div>
                     <button type="submit" class="btn btn-primary">Create screening</button>
-                    <button type="reset" class="btn btn-primary">Cancel</button>
+                    <a href="/manage/screenings" class="btn btn-primary">Cancel</a>
                 </form>
             </div>
         </div>
