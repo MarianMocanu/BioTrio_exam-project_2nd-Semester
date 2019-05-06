@@ -14,7 +14,7 @@
         <div class="container">
             <div class="jumbotron text-dark rounded bg-light border border-dark">
                 <h1 class="display-4">Here is the screen, choose a seat!</h1>
-                <form th:action="'/manage/screening/'+${screening_id}+'/ticketing'" method="post">
+                <form th:action="'/manage/screening/'+${screeningId}+'/ticketing'" method="post">
                     <table class="table table-hover">
                         <tbody>
                         <tr th:each="row:${theaterSeats}">

@@ -77,7 +77,7 @@ public class TicketController {
     }
 //    Integer screeningId = id;
     model.addAttribute("theaterSeats", theaterSeats);
-//    model.addAttribute("screeningId", id);
+    model.addAttribute("screeningId", id);
 
     return "ticketing/screeningID-ticketing";
   }
