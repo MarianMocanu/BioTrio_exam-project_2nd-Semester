@@ -18,12 +18,11 @@
                 <form action="/manage/screening/{screening_id}/ticketing" method="post">
                     <table class="table table-hover" >
                         <tbody>
-                        <tr th:each="row:${theaterSeats}">
-                            <td th:each="seat:${row}">
+                        <tr th:each="row, rowNo:${theaterSeats}">
+                            <td th:each="seat, seatNo:${row}">
                                 <div class="form-check">
                                     <input class="form-check-input position-static" type="checkbox"
-                                           id="blankCheckbox" value="option1">
-                                    <label class="form-check-label" for="blankCheckbox"></label>
+                                           th:id="'chk' + ${rowNo.index} + '_' + ${seatNo.index}" th:value="${seat} ? 'checked' : 'unchecked'">
                                 </div>
                             </td>
                         </tbody>

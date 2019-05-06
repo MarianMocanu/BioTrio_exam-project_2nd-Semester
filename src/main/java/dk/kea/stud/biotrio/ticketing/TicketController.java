@@ -1,5 +1,6 @@
 package dk.kea.stud.biotrio.ticketing;
 
+import dk.kea.stud.biotrio.cinema.Screening;
 import dk.kea.stud.biotrio.cinema.ScreeningRepository;
 import dk.kea.stud.biotrio.cinema.Theater;
 import dk.kea.stud.biotrio.cinema.TheaterRepository;
@@ -29,8 +30,9 @@ public class TicketController {
 
   @GetMapping("manage/screening/{screening_id}/ticketing")
   public String screeningTicketing(@PathVariable(name = "screening_id") int id, Model model) {
-    Theater theater = theaterRepo.findTheaterForScreening(id);
-    boolean[][] theaterSeats = new boolean[theater.getNoOfRows()][theater.getSeatsPerRow()];
+    Screening screening = screeningRepo.findById(id);
+    Theater theater = screening.getTheater();
+    Seat[][] theaterSeats = new Seat[theater.getNoOfRows()][theater.getSeatsPerRow()];
     model.addAttribute("theaterSeats", theaterSeats);
 
     return "ticketing/screeningID-ticketing";

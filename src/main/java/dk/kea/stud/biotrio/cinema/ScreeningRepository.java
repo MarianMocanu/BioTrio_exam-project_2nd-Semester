@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,7 +53,7 @@ public class ScreeningRepository {
       screening.setMovie(movieRepo.findMovieById(rs.getInt("movie_id")));
       screening.setTheater(theaterRepo.findTheater(rs.getInt("theater_id")));
       Timestamp start = rs.getTimestamp("start_time");
-      screening.setStartTime(start == null ? null : start.toLocalDateTime());
+      screening.setStartTime(start == null ? null : start.toLocalDateTime().atZone(ZoneId.of("GMT+1")).toLocalDateTime());
       result.add(screening);
     }
 
