@@ -13,7 +13,7 @@
 <nav th:fragment="navbar"
      class="navbar navbar-expand-lg navbar-light bg-light sticky-top border border-dark"
      style="margin-bottom: 1rem;">
-    <a class="navbar-brand" href="/">My Site</a>
+    <a class="navbar-brand" href="/">Bio Trio</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse"
             data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -24,16 +24,7 @@
     <div class="collapse navbar-collapse" entryId="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link" href="/">Home</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/manage/movies">Movies</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/manage/theaters">Theaters</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/manage/employees">Employees</a>
+                <a class="nav-link" href="/screenings">Screenings</a>
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
@@ -41,9 +32,10 @@
                     Manage
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="/manage/movies">Movies</a>
                     <a class="dropdown-item" href="/manage/screenings/ticketing">Screenings</a>
-                    <a class="dropdown-item" href="/theaters">Theaters</a>
+                    <a class="dropdown-item" href="/manage/movies">Movies</a>
+                    <a class="dropdown-item" href="/manage/theaters">Theaters</a>
+                    <a class="dropdown-item" href="/manage/employees">Employees</a>
                 </div>
             </li>
             <li class="nav-item" sec:authorized="!authenticated">

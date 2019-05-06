@@ -17,7 +17,7 @@ public class TheaterController {
   public String theaters(Model m) {
     List<Theater> theaterList = theaterRepo.findAllTheaters();
     m.addAttribute("theaterlist", theaterList);
-    //TODO maybe makes sense to have total no of seats in the view instead of noOfRows and seatsPerRow?
+
     return "theaters/theaters";
   }
 
