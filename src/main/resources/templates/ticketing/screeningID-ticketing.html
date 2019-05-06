@@ -16,15 +16,15 @@
                 <h1 class="display-4">Here is the screen, choose a seat!</h1>
 
                 <form action="/manage/screening/{screening_id}/ticketing" method="post">
-                    <table class="table table-hover" >
+                    <table class="table table-hover">
                         <tbody>
-                        <tr th:each="row, rowNo:${theaterSeats}">
-                            <td th:each="seat, seatNo:${row}">
+                        <tr th:each="row:${theaterSeats}">
+                            <td th:each="seat:${row}">
                                 <div class="form-check">
                                     <input class="form-check-input position-static" type="checkbox"
-                                           th:id="'chk' + ${rowNo.index} + '_' + ${seatNo.index}"
-                                           th:disabled="${!seat.isAvailalble()}"
-                                           th:checked="${seat.isSold}">
+                                           th:id="'chk' + ${seat.getRowNo()} + '_' + ${seat.getSeatNo()}"
+                                           th:disabled="${!seat.isAvailable()}"
+                                           th:checked="${seat.isSold()}">
                                 </div>
                             </td>
                         </tbody>

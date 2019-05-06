@@ -3,7 +3,7 @@ package dk.kea.stud.biotrio.ticketing;
 public class Seat {
   private int rowNo;
   private int seatNo;
-  private boolean isAvailalble;
+  private boolean isAvailable;
   private boolean isSold;
 
   public boolean isSold() {
@@ -14,12 +14,12 @@ public class Seat {
     isSold = sold;
   }
 
-  public boolean isAvailalble() {
-    return isAvailalble;
+  public boolean isAvailable() {
+    return isAvailable;
   }
 
-  public void setAvailalble(boolean availalble) {
-    isAvailalble = availalble;
+  public void setAvailable(boolean available) {
+    isAvailable = available;
   }
 
   public int getRowNo() {

@@ -33,6 +33,16 @@ public class TicketController {
     Screening screening = screeningRepo.findById(id);
     Theater theater = screening.getTheater();
     Seat[][] theaterSeats = new Seat[theater.getNoOfRows()][theater.getSeatsPerRow()];
+    for (int i = 0; i < theater.getNoOfRows(); i++) {
+      for (int j = 0; j < theater.getSeatsPerRow(); j++) {
+        Seat newSeat = new Seat();
+        newSeat.setRowNo(i+1);
+        newSeat.setSeatNo(j+1);
+        newSeat.setAvailable(true);
+        newSeat.setSold(false);
+        theaterSeats[i][j] = newSeat;
+      }
+    }
     model.addAttribute("theaterSeats", theaterSeats);
 
     return "ticketing/screeningID-ticketing";
@@ -44,5 +54,5 @@ public class TicketController {
 
     return "redirect:/manage/screenings/ticketing";
   }
-
+  
 }
