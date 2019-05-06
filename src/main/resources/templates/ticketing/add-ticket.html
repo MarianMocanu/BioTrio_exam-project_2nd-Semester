@@ -13,9 +13,9 @@
     <main class="flex-fill">
         <div class="container">
             <div class="jumbotron text-dark rounded bg-light border border-dark">
-                <h1 class="display-4">Add a new movie!</h1>
+                <h1 class="display-4">Add a new ticket!</h1>
 
-                <form action="/manage/movies/save" th:object="${movie}" method="post">
+                <form action="/manage/tickets/save" th:object="${ticket}" method="post">
                     <div class="form-group">
                         <label for="title">Title</label>
                         <input type="text" class="form-control" th:field="${movie.title}" id="title" name="title">
@@ -35,6 +35,7 @@
                     <button type="submit" class="btn btn-primary">Add Movie</button>
                     <button type="reset" class="btn btn-primary">Cancel</button>
                 </form>
+
             </div>
         </div>
     </main>

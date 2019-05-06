@@ -3,6 +3,15 @@ package dk.kea.stud.biotrio.ticketing;
 public class Seat {
   private int rowNo;
   private int seatNo;
+  private boolean isAvailalble;
+
+  public boolean isAvailalble() {
+    return isAvailalble;
+  }
+
+  public void setAvailalble(boolean availalble) {
+    isAvailalble = availalble;
+  }
 
   public int getRowNo() {
     return rowNo;
