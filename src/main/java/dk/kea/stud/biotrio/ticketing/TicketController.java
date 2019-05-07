@@ -22,7 +22,7 @@ public class TicketController {
   private TheaterRepository theaterRepo;
   @Autowired
   private BookingRepository bookingRepo;
-
+  @Autowired
   private SeatRepository seatRepo;
 
   @GetMapping("manage/screening/{screening_id}/ticketing")

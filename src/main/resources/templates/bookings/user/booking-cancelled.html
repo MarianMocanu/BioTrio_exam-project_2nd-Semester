@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Booking cancelled</title>
+
+    <div th:replace="fragments :: bootstrap_head"></div>
+</head>
+<body>
+<div class="d-flex flex-column sticky-footer-wrapper">
+    <div th:replace="fragments :: navbar"></div>
+
+    <main class="flex-fill">
+        <div class="container">
+            <div class="jumbotron text-dark rounded bg-light border border-dark">
+                <th:block th:if="${success}">
+                <h1 class="display-4">Your booking has been cancelled!</h1>
+                <p>You are at any time welcome create a new one. Have a nice day!</p>
+                </th:block>
+                <th:block th:unless="${success}">
+                <h1 class="display-4">Booking not found</h1>
+                <p>No booking was found with such a code. Check your spelling.</p>
+                </th:block>
+            </div>
+        </div>
+    </main>
+
+    <div th:replace="fragments :: footer"></div>
+</div>
+<div th:replace="fragments :: bootstrap_body"></div>
+</body>
+</html>

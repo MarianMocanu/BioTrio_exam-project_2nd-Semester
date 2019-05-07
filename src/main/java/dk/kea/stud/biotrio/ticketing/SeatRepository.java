@@ -3,10 +3,12 @@ package dk.kea.stud.biotrio.ticketing;
 import dk.kea.stud.biotrio.cinema.Screening;
 import dk.kea.stud.biotrio.cinema.ScreeningRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class SeatRepository {
   @Autowired
   private ScreeningRepository screeningRepo;
@@ -20,15 +22,7 @@ public class SeatRepository {
     List<Ticket> screeningTickets = ticketRepo.findTicketsForScreening(screeningId);
     List<Booking> screeningBookings = bookingRepo.findBookingsForScreening(screeningId);
 
-    //constructing a bidimensional array of Seat objects based on the screening's theater
     List<Seat> theaterSeats = new ArrayList<>();
-
-    //    for (Seat[] rows : theaterSeats) {
-    //      for (Seat seat : rows) {
-    //        seat = new Seat();
-    //      }
-    //    }
-    //List<List<Seat>> theaterSeats = new ArrayList<>();
 
     //iterating through all seats of the screening's theater
     for (int i = 0; i < screening.getTheater().getNoOfRows(); i++) {
@@ -59,11 +53,6 @@ public class SeatRepository {
         }
         theaterSeats.add(newSeat);
       }
-    }
-    //    Integer screeningId = id;
-    List<String> seats = new ArrayList<>();
-    for (Seat seat : theaterSeats) {
-      seats.add(new String());
     }
 
     return theaterSeats;

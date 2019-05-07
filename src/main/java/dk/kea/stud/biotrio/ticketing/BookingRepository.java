@@ -1,5 +1,6 @@
 package dk.kea.stud.biotrio.ticketing;
 
+import dk.kea.stud.biotrio.cinema.Screening;
 import dk.kea.stud.biotrio.cinema.ScreeningRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -26,6 +27,7 @@ public class BookingRepository {
   public List<Booking> findBookingsForScreening(int id) {
     Booking booking = null;
     List<Booking> screeningBookings = new ArrayList<>();
+    Screening screening = screeningRepo.findById(id);
 
     String query = "SELECT * FROM bookings WHERE screening_id = ?";
     SqlRowSet bookingsRS = jdbc.queryForRowSet(query, id);
@@ -36,7 +38,7 @@ public class BookingRepository {
       booking.setId(bookingsRS.getInt("id"));
       booking.setPhoneNo(bookingsRS.getString("phone_no"));
       booking.setCode(bookingsRS.getString("code"));
-      booking.setScreening(screeningRepo.findById(bookingsRS.getInt("screening_id")));
+      booking.setScreening(screening);
 
       //Booking object has an array of Seat objects
       List<Seat> bookingSeats = new ArrayList<>();
@@ -65,6 +67,14 @@ public class BookingRepository {
     return screeningBookings;
   }
 
+  public boolean isCodeTaken(String code) {
+    String query = "SELECT * FROM bookings WHERE code = ?";
+    SqlRowSet rs = jdbc.queryForRowSet(query, code);
+
+    // .first() returns true if the RowSet contains at least one row, therefore the code is taken
+    return rs.first();
+  }
+
 
   public Booking addBooking(Booking booking) {
     PreparedStatementCreator psc = new PreparedStatementCreator() {
@@ -85,10 +95,16 @@ public class BookingRepository {
     jdbc.update(psc, key);
 
     booking.setId(key.getKey().intValue());
+    addBookedSeats(booking);
     return booking;
   }
 
-  //TODO public void addBookedSeats(Booking booking){}
+  private void addBookedSeats(Booking booking) {
+    String query = "INSERT INTO booked_seats VALUES (?, ?, ?);";
+    for (Seat seat: booking.getSeats()) {
+      jdbc.update(query, booking.getId(), seat.getRowNo(), seat.getSeatNo());
+    }
+  }
 
   public void updateBooking(Booking booking) {
     String query = "UPDATE bookings SET " +
@@ -103,11 +119,21 @@ public class BookingRepository {
         booking.getId());
   }
 
-  //TODO public void updateBookedSeats(Booking booking){}
+  public boolean deleteBooking(String code) {
+    SqlRowSet rs = jdbc.queryForRowSet("SELECT id FROM bookings WHERE code = ?;", code);
+    int id;
 
-  public void deleteBooking(int id) {
-    jdbc.update("DELETE FROM bookings WHERE id = ?;", id);
+    if (rs.first()) {
+      id = rs.getInt("id");
+      deleteBookedSeats(id);
+      jdbc.update("DELETE FROM bookings WHERE id = ?;", id);
+      return true;
+    }
+
+    return false;
   }
 
-  //TODO public void deleteBookedSeats(int bookingId){}
+  private void deleteBookedSeats(int bookingId) {
+    jdbc.update("DELETE FROM booked_seats WHERE booking_id = ?;", bookingId);
+  }
 }
