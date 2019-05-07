@@ -17,8 +17,8 @@ public class MovieController {
   // For the end-users
   @GetMapping("/movie/{id}")
   public String findMovies(@PathVariable(name = "id") int id, Model model) {
-    model.addAttribute("movies", movieRepo.findMovieById(id));
-    return "movies/movies-view";
+    model.addAttribute("movie", movieRepo.findMovieById(id));
+    return "movies/user/movies-detail-view";
   }
 
   //TODO @GetMapping("/manage")
@@ -27,13 +27,13 @@ public class MovieController {
   @GetMapping("/manage/movies")
   public String manageMovies(Model model) {
     model.addAttribute("movies", movieRepo.findAllMovies());
-    return "movies/manage-movies";
+    return "movies/movies-view";
   }
 
   @GetMapping("/manage/movies/add")
   public String addMovie(Model model) {
     model.addAttribute("movie", new Movie());
-    return "movies/add-movie";
+    return "movies/movies-add";
   }
 
   @PostMapping("/manage/movies/save")
@@ -45,7 +45,7 @@ public class MovieController {
   @GetMapping("/manage/movies/edit/{id}")
   public String editMovie(@PathVariable("id") int id, Model model) {
     model.addAttribute("currentMovie", movieRepo.findMovieById(id));
-    return "movies/edit-movie";
+    return "movies/movies-edit";
   }
 
   @PostMapping("/manage/movies/edit")

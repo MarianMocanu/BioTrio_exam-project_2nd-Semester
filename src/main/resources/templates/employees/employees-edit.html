@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head>
     <meta charset="UTF-8">
-    <title>Delete employee</title>
+    <title>Edit employee</title>
 
     <div th:replace="fragments :: bootstrap_head"></div>
 </head>
@@ -13,18 +13,20 @@
     <main class="flex-fill">
         <div class="container">
             <div class="jumbotron text-dark rounded bg-light border border-dark">
-                <h1 class="display-4">Delete an employee</h1>
-
-                <form action="/manage/employees/delete/" method="post" th:object="${employee}">
+                <h1 class="display-4">Edit an employee</h1>
+                <form action="/manage/employees/edit/" method="post" th:object="${employee}">
                     <input type="hidden" th:value="${employee.id}" th:field="${employee.id}" name="id">
                     <div class="form-group">
-<!-- TODO  CANCEL                      -->
-                        <span th:text='|Are you sure you want to delete ${employee.firstName} ${employee.lastName} ?|'/>
-                        <p></p>
+                        <label for="first_name">First name:</label>
+                        <input type="text" class="form-control" th:field="${employee.firstName}" id="first_name">
                     </div>
-                    <button type="submit" class="btn btn-primary">Delete</button>
+                    <div class="form-group">
+                        <label for="last_name">Last name:</label>
+                        <input type="text" class="form-control" th:field="${employee.lastName}" id="last_name">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit changes</button>
+                    <a href="/manage/employees" class="btn btn-danger">Cancel</a>
                 </form>
-
             </div>
         </div>
     </main>

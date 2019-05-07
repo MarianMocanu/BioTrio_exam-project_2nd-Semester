@@ -14,7 +14,8 @@
         <div class="container">
             <div class="jumbotron text-dark rounded bg-light border border-dark">
                 <h1 class="display-4">About cinema</h1>
-                <!--<h6 class="display-4">BioTrio is located in a shiny hill and has comfortable seats available.</h6>
+                <!--<h6 class="display-4">BioTrio is located in a shiny
+                 hill and has comfortable seats available.</h6>
                 <h6 class="display-4">Here is the list of our theaters:</h6>-->
                 <table class="table table-hover">
                     <thead>
@@ -22,6 +23,8 @@
                         <th scope="col">ID</th>
                         <th scope="col">Name</th>
                         <th scope="col">Number of seats</th>
+                        <th></th>
+                        <th></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -30,14 +33,16 @@
                         <td th:text="${theater.name}"></td>
                         <td th:text="${theater.seatsPerRow} * ${theater.noOfRows}"></td>
                         <td>
-                            <abbr title="Edit theater"><a th:href="'/manage/theaters/edit/' + ${theater.id}">
-                                <button class="btn btn-success">Edit</button>
-                            </a></abbr>
+                            <a class="btn btn-primary"
+                               th:href="'/manage/theaters/edit/' + ${theater.id}">
+                                Edit
+                            </a>
                         </td>
                         <td>
-                            <abbr title="Delete movie"><a th:href="'/manage/theaters/delete/' + ${theater.id}">
-                                <button class="btn btn-danger">Delete</button>
-                            </a></abbr>
+                            <a class="btn btn-danger"
+                               th:href="'/manage/theaters/delete/' + ${theater.id}">
+                                Delete
+                            </a>
                         </td>
                     </tr>
                     </tbody>

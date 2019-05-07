@@ -32,9 +32,18 @@
                             <td th:text="${screening.getStartTime().toLocalTime().toString()}"></td>
                             <td th:text="${screening.getMovie().getTitle()}"></td>
                             <td>[No. of seats]</td>
-                            <td><a class="btn btn-primary" th:href="'/manage/screenings/edit/' + ${screening.getId()}">Edit</a></td>
-                            <td><a class="btn btn-danger" th:href="'/manage/screenings/delete/' + ${screening.getId()}">Delete</a></td>
-                            <td><a class="btn btn-primary" th:href="'/manage/screening/'+${screening.id}+'/ticketing'">Ticketing</a></td>
+                            <td><a class="btn btn-primary"
+                                   th:href="'/manage/screenings/edit/' + ${screening.getId()}">
+                                Edit
+                            </a></td>
+                            <td><a class="btn btn-danger"
+                                   th:href="'/manage/screenings/delete/' + ${screening.getId()}">
+                                Delete
+                            </a></td>
+                            <td><a class="btn btn-primary"
+                                   th:href="'/manage/screening/'+${screening.id}+'/ticketing'">
+                                Ticketing
+                            </a></td>
                         </tr>
                     </tbody>
                 </table>
