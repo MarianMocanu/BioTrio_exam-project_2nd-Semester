@@ -37,16 +37,18 @@ public class TicketController {
     List<Booking> screeningBookings = bookingRepo.findBookingsForScreening(id);
 
     //constructing a bidimensional array of Seat objects based on the screening's theater
-    Seat[][] theaterSeats = new Seat[screening.getTheater().getNoOfRows()][screening.getTheater().getSeatsPerRow()];
-    for (Seat[] rows : theaterSeats) {
-      for (Seat seat : rows) {
-        seat = new Seat();
-      }
-    }
+    List<List<Seat>> theaterSeats = new ArrayList<>();
+
+//    for (Seat[] rows : theaterSeats) {
+//      for (Seat seat : rows) {
+//        seat = new Seat();
+//      }
+//    }
     //List<List<Seat>> theaterSeats = new ArrayList<>();
 
     //iterating through all seats of the screening's theater
     for (int i = 0; i < screening.getTheater().getNoOfRows(); i++) {
+      theaterSeats.add(new ArrayList<>());
       for (int j = 0; j < screening.getTheater().getSeatsPerRow(); j++) {
         Seat newSeat = new Seat();
         newSeat.setRowNo(i + 1);
@@ -72,7 +74,7 @@ public class TicketController {
             }
           }
         }
-        theaterSeats[i][j] = newSeat;
+        theaterSeats.get(i).add(newSeat);
       }
     }
 //    Integer screeningId = id;
