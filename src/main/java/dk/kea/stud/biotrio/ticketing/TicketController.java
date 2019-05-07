@@ -30,25 +30,34 @@ public class TicketController {
     SeatData data = new SeatData();
     data.setSeats(seatRepo.getSeatStatusForScreening(id));
     data.setSubmittedData(new ArrayList<>());
-    for (Seat seat: data.getSeats()) {
+    for (Seat seat : data.getSeats()) {
       if (seat.isSold()) {
         data.getSubmittedData().add("" + seat.getRowNo() + "_" + seat.getSeatNo());
       } else {
         data.getSubmittedData().add("");
       }
     }
-
     model.addAttribute("data", data);
-    model.addAttribute("screeningId", id); // ii nevoie?
+    model.addAttribute("screening", screeningRepo.findById(id));
 
     return "ticketing/screeningID-ticketing";
   }
 
   @PostMapping("manage/screening/{screening_id}/ticketing")
-  public String screeningTicketing(@PathVariable(name = "screening_id") int id,
-                                   @ModelAttribute boolean[][] theaterSeats) {
+  public String screeningTicketing(@PathVariable(name = "screening_id") int id, @ModelAttribute SeatData data) {
+    List<String> updateSeats = data.getSubmittedData();
+    for (String seat:updateSeats) {
+      Ticket soldTicket = new Ticket();
+      soldTicket.setScreening(screeningRepo.findById(id));
+      Seat soldSeat = new Seat();
+      String[] seatPostion = seat.split("_");
+      soldSeat.setRowNo(Integer.valueOf(seatPostion[0]));
+      soldSeat.setSeatNo(Integer.valueOf(seatPostion[1]));
+      soldTicket.setSeat(soldSeat);
+      ticketRepo.addTicket(soldTicket);
+    }
 
-    return "redirect:/manage/screenings/ticketing";
+    return "redirect:/manage/screening/" + id + "/ticketing";
   }
 
 }
