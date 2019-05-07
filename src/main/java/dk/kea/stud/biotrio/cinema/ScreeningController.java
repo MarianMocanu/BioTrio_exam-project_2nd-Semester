@@ -50,7 +50,7 @@ public class ScreeningController {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
     LocalDateTime startTime;
     try {
-       startTime = LocalDateTime.parse(screeningForm.getStartTime(), formatter);
+      startTime = LocalDateTime.parse(screeningForm.getStartTime(), formatter);
     } catch (Exception e) {
       return "redirect:/manage/screenings/add?start_time_error";
     }

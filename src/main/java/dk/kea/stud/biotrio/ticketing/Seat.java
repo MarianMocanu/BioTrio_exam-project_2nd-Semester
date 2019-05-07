@@ -9,8 +9,8 @@ public class Seat {
     return isAvailalble;
   }
 
-  public void setAvailalble(boolean availalble) {
-    isAvailalble = availalble;
+  public void setAvailalble(boolean available) {
+    isAvailalble = available;
   }
 
   public int getRowNo() {

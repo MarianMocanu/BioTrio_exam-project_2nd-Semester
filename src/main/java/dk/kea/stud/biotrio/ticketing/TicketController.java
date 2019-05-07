@@ -32,7 +32,8 @@ public class TicketController {
   }
 
   @PostMapping("manage/screening/{screening_id}/ticketing")
-  public String screeningTicketing(@PathVariable(name = "screening_id") int id, @ModelAttribute boolean[][] theaterSeats) {
+  public String screeningTicketing(@PathVariable(name = "screening_id") int id,
+                                   @ModelAttribute boolean[][] theaterSeats) {
 
 
     return "redirect:/manage/screenings/ticketing";
