@@ -6,12 +6,16 @@ public class Seat {
   private boolean isAvailable;
   private boolean isSold;
 
+  public void setSold(boolean sold) {
+    isSold = sold;
+  }
+
   public boolean isSold() {
     return isSold;
   }
 
   public void setAvailalble(boolean available) {
-    isAvailalble = available;
+    this.isAvailable = available;
   }
 
   public boolean isAvailable() {

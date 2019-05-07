@@ -23,62 +23,24 @@ public class TicketController {
   @Autowired
   private BookingRepository bookingRepo;
 
+  private SeatRepository seatRepo;
+
   @GetMapping("manage/screening/{screening_id}/ticketing")
   public String screeningTicketing(@PathVariable(name = "screening_id") int id, Model model) {
-    Screening screening = screeningRepo.findById(id);
-    List<Ticket> screeningTickets = ticketRepo.findTicketsForScreening(id);
-    List<Booking> screeningBookings = bookingRepo.findBookingsForScreening(id);
-
-    //constructing a bidimensional array of Seat objects based on the screening's theater
-    List<Seat> theaterSeats = new ArrayList<>();
-
-//    for (Seat[] rows : theaterSeats) {
-//      for (Seat seat : rows) {
-//        seat = new Seat();
-//      }
-//    }
-    //List<List<Seat>> theaterSeats = new ArrayList<>();
-
-    //iterating through all seats of the screening's theater
-    for (int i = 0; i < screening.getTheater().getNoOfRows(); i++) {
-      for (int j = 0; j < screening.getTheater().getSeatsPerRow(); j++) {
-        Seat newSeat = new Seat();
-        newSeat.setRowNo(i + 1);
-        newSeat.setSeatNo(j + 1);
-        newSeat.setAvailable(true);
-        newSeat.setSold(false);
-
-        //setting the availability of a seat based on the sold tickets
-        for (Ticket ticket : screeningTickets) {
-          if (newSeat.getRowNo() == ticket.getSeat().getRowNo() &&
-              newSeat.getSeatNo() == ticket.getSeat().getSeatNo()) {
-            newSeat.setAvailable(false);
-            newSeat.setSold(true);
-          }
-        }
-        //setting the availability of a seat based on the booked seats
-        for (Booking booking : screeningBookings) {
-          for (Seat bookedSeat : booking.getSeats()) {
-            if (newSeat.getRowNo() == bookedSeat.getRowNo() &&
-                newSeat.getSeatNo() == bookedSeat.getSeatNo()) {
-              newSeat.setAvailable(false);
-              newSeat.setSold(false);
-            }
-          }
-        }
-        theaterSeats.add(newSeat);
+    SeatData data = new SeatData();
+    data.setSeats(seatRepo.getSeatStatusForScreening(id));
+    data.setSubmittedData(new ArrayList<>());
+    for (Seat seat: data.getSeats()) {
+      if (seat.isSold()) {
+        data.getSubmittedData().add("" + seat.getRowNo() + "_" + seat.getSeatNo());
+      } else {
+        data.getSubmittedData().add("");
       }
     }
-//    Integer screeningId = id;
-    List<String> seats = new ArrayList<>();
-    for (Seat seat : theaterSeats) {
-      seats.add(new String());
-    }
 
-    model.addAttribute("theaterSeats", theaterSeats);
-    model.addAttribute("screeningId", id);
-    model.addAttribute("stringSeats", seats);
-    System.out.println(theaterSeats.size());
+    model.addAttribute("data", data);
+    model.addAttribute("screeningId", id); // ii nevoie?
+
     return "ticketing/screeningID-ticketing";
   }
 
