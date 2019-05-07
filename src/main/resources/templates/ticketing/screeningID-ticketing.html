@@ -14,23 +14,24 @@
         <div class="container">
             <div class="jumbotron text-dark rounded bg-light border border-dark">
                 <h1 class="display-4">Here is the screen, choose a seat!</h1>
-                <form th:action="'/manage/screening/'+${screeningId}+'/ticketing'" method="post">
+                <form th:action="'/manage/screening/'+${screening.getId()}+'/ticketing'"
+                      method="post">
                     <table class="table table-hover">
-                        <tbody>
-                        <div th:each="seat, iter:${theaterSeats}">
-                            <tr th:if="${seat.seatNo} == 1"></tr>
+                        <th:block th:each="seat:${data.getSeats()}">
+                            <th:block th:if="${seat.getSeatNo()} == 1">
+                                <tr>
+                                    <td th:text="'Row ' + ${seat.getRowNo()}"></td>
+                            </th:block>
                             <td>
-                                <div class="form-check">
-                                    <input class="form-check-input position-static" type="checkbox"
-                                           th:id="'chk' + ${seat.getRowNo()} + '_' + ${seat.getSeatNo()}"
-                                           th:disabled="${!seat.isAvailable()}"
-                                           th:checked="${seat.isSold()}"
-                                           th:value="${seat.getRowNo()} + '_' + ${seat.getSeatNo()}"
-                                           th:field="${stringSeats[__${iter.index}__]}">
-                                </div>
+                                <input type="checkbox"
+                                       th:value="${seat.getRowNo()} + '_' + ${seat.getSeatNo()}"
+                                       th:disabled="${!seat.isAvailable()} or ${seat.isSold()}"
+                                       th:field="${data.submittedData}">
                             </td>
-                        </div>
-                        </tbody>
+                            <th:block th:if="${seat.getSeatNo() == screening.getTheater().getSeatsPerRow()}">
+                                </tr>
+                            </th:block>
+                        </th:block>
                     </table>
                     <button type="submit" class="btn btn-primary">Select seats!</button>
                 </form>

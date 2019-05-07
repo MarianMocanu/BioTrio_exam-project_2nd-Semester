@@ -3,10 +3,12 @@ package dk.kea.stud.biotrio.ticketing;
 import dk.kea.stud.biotrio.cinema.Screening;
 import dk.kea.stud.biotrio.cinema.ScreeningRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class SeatRepository {
   @Autowired
   private ScreeningRepository screeningRepo;
