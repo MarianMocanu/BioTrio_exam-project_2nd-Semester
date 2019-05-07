@@ -37,7 +37,7 @@ public class TicketController {
     List<Booking> screeningBookings = bookingRepo.findBookingsForScreening(id);
 
     //constructing a bidimensional array of Seat objects based on the screening's theater
-    List<List<Seat>> theaterSeats = new ArrayList<>();
+    List<Seat> theaterSeats = new ArrayList<>();
 
 //    for (Seat[] rows : theaterSeats) {
 //      for (Seat seat : rows) {
@@ -48,7 +48,6 @@ public class TicketController {
 
     //iterating through all seats of the screening's theater
     for (int i = 0; i < screening.getTheater().getNoOfRows(); i++) {
-      theaterSeats.add(new ArrayList<>());
       for (int j = 0; j < screening.getTheater().getSeatsPerRow(); j++) {
         Seat newSeat = new Seat();
         newSeat.setRowNo(i + 1);
@@ -74,19 +73,28 @@ public class TicketController {
             }
           }
         }
-        theaterSeats.get(i).add(newSeat);
+        theaterSeats.add(newSeat);
       }
     }
 //    Integer screeningId = id;
+    List<String> seats = new ArrayList<>();
+    for (Seat seat : theaterSeats) {
+      seats.add(new String());
+    }
+
     model.addAttribute("theaterSeats", theaterSeats);
     model.addAttribute("screeningId", id);
-
+    model.addAttribute("stringSeats", seats);
+    System.out.println(theaterSeats.size());
     return "ticketing/screeningID-ticketing";
   }
 
   @PostMapping("manage/screening/{screening_id}/ticketing")
-  public String screeningTicketing(@PathVariable(name = "screening_id") int id, @ModelAttribute Seat[][] theaterSeats) {
-
+  public String screeningTicketing(@PathVariable(name = "screening_id") int id, @ModelAttribute List<String> theaterSeats) {
+    System.out.println("in post mapping: " + theaterSeats);
+    for (String seat : theaterSeats) {
+      System.out.println(seat);
+    }
 
     return "redirect:/manage/screenings/ticketing";
   }
