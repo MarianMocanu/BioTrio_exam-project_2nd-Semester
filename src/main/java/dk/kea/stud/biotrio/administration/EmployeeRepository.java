@@ -13,7 +13,7 @@ public class EmployeeRepository {
   @Autowired
   private JdbcTemplate jdbc;
 
-  public Employee findEmployee (int id) {
+  public Employee findEmployee(int id) {
     SqlRowSet rs = jdbc.queryForRowSet("SELECT * FROM employees WHERE id = ?", id);
     Employee employee = new Employee();
     //while (rs.next()) - reads all the results and then picks the one with the unique id.
@@ -27,7 +27,7 @@ public class EmployeeRepository {
     return employee;
   }
 
-  public List<Employee> findAllEmployees(){
+  public List<Employee> findAllEmployees() {
     List<Employee> employees = new ArrayList();
 
     String query = "SELECT * FROM employees";

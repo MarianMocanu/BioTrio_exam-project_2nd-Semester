@@ -13,7 +13,7 @@
     <main class="flex-fill">
         <div class="container">
             <div class="jumbotron text-dark rounded bg-light border border-dark">
-                <h1 class="display-4">Screenings</h1>
+                <h1 class="display-4">Available Screenings</h1>
                 <table class="table table-hover">
                     <thead>
                         <tr>
@@ -21,33 +21,21 @@
                             <th scope="col">Time</th>
                             <th scope="col">Movie</th>
                             <th scope="col">Seats</th>
-                            <th scope="col">Edit</th>
-                            <th scope="col">Delete</th>
-                            <th scope="col">Ticketing</th>
+                            <th scope="col"></th>
                         </tr>
                     </thead>
-                    <tbody th:each="screening:${screenings}">
+                    <tbody th:each="screening:${upcomingScreenings}">
                         <tr>
                             <td th:text="${screening.getStartTime().toLocalDate().toString()}"></td>
                             <td th:text="${screening.getStartTime().toLocalTime().toString()}"></td>
                             <td th:text="${screening.getMovie().getTitle()}"></td>
                             <td>[No. of seats]</td>
-                            <td><a class="btn btn-primary"
-                                   th:href="'/manage/screenings/edit/' + ${screening.getId()}">
-                                Edit
-                            </a></td>
-                            <td><a class="btn btn-danger"
-                                   th:href="'/manage/screenings/delete/' + ${screening.getId()}">
-                                Delete
-                            </a></td>
-                            <td><a class="btn btn-primary"
-                                   th:href="'/manage/screening/'+${screening.id}+'/ticketing'">
-                                Ticketing
+                            <td><a th:href="'/booking/' + ${screening.getId()}">
+                                Book tickets
                             </a></td>
                         </tr>
                     </tbody>
                 </table>
-                <a class="btn btn-primary" href="/manage/screenings/add">Create new screening</a>
             </div>
         </div>
     </main>

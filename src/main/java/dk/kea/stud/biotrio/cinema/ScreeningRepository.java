@@ -49,6 +49,13 @@ public class ScreeningRepository {
     return getScreeningsListFromRowSet(rs);
   }
 
+  public List<Screening> findAllScreenings() {
+    String query = "SELECT * FROM screenings;";
+    SqlRowSet rs = jdbc.queryForRowSet(query);
+
+    return getScreeningsListFromRowSet(rs);
+  }
+
   public List<Screening> findTodaysScreenings() {
     String query = "SELECT * FROM screenings WHERE DATE(start_time) = CURDATE() ORDER BY start_time";
     SqlRowSet rs = jdbc.queryForRowSet(query);

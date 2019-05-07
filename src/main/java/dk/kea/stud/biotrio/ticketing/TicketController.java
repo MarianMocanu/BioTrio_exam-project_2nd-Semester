@@ -23,13 +23,6 @@ public class TicketController {
   @Autowired
   private BookingRepository bookingRepo;
 
-
-  @GetMapping("manage/screenings/ticketing")
-  public String showScreenings(Model model) {
-    model.addAttribute("screeningsList", screeningRepo.findUpcomingScreenings());
-    return "ticketing/screenings-ticketing";
-  }
-
   @GetMapping("manage/screening/{screening_id}/ticketing")
   public String screeningTicketing(@PathVariable(name = "screening_id") int id, Model model) {
     Screening screening = screeningRepo.findById(id);
@@ -90,11 +83,8 @@ public class TicketController {
   }
 
   @PostMapping("manage/screening/{screening_id}/ticketing")
-  public String screeningTicketing(@PathVariable(name = "screening_id") int id, @ModelAttribute List<String> theaterSeats) {
-    System.out.println("in post mapping: " + theaterSeats);
-    for (String seat : theaterSeats) {
-      System.out.println(seat);
-    }
+  public String screeningTicketing(@PathVariable(name = "screening_id") int id,
+                                   @ModelAttribute boolean[][] theaterSeats) {
 
     return "redirect:/manage/screenings/ticketing";
   }

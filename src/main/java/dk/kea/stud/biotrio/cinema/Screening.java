@@ -7,6 +7,7 @@ public class Screening {
   private Movie movie;
   private Theater theater;
   private LocalDateTime startTime;
+  private int noAvailableSeats;
 
   public int getId() {
     return id;
@@ -38,6 +39,14 @@ public class Screening {
 
   public void setStartTime(LocalDateTime startTime) {
     this.startTime = startTime;
+  }
+
+  public int getNoAvailableSeats() {
+    return noAvailableSeats;
+  }
+
+  public void setNoAvailableSeats(int noAvailableSeats) {
+    this.noAvailableSeats = noAvailableSeats;
   }
 
   @Override

@@ -17,15 +17,15 @@ public class TheaterController {
   public String theaters(Model m) {
     List<Theater> theaterList = theaterRepo.findAllTheaters();
     m.addAttribute("theaterlist", theaterList);
-    //TODO maybe makes sense to have total no of seats in the view instead of noOfRows and seatsPerRow?
-    return "theaters/theaters";
+
+    return "theaters/theaters-view";
   }
 
   @GetMapping("/manage/theaters/add")
   public String create(Model m) {
     m.addAttribute("theaterform", new Theater());
 
-    return "theaters/add-theater";
+    return "theaters/theaters-add";
   }
 
   @PostMapping("/manage/theaters/add")
@@ -40,7 +40,7 @@ public class TheaterController {
   public String update(@PathVariable(name = "id") int id, Model m) {
     m.addAttribute("theater", theaterRepo.findTheater(id));
 
-    return "theaters/edit-theater";
+    return "theaters/theaters-edit";
   }
 
   @PostMapping("/manage/theaters/edit")
@@ -50,7 +50,8 @@ public class TheaterController {
     return "redirect:/manage/theaters/";
   }
 
-  @PostMapping("/manage/theaters/delete/{id}")
+  //TODO "are you sure you want to delete" view
+  @GetMapping("/manage/theaters/delete/{id}")
   public String deleteTheater(@PathVariable("id") int id) {
     theaterRepo.deleteTheater(id);
 

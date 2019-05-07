@@ -10,8 +10,8 @@ public class Seat {
     return isSold;
   }
 
-  public void setSold(boolean sold) {
-    isSold = sold;
+  public void setAvailalble(boolean available) {
+    isAvailalble = available;
   }
 
   public boolean isAvailable() {

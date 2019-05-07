@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head>
     <meta charset="UTF-8">
-    <title>Movies View </title>
+    <title>Movies View</title>
 
     <div th:replace="fragments :: bootstrap_head"></div>
 </head>
@@ -18,7 +18,7 @@
                 <table class="table table-hover">
                     <thead>
                     <tr>
-                        <!--<th scope="col">ID</th>-->
+                        <th scope="col">ID</th>
                         <th scope="col">Title</th>
                         <th scope="col">Runtime</th>
                         <th scope="col">Synopsis</th>
@@ -32,17 +32,11 @@
                         <!--<th scope="col">Director</th>-->
                         <!--<th scope="col">Age Restriction</th>-->
                         <!--<th scope="col">Poster</th>-->
-                        <th scope="col">
-                            <abbr title="Add a movie"><a th:href="'/manage/movies/add'">
-                                <button class="btn btn-primary">Add Movie</button>
-                            </a></abbr>
-                        </th>
-
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="movie:${movies}">
-                        <!--<td th:text="${movie.id}"></td>-->
+                    <tr>
+                        <td th:text="${movie.id}">1</td>
                         <td th:text="${movie.title}"></td>
                         <td th:text="${movie.runtime}"></td>
                         <td th:text="${movie.synopsis}"></td>
@@ -56,16 +50,6 @@
                         <!--<td th:text="${movie.director}"></td>-->
                         <!--<td th:text="${movie.ageRestriction}"></td>-->
                         <!--<td th:text="${movie.poster}"></td>-->
-                        <td>
-                            <abbr title="Edit movie"><a th:href="'/manage/movies/edit/' + ${movie.id}">
-                                <button class="btn btn-success">Edit</button>
-                            </a></abbr>
-                        </td>
-                        <td>
-                            <abbr title="Delete movie"><a th:href="'/manage/movies/delete/' + ${movie.id}">
-                                <button class="btn btn-danger">Delete</button>
-                            </a></abbr>
-                        </td>
                     </tr>
                     </tbody>
                 </table>
