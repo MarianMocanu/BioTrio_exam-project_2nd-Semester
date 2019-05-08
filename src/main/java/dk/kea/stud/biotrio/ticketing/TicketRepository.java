@@ -85,8 +85,14 @@ public class TicketRepository {
         ticket.getId());
   }
 
-  public void deleteTicket(int id) {
-    jdbc.update("DELETE FROM tickets WHERE id = ?;", id);
+  public void deleteTicket(int screening_id, int rowNo, int seatNo) {
+    jdbc.update("DELETE FROM tickets WHERE " +
+        "screening_id = ? AND " +
+        "row_no = ? AND " +
+        "seat_no = ?;",
+        screening_id,
+        rowNo,
+        seatNo);
   }
 
 }

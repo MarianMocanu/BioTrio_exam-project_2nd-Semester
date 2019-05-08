@@ -39,14 +39,13 @@ public class TicketController {
     }
     model.addAttribute("data", data);
     model.addAttribute("screening", screeningRepo.findById(id));
-
     return "ticketing/screeningID-ticketing";
   }
 
   @PostMapping("manage/screening/{screening_id}/ticketing")
   public String screeningTicketing(@PathVariable(name = "screening_id") int id, @ModelAttribute SeatData data) {
     List<String> updateSeats = data.getSubmittedData();
-    for (String seat:updateSeats) {
+    for (String seat : updateSeats) {
       Ticket soldTicket = new Ticket();
       soldTicket.setScreening(screeningRepo.findById(id));
       Seat soldSeat = new Seat();
@@ -55,8 +54,27 @@ public class TicketController {
       soldSeat.setSeatNo(Integer.valueOf(seatPostion[1]));
       soldTicket.setSeat(soldSeat);
       ticketRepo.addTicket(soldTicket);
+      //TODO SomeClass.print(ticketRepo.addTicket(soldTicket));
     }
+    return "redirect:/manage/screening/" + id + "/ticketing";
+  }
 
+  @GetMapping("/manage/screening/{screening_id}/ticketing/void")
+  public String deleteTicket(@PathVariable(name = "screening_id") int id, Model model) {
+    SeatData data = new SeatData();
+    data.setSeats(seatRepo.getSeatStatusForScreening(id));
+    data.setSubmittedData(new ArrayList<>());
+    model.addAttribute("data", data);
+    model.addAttribute("screening", screeningRepo.findById(id));
+    return "ticketing/delete-ticket";
+  }
+
+  @PostMapping("/manage/screening/{screening_id}/ticketing/void")
+  public String deleteTicket(@PathVariable(name = "screening_id") int id, @ModelAttribute SeatData data) {
+    for (String rowSeatNo : data.getSubmittedData()) {
+      String[] seatPosition = rowSeatNo.split("_");
+      ticketRepo.deleteTicket(id, Integer.valueOf(seatPosition[0]), Integer.valueOf(seatPosition[1]));
+    }
     return "redirect:/manage/screening/" + id + "/ticketing";
   }
 
