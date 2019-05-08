@@ -1,5 +1,7 @@
 package dk.kea.stud.biotrio.cinema;
 
+import dk.kea.stud.biotrio.ticketing.BookingRepository;
+import dk.kea.stud.biotrio.ticketing.TicketRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -25,6 +27,7 @@ public class ScreeningRepository {
   @Autowired
   private TheaterRepository theaterRepo;
 
+
   public Screening findById(int id) {
     Screening result = null;
     String query = "SELECT * FROM screenings WHERE id = ?";
@@ -37,9 +40,39 @@ public class ScreeningRepository {
       result.setTheater(theaterRepo.findTheater(rs.getInt("theater_id")));
       Timestamp ts = rs.getTimestamp("start_time");
       result.setStartTime(ts == null ? null : ts.toLocalDateTime());
+      result.setNoAvailableSeats(getAvailableSeatsForScreening(result.getTheater().getId()));
     }
 
     return result;
+  }
+
+  private int getAvailableSeatsForScreening(int id) {
+    Theater currentTheater = theaterRepo.findTheater(id);
+    int totalSeats = currentTheater.getNoOfRows() * currentTheater.getSeatsPerRow();
+    int occupiedSeats;
+
+//  calculating the number of booked seats based on 2 tables from the database
+    int bookedSeats = 0;
+    String query = "SELECT COUNT(*) FROM bookings INNER JOIN booked_seats ON " +
+        "booked_seats.booking_id = bookings.id WHERE bookings.screening_id = ?";
+    SqlRowSet rs = jdbc.queryForRowSet(query, id);
+    if (rs.first()) {
+      bookedSeats = rs.getInt(1);
+    }
+
+//  calculating the number of sold seats based on 1 table from the database
+    int soldSeats = 0;
+    query = "SELECT COUNT(*) FROM tickets WHERE screening_id = ?";
+    rs = jdbc.queryForRowSet(query, id);
+    if (rs.first()) {
+      soldSeats = rs.getInt(1);
+    }
+
+    occupiedSeats = soldSeats + bookedSeats;
+    System.out.println(totalSeats);
+    System.out.println(occupiedSeats);
+    System.out.println((totalSeats - occupiedSeats));
+    return (totalSeats - occupiedSeats);
   }
 
   public List<Screening> findUpcomingScreenings() {
@@ -73,6 +106,7 @@ public class ScreeningRepository {
       screening.setTheater(theaterRepo.findTheater(rowSet.getInt("theater_id")));
       Timestamp start = rowSet.getTimestamp("start_time");
       screening.setStartTime(start == null ? null : start.toLocalDateTime());
+      screening.setNoAvailableSeats(getAvailableSeatsForScreening(screening.getTheater().getId()));
       result.add(screening);
     }
 
