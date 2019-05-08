@@ -67,6 +67,48 @@ public class BookingRepository {
     return screeningBookings;
   }
 
+  public List<Booking> findBookingsByPhoneNo(String phoneNo, int screeningId) {
+    Booking booking = null;
+    List<Booking> screeningBookings = new ArrayList<>();
+
+    String query = "SELECT * FROM bookings WHERE phone_no = ? AND screening_id = ?";
+    SqlRowSet bookingsRS = jdbc.queryForRowSet(query, phoneNo, screeningId);
+
+    //iteration for setting the bookings received from the database
+    while (bookingsRS.next()) {
+      booking = new Booking();
+      booking.setId(bookingsRS.getInt("id"));
+      booking.setPhoneNo(bookingsRS.getString("phone_no"));
+      booking.setCode(bookingsRS.getString("code"));
+      booking.setScreening(screeningRepo.findById(screeningId));
+
+      //Booking object has an array of Seat objects
+      List<Seat> bookingSeats = new ArrayList<>();
+
+      String queryForSeats = "SELECT * FROM booked_seats WHERE booking_id = ?";
+      SqlRowSet seatsRS = jdbc.queryForRowSet(queryForSeats, booking.getId());
+
+      //iteration for setting the seats received from database
+      while (seatsRS.next()) {
+        Seat seat = new Seat();
+        seat.setRowNo(seatsRS.getInt("row_no"));
+        seat.setSeatNo(seatsRS.getInt("seat_no"));
+        seat.setAvailable(false);
+        seat.setSold(false);
+
+        //adding the booked seat in the array
+        bookingSeats.add(seat);
+      }
+
+      //setting the last attribute of the Booking object
+      booking.setSeats(bookingSeats);
+
+      //adding the Booking object in the screenings Array
+      screeningBookings.add(booking);
+    }
+    return screeningBookings;
+  }
+
   public boolean isCodeTaken(String code) {
     String query = "SELECT * FROM bookings WHERE code = ?";
     SqlRowSet rs = jdbc.queryForRowSet(query, code);

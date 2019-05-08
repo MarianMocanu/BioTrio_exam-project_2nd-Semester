@@ -96,4 +96,27 @@ public class BookingController {
 
     return result.toString();
   }
+
+  //for employee use
+  @GetMapping("/manage/screening/{screening_id}/bookings")
+  public String findBooking(@PathVariable (name = "screening_id") int id, Model model){
+    model.addAttribute("screeningId", id);
+    return "ticketing/select-booking";
+  }
+
+  //for employee use
+  @PostMapping("/manage/screening/{screening_id}/bookings")
+  public String selectBooking(@RequestParam String phoneNumber, Model model,
+                              @PathVariable(name = "screening_id") int id) {
+    List<Booking> bookingList = bookingRepo.findBookingsByPhoneNo(phoneNumber, id);
+    model.addAttribute("bookedSeats", bookingList);
+    return "ticketing/booking-view";
+  }
+
+  @PostMapping("manage/screening/{screening_id}/booking/{phoneNo}")
+  public String sellBookedSeats(){
+
+    return "redirect:/manage/screenings";
+  }
+
 }

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Index</title>
+
+    <div th:replace="fragments :: bootstrap_head"></div>
+</head>
+<body>
+<div class="d-flex flex-column sticky-footer-wrapper">
+    <div th:replace="fragments :: navbar"></div>
+
+    <main class="flex-fill">
+        <div class="container">
+            <div class="jumbotron text-dark rounded bg-light border border-dark">
+                <h1 class="display-4">Input telephone number!</h1>
+                <form th:action="'/manage/screening/'+${screeningId}+'/bookings/'"
+                      method="post">
+                    <div class="form-group">
+                        <label for="phoneNo">Phone number</label>
+                        <input type="text" class="form-control"
+                               id="phoneNo" name="phoneNumber">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Find booking</button>
+                </form>
+
+
+            </div>
+        </div>
+    </main>
+
+    <div th:replace="fragments :: footer"></div>
+</div>
+<div th:replace="fragments :: bootstrap_body"></div>
+</body>
+</html>
