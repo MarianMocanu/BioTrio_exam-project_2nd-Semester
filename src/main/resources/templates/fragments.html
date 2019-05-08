@@ -21,7 +21,7 @@
         <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse" entryId="navbarSupportedContent">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
                 <a class="nav-link" href="/screenings">Screenings</a>
@@ -47,11 +47,11 @@
         </ul>
     </div>
 
-    <div class="float-right">
-        <div sec:authorize="authenticated">
-            <span sec:authentication="name"></span>
-        </div>
-    </div>
+<!--    <div class="float-right">-->
+<!--        <div sec:authorize="authenticated">-->
+<!--            <span sec:authentication="name"></span>-->
+<!--        </div>-->
+<!--    </div>-->
 </nav>
 
 <footer class="container-fluid w-100 py-3" th:fragment="footer">

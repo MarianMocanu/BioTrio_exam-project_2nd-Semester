@@ -13,46 +13,55 @@
     <main class="flex-fill">
         <div class="container">
             <div class="jumbotron text-dark rounded bg-light border border-dark">
-                <h1 class="display-4">Here you have all movies!</h1>
-
-                <table class="table table-hover">
-                    <thead>
-                    <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">Title</th>
-                        <th scope="col">Runtime</th>
-                        <th scope="col">Synopsis</th>
-                        <th scope="col">Genre</th>
-                        <!--<th scope="col">Language</th>-->
-                        <!--<th scope="col">Subtitles</th>-->
-                        <!--<th scope="col">Projection Type</th>-->
-                        <!--<th scope="col">Trailer Link</th>-->
-                        <!--<th scope="col">Release Date</th>-->
-                        <!--<th scope="col">Cast</th>-->
-                        <!--<th scope="col">Director</th>-->
-                        <!--<th scope="col">Age Restriction</th>-->
-                        <!--<th scope="col">Poster</th>-->
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td th:text="${movie.id}">1</td>
-                        <td th:text="${movie.title}"></td>
-                        <td th:text="${movie.runtime}"></td>
-                        <td th:text="${movie.synopsis}"></td>
-                        <td th:text="${movie.genre}"></td>
-                        <!--<td th:text="${movie.language}"></td>-->
-                        <!--<td th:text="${movie.subtitles}"></td>-->
-                        <!--<td th:text="${movie.projectionType}"></td>-->
-                        <!--<td th:text="${movie.trailerLink}"></td>-->
-                        <!--<td><span th:if="${movie.releaseDate}" th:text="${movie.releaseDate}"></span></td>-->
-                        <!--<td th:text="${movie.cast}"></td>-->
-                        <!--<td th:text="${movie.director}"></td>-->
-                        <!--<td th:text="${movie.ageRestriction}"></td>-->
-                        <!--<td th:text="${movie.poster}"></td>-->
-                    </tr>
-                    </tbody>
-                </table>
+                <div class="row">
+                    <h3 class="display-4" th:text="${movie.getTitle()}"></h3>
+                </div>
+                <div class="row" th:if="${movie.getTrailerLink()}">
+                    <iframe id="ytplayer" type="text/html" width="640" height="360"
+                            th:src="'https://www.youtube.com/embed/' + ${movie.getTrailerLink()} +
+                            '?autoplay=1&origin=http://example.com'"
+                            frameborder="0"></iframe>
+                </div>
+                <div class="row">
+                    <div class="col-md">
+                        <p><b><u>Main cast:</u></b></p>
+                        <p th:text="${movie.getCast()}"></p>
+                        <br>
+                        <p><b><u>Director:</u></b></p>
+                        <p th:text="${movie.getDirector()}"></p>
+                        <br>
+                        <p><b><u>Runtime:</u></b></p>
+                        <p><span th:text="${movie.getRuntime()}"></span> minutes</p>
+                        <br>
+                        <p><b><u>Genre:</u></b></p>
+                        <p th:text="${movie.getGenre()}"></p>
+                        <br>
+                        <p><b><u>Release date:</u></b></p>
+                        <p th:text="${movie.getReleaseDate()}"></p>
+                        <br>
+                        <p><b><u>Language:</u></b></p><br>
+                        <p th:text="${movie.getLanguage()}"></p>
+                        <br>
+                        <p><b><u>Subtitles:</u></b></p><br>
+                        <p th:text="${movie.getSubtitles()}"></p>
+                        <br>
+                        <p><b><u>Projection type:</u></b></p>
+                        <p th:text="${movie.getProjectionType()}"></p>
+                        <br>
+                        <p><b><u>Age restriction:</u></b></p>
+                        <p th:text="${movie.getAgeRestriction()}"></p>
+                        <br>
+                    </div>
+                    <div class="col-md">
+                        <img th:if="${movie.getPoster()}" th:src="'/posters/' + ${movie.getPoster()}"
+                             th:alt="'Poster for ' + ${movie.getTitle()}" class="img-fluid">
+                    </div>
+                </div>
+                <div class="row">
+                    <p><b><u>Synopsis:</u></b></p>
+                    <p th:text="${movie.getSynopsis()}"></p>
+                    <br>
+                </div>
             </div>
         </div>
     </main>

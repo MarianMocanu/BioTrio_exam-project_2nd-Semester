@@ -16,22 +16,74 @@
                 <h1 class="display-4">Edit current movie!</h1>
 
                 <form action="/manage/movies/edit" th:object="${currentMovie}" method="post">
-                    <input type="hidden" th:value="${currentMovie.id}" th:field="${currentMovie.id}" name="id">
+                    <input type="hidden" th:field="${currentMovie.id}" name="id">
                     <div class="form-group">
                         <label for="title">Title</label>
-                        <input type="text" class="form-control" th:field="${currentMovie.title}" id="title" name="title">
+                        <input type="text" class="form-control" th:field="${currentMovie.title}"
+                               id="title" name="title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="cast">Cast</label>
+                        <input type="text" class="form-control" th:field="${currentMovie.cast}"
+                               id="cast" name="cast">
+                    </div>
+                    <div class="form-group">
+                        <label for="director">Director</label>
+                        <input type="text" class="form-control" th:field="${currentMovie.director}"
+                               id="director" name="director">
                     </div>
                     <div class="form-group">
                         <label for="runtime">Runtime</label>
-                        <input type="text" class="form-control" th:field="${currentMovie.runtime}" id="runtime" name="runtime">
-                    </div>
-                    <div class="form-group">
-                        <label for="synopsis">Synopsis</label>
-                        <input type="text" class="form-control" th:field="${currentMovie.synopsis}" id="synopsis" name="synopsis">
+                        <input type="text" class="form-control" th:field="${currentMovie.runtime}"
+                               id="runtime" name="runtime">
                     </div>
                     <div class="form-group">
                         <label for="genre">Genre</label>
-                        <input type="text" class="form-control" th:field="${currentMovie.genre}" name="genre" id="genre">
+                        <input type="text" class="form-control" th:field="${currentMovie.genre}"
+                               name="genre" id="genre">
+                    </div>
+                    <div class="form-group">
+                        <label for="release_date">Release date</label>
+                        <input type="text" class="form-control" th:field="${currentMovie.releaseDate}"
+                               name="release_date" id="release_date">
+                    </div>
+                    <div class="form-group">
+                        <label for="language">Language</label>
+                        <input type="text" class="form-control" th:field="${currentMovie.language}"
+                               name="language" id="language">
+                    </div>
+                    <div class="form-group">
+                        <label for="subtitles">Subtitles</label>
+                        <input type="text" class="form-control" th:field="${currentMovie.subtitles}"
+                               name="subtitles" id="subtitles">
+                    </div>
+                    <div class="form-group">
+                        <label for="projection_type">Projection type</label>
+                        <select class="form-control" th:field="${currentMovie.projectionType}"
+                                name="projection_type" id="projection_type">
+                            <option value="2D" selected>2D</option>
+                            <option value="3D">3D</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="age_restriction">Age restriction</label>
+                        <input type="text" class="form-control" th:field="${currentMovie.ageRestriction}"
+                               name="age_restriction" id="age_restriction">
+                    </div>
+                    <div class="form-group">
+                        <label for="synopsis">Synopsis</label>
+                        <input type="text" class="form-control" th:field="${currentMovie.synopsis}"
+                               id="synopsis" name="synopsis">
+                    </div>
+                    <div class="form-group">
+                        <label for="poster">Poster</label>
+                        <input type="text" class="form-control" th:field="${currentMovie.poster}"
+                               name="poster" id="poster">
+                    </div>
+                    <div class="form-group">
+                        <label for="trailer_link">Trailer link</label>
+                        <input type="text" class="form-control" th:field="${currentMovie.trailerLink}"
+                               name="trailer_link" id="trailer_link">
                     </div>
                     <button type="submit" class="btn btn-primary">Submit Changes</button>
                     <a href="/manage/movies" class="btn btn-danger">Cancel</a>

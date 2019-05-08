@@ -52,7 +52,6 @@ public class EmployeeController {
     return "redirect:/manage/employees";
   }
 
-  //TODO are you sure you want to delete?
   @GetMapping("/manage/employees/delete/{id}")
   public String deleteEmployee(@PathVariable(name = "id") int id, Model m) {
     m.addAttribute("employee", employeeRepo.findEmployee(id));

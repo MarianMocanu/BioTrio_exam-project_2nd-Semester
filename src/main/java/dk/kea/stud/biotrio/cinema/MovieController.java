@@ -21,8 +21,6 @@ public class MovieController {
     return "movies/user/movies-detail-view";
   }
 
-  //TODO @GetMapping("/manage")
-
   // For the staff
   @GetMapping("/manage/movies")
   public String manageMovies(Model model) {
