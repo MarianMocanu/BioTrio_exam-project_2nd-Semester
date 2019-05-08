@@ -25,7 +25,7 @@ public class TicketController {
   @Autowired
   private SeatRepository seatRepo;
 
-  @GetMapping("manage/screening/{screening_id}/ticketing")
+  @GetMapping("/manage/screening/{screening_id}/ticketing")
   public String screeningTicketing(@PathVariable(name = "screening_id") int id, Model model) {
     SeatData data = new SeatData();
     data.setSeats(seatRepo.getSeatStatusForScreening(id));
@@ -38,11 +38,11 @@ public class TicketController {
       }
     }
     model.addAttribute("data", data);
-    model.addAttribute("screening", screeningRepo.findById(id));
+    model.addAttribute("screening", screeningRepo.findById(id)); 
     return "ticketing/screeningID-ticketing";
   }
 
-  @PostMapping("manage/screening/{screening_id}/ticketing")
+  @PostMapping("/manage/screening/{screening_id}/ticketing")
   public String screeningTicketing(@PathVariable(name = "screening_id") int id, @ModelAttribute SeatData data) {
     List<String> updateSeats = data.getSubmittedData();
     for (String seat : updateSeats) {
