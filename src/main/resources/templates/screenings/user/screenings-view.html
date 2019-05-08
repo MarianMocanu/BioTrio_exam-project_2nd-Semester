@@ -30,7 +30,7 @@
                             <td th:text="${screening.getStartTime().toLocalTime().toString()}"></td>
                             <td><a th:text="${screening.getMovie().getTitle()}"
                                    th:href="'/movie/' + ${screening.getMovie().getId()}"></a></td>
-                            <td>[No. of seats]</td>
+                            <td th:text="${screening.getNoAvailableSeats()}"></td>
                             <td><a th:href="'/booking/' + ${screening.getId()}">
                                 Book tickets
                             </a></td>

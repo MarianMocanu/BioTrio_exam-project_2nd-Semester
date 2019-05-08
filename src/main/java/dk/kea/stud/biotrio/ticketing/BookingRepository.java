@@ -136,4 +136,6 @@ public class BookingRepository {
   private void deleteBookedSeats(int bookingId) {
     jdbc.update("DELETE FROM booked_seats WHERE booking_id = ?;", bookingId);
   }
+
+
 }
