@@ -55,4 +55,47 @@ public class UserController {
     userRepo.deleteUser(user.getId());
     return "redirect:/manage/users";
   }
+
+  @GetMapping("/manage/users/edit/{id}")
+  public String editUser(@PathVariable("id") int id, Model model) {
+    model.addAttribute("userData", userRepo.findById(id));
+    model.addAttribute("roles", userRepo.getAllRoles());
+
+    return "security/users-edit";
+  }
+
+  // TODO this shit doesn't work as it should; needs to be rewritten.
+  @PostMapping("/manage/users/edit/{id}")
+  public String doEditUser(@PathVariable("id") int id,
+                           @ModelAttribute User userData,
+                           @RequestParam String confPassword,
+                           Model model) {
+
+    String message = null;
+    User oldUserData = userRepo.findById(id);
+    if (!userData.getUsername().equals(oldUserData.getUsername())) {
+      if (userRepo.findByUsername(userData.getUsername()) != null) {
+        message = "Username taken. Try something else.";
+        model.addAttribute("userData", oldUserData);
+        model.addAttribute("roles", userRepo.getAllRoles());
+        model.addAttribute("error", message);
+        return "security/users-edit";
+      }
+    }
+
+    if (!userData.getPassword().isEmpty() && !confPassword.isEmpty()) {
+      if (!userData.getPassword().equals(confPassword)) {
+        message = "New passwords didn't match. Try again.";
+        model.addAttribute("userData", oldUserData);
+        model.addAttribute("roles", userRepo.getAllRoles());
+        model.addAttribute("error", message);
+        return "security/users-edit";
+      }
+    } else {
+      userData.setPassword(null);
+    }
+
+    userRepo.editUser(userData);
+    return "redirect:/manage/users";
+  }
 }

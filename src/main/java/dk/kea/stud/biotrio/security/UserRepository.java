@@ -96,6 +96,17 @@ public class UserRepository {
     return result;
   }
 
+  public boolean checkPassword(User user, String password) {
+    String query = "SELECT password FROM users WHERE id = ?;";
+    SqlRowSet rs = jdbc.queryForRowSet(query, user.getId());
+
+    if (rs.first() && password.equals(rs.getString(1))) {
+      return true;
+    }
+
+    return false;
+  }
+
   public void addUser(User userData) {
     int roleId = getRoleId(userData.getRole());
     String query = "INSERT INTO users (username, password, role) VALUES (?, ?, ?);";
@@ -105,5 +116,16 @@ public class UserRepository {
   public void deleteUser(int id) {
     String query = "DELETE FROM users WHERE id = ?;";
     jdbc.update(query, id);
+  }
+
+  public void editUser(User user) {
+    int roleId = getRoleId(user.getRole());
+    if (user.getPassword() == null) {
+      jdbc.update("UPDATE users SET username = ?, role = ? WHERE id = ?",
+          user.getUsername(), roleId, user.getId());
+    } else {
+      jdbc.update("UPDATE users SET username = ?, password = ?, role = ? WHERE id = ?",
+          user.getUsername(), user.getPassword(), roleId, user.getId());
+    }
   }
 }
