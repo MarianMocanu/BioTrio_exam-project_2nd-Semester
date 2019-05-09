@@ -72,6 +72,12 @@ public class TicketRepository {
     return ticket;
   }
 
+  public void addTickets(List<Ticket> tickets) {
+    for (Ticket ticket: tickets) {
+      addTicket(ticket);
+    }
+  }
+
   public void updateTicket(Ticket ticket) {
     String query = "UPDATE tickets SET " +
         "screening_id = ?, " +

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Sell tickets</title>
+
+    <div th:replace="fragments :: bootstrap_head"></div>
+</head>
+<body>
+<div class="d-flex flex-column sticky-footer-wrapper">
+    <div th:replace="fragments :: navbar"></div>
+
+    <main class="flex-fill">
+        <div class="container">
+            <div class="jumbotron text-dark rounded bg-light border border-dark">
+                <h1 class="display-4">Choose your seats:</h1>
+                <form th:action="'/manage/screening/' + ${screeningId} + '/booking/redeem/'+${bookingId}" method="post">
+                    <table class="table table-hover" style="width: 20rem">
+                        <thead>
+                        <tr>
+                            <th scope="col">Row number</th>
+                            <th scope="col">Seat number</th>
+                            <th scope="col"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="seat: ${bookedSeats.getSeats()}">
+                            <td th:text="${seat.getRowNo()}"></td>
+                            <td th:text="${seat.getSeatNo()}"></td>
+                            <td>
+                                <label th:for="${seat.getRowNo()} + '_' + ${seat.getSeatNo()}">
+                                </label>
+                                <input type="checkbox"
+                                       th:id="${seat.getRowNo()} + '_' + ${seat.getSeatNo()}"
+                                       th:value="${seat.getRowNo()} + '_' + ${seat.getSeatNo()}"
+                                       th:field="${bookedSeats.submittedData}">
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <button type="submit" class="btn btn-primary">Sell tits</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <div th:replace="fragments :: footer"></div>
+</div>
+<div th:replace="fragments :: bootstrap_body"></div>
+</body>
+</html>
