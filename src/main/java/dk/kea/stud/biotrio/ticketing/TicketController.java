@@ -25,6 +25,8 @@ public class TicketController {
   @Autowired
   private SeatRepository seatRepo;
 
+
+
   @GetMapping("/manage/screening/{screening_id}/ticketing")
   public String screeningTicketing(@PathVariable(name = "screening_id") int id, Model model) {
     SeatData data = new SeatData();

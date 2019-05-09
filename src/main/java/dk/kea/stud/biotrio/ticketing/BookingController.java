@@ -154,5 +154,4 @@ public class BookingController {
     bookingRepo.deleteBookingById(bookingId);
     return "redirect:/manage/screenings";
   }
-
 }
