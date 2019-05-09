@@ -43,4 +43,16 @@ public class UserController {
     model.addAttribute("success", success);
     return "security/users-add-result";
   }
+
+  @GetMapping("/manage/users/delete/{id}")
+  public String deleteUser(@PathVariable("id") int id, Model model) {
+    model.addAttribute("user", userRepo.findById(id));
+    return "security/users-delete";
+  }
+
+  @PostMapping("/manage/users/delete")
+  public String doDelete(@ModelAttribute User user) {
+    userRepo.deleteUser(user.getId());
+    return "redirect:/manage/users";
+  }
 }

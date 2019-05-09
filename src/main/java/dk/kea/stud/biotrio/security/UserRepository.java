@@ -81,16 +81,16 @@ public class UserRepository {
     String query = "SELECT users.id, users.username, " +
         "users.employee_id, roles.name as role " +
         "FROM users INNER JOIN roles ON users.role = roles.id " +
-        "WHERE id = ?;";
+        "WHERE users.id = ?;";
     SqlRowSet rs = jdbc.queryForRowSet(query, id);
 
     if (rs.first()) {
       result = new User();
       result.setId(rs.getInt("id"));
       result.setUsername(rs.getString("username"));
-      result.setPassword(rs.getString("password"));
       result.setRole(rs.getString("role"));
       result.setEmployee(null);
+      result.setPassword(null);
     }
 
     return result;
@@ -100,5 +100,10 @@ public class UserRepository {
     int roleId = getRoleId(userData.getRole());
     String query = "INSERT INTO users (username, password, role) VALUES (?, ?, ?);";
     jdbc.update(query, userData.getUsername(), userData.getPassword(), roleId);
+  }
+
+  public void deleteUser(int id) {
+    String query = "DELETE FROM users WHERE id = ?;";
+    jdbc.update(query, id);
   }
 }
