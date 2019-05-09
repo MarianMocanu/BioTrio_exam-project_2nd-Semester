@@ -24,6 +24,7 @@
                             <th scope="col">Edit</th>
                             <th scope="col">Delete</th>
                             <th scope="col">Ticketing</th>
+                            <th scope="col">Bookings</th>
                         </tr>
                     </thead>
                     <tbody th:each="screening:${screenings}">
@@ -42,7 +43,11 @@
                             </a></td>
                             <td><a class="btn btn-primary"
                                    th:href="'/manage/screening/'+${screening.id}+'/ticketing'">
-                                Ticketing
+                                Sell available seats!
+                            </a></td>
+                            <td><a class="btn btn-primary"
+                                   th:href="'/manage/screening/'+${screening.id}+'/bookings'">
+                                Sell booked seats!
                             </a></td>
                         </tr>
                     </tbody>
