@@ -1,54 +1,68 @@
 /*.test {*/
 /*    color: blueviolet;*/
 /*}*/
-/*.navbar-inverse*/
+.navbar{
+    background: DarkSlateGray;
+    color: white;
+}
 
 
+/*html, body {*/
 
+/*    margin: 0;*/
+/*    padding: 0;*/
+/*}*/
+
+/*body {*/
+/*    font-family: ;*/
+/*    font-weight: ;*/
+/*}*/
+nav{
+    background: url(https://pixabay.com/pl/vectors/trzy-d-3d-streszczenie-sztuka-1861456/) no-repeat center center;
+
+}
 body {
     color: black;
-    background-color: #ffffcc;
-}
-
-p {
-    line-height: 21px;
-}
-
-h1 {
-    color: black;
-}
-
-h2 {
-    color: white;
-    background-color: #090;
-}
-
-h3 {
-    color: #999;
-    font-size: 1.25em;
-}
-
-img {
-    border-style: dashed;
-    border-width: 2px;
-    border-color: #ccc;
-}
-
-a {
-    text-decoration: none;
-}
-
-strong {
-    font-style: ;
-    text-transform: ;
-}
-
-li {
-    color: ;
-    font-style: ;
-}
-
-table {
     background-color: blanchedalmond;
 }
 
+    background: url(https://pixabay.com/pl/vectors/trzy-d-3d-streszczenie-sztuka-1861456/) no-repeat center center;
+
+@media (min-width:850px) {
+    .header h1 {
+        font-size: 120px;
+    }
+}
+.nav {
+    color: white;
+    background: DarkSlateGray;
+    height: 80px;
+    width: 100%;
+}
+
+.jumbotron {
+    background: url(https://cdn.pixabay.com/photo/2013/07/13/14/03/film-162029_1280.png) center center;
+    background-size: cover;
+    height: 600px;
+}
+
+table.theater {
+    background-color: cornsilk;
+    color: black;
+    border-spacing: 0.5rem;
+    border-collapse: collapse;
+    width: 100%;
+/*    TODO width*/
+
+}
+/*table#demotable {*/
+/*    table-layout: fixed ;*/
+/*    width: 100% ;*/
+/*    border-collapse: collapse ;*/
+/*    border: 1px black solid ;*/
+/*}*/
+/*table#demotable td {*/
+/*    width: 50% ;*/
+/*    border: 1px black solid ;*/
+/*    padding: 10px ;*/
+/*}*/
