@@ -1,0 +1,54 @@
+/*.test {*/
+/*    color: blueviolet;*/
+/*}*/
+/*.navbar-inverse*/
+
+
+
+body {
+    color: black;
+    background-color: #ffffcc;
+}
+
+p {
+    line-height: 21px;
+}
+
+h1 {
+    color: black;
+}
+
+h2 {
+    color: white;
+    background-color: #090;
+}
+
+h3 {
+    color: #999;
+    font-size: 1.25em;
+}
+
+img {
+    border-style: dashed;
+    border-width: 2px;
+    border-color: #ccc;
+}
+
+a {
+    text-decoration: none;
+}
+
+strong {
+    font-style: ;
+    text-transform: ;
+}
+
+li {
+    color: ;
+    font-style: ;
+}
+
+table {
+    background-color: blanchedalmond;
+}
+
