@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Movies View</title>
+
+    <div th:replace="fragments :: bootstrap_head"></div>
+</head>
+<body>
+<div class="d-flex flex-column sticky-footer-wrapper">
+    <div th:replace="fragments :: navbar"></div>
+
+    <main class="flex-fill">
+        <div class="container">
+            <div class="jumbotron text-dark rounded bg-light border border-dark">
+                <div class="row">
+                    <h3 class="display-4" th:text="${movie.getTitle()}"></h3>
+                </div>
+                <div class="row" th:if="${movie.getTrailerLink()}">
+                    <iframe id="ytplayer" type="text/html" width="640" height="360"
+                            th:src="'https://www.youtube.com/embed/' + ${movie.getTrailerLink()} +
+                            '?autoplay=1&origin=http://example.com'"
+                            frameborder="0"></iframe>
+                </div>
+                <div class="row">
+                    <div class="col-md">
+                        <p><b><u>Main cast:</u></b></p>
+                        <p th:text="${movie.getCast()}"></p>
+                        <br>
+                        <p><b><u>Director:</u></b></p>
+                        <p th:text="${movie.getDirector()}"></p>
+                        <br>
+                        <p><b><u>Runtime:</u></b></p>
+                        <p><span th:text="${movie.getRuntime()}"></span> minutes</p>
+                        <br>
+                        <p><b><u>Genre:</u></b></p>
+                        <p th:text="${movie.getGenre()}"></p>
+                        <br>
+                        <p><b><u>Release date:</u></b></p>
+                        <p th:text="${movie.getReleaseDate()}"></p>
+                        <br>
+                        <p><b><u>Language:</u></b></p><br>
+                        <p th:text="${movie.getLanguage()}"></p>
+                        <br>
+                        <p><b><u>Subtitles:</u></b></p><br>
+                        <p th:text="${movie.getSubtitles()}"></p>
+                        <br>
+                        <p><b><u>Projection type:</u></b></p>
+                        <p th:text="${movie.getProjectionType()}"></p>
+                        <br>
+                        <p><b><u>Age restriction:</u></b></p>
+                        <p th:text="${movie.getAgeRestriction()}"></p>
+                        <br>
+                    </div>
+                    <div class="col-md">
+                        <img th:if="${movie.getPoster()}" th:src="'/posters/' + ${movie.getPoster()}"
+                             th:alt="'Poster for ' + ${movie.getTitle()}" class="img-fluid">
+                    </div>
+                </div>
+                <div class="row">
+                    <p><b><u>Synopsis:</u></b></p>
+                    <p th:text="${movie.getSynopsis()}"></p>
+                    <br>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div th:replace="fragments :: footer"></div>
+</div>
+<div th:replace="fragments :: bootstrap_body"></div>
+</body>
+</html>

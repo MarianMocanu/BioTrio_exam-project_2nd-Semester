@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Booking successful</title>
+
+    <div th:replace="fragments :: bootstrap_head"></div>
+</head>
+<body>
+<div class="d-flex flex-column sticky-footer-wrapper">
+    <div th:replace="fragments :: navbar"></div>
+
+    <main class="flex-fill">
+        <div class="container">
+            <div class="jumbotron text-dark rounded bg-light border border-dark">
+                <h1 class="display-4">Your booking has been created!</h1>
+                <p>A confirmation SMS has been sent to <span th:text="${booking.getPhoneNo()}">
+                </span></p>
+                <p>Your unique booking code is <b th:text="${booking.getCode()}"></b>. Save it
+                for the ability to cancel the booking, by visiting <a href="/booking/cancel">this link</a>
+                and entering the code. Have a nice day!</p>
+            </div>
+        </div>
+    </main>
+
+    <div th:replace="fragments :: footer"></div>
+</div>
+<div th:replace="fragments :: bootstrap_body"></div>
+</body>
+</html>

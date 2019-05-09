@@ -20,6 +20,8 @@
                         <th scope="col">ID</th>
                         <th scope="col">First name</th>
                         <th scope="col">Last name</th>
+                        <th></th>
+                        <th></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -28,23 +30,23 @@
                         <td th:text="${employee.firstName}"></td>
                         <td th:text="${employee.lastName}"></td>
                         <td>
-                            <abbr title="Edit theater"><a th:href="'/manage/employees/edit/' + ${employee.id}">
-                                <button class="btn btn-success">Edit</button>
-                            </a></abbr>
+                            <a class="btn btn-success" th:href="'/manage/employees/edit/' + ${employee.id}">
+                                Edit
+                            </a>
                         </td>
                         <td>
-                            <abbr title="Delete movie"><a th:href="'/manage/employees/delete/' + ${employee.id}">
-                                <button class="btn btn-danger">Delete</button>
-                            </a></abbr>
+                            <a class="btn btn-danger" th:href="'/manage/employees/delete/' + ${employee.id}">
+                                Delete
+                            </a>
                         </td>
                     </tr>
                     </tbody>
 
                 </table>
                 <th scope="col">
-                    <abbr title="Add an employee"><a th:href="'/manage/employees/add'">
-                        <button class="btn btn-primary">Add employee</button>
-                    </a></abbr>
+                    <a class="btn btn-primary" th:href="'/manage/employees/add'">
+                        Add employee
+                    </a>
                 </th>
             </div>
         </div>

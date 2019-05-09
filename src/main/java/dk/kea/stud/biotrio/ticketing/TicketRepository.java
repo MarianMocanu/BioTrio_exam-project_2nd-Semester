@@ -34,8 +34,16 @@ public class TicketRepository {
       ticket = new Ticket();
       ticket.setId(rs.getInt("id"));
       ticket.setScreening(screeningRepo.findById(rs.getInt("screening_id")));
-      ticket.getSeat().setRowNo(rs.getInt("row_no"));
-      ticket.getSeat().setSeatNo(rs.getInt("seat_no"));
+
+      //Ticket object has a Seat object
+      Seat seat = new Seat();
+      //setting Seat's attributes
+      seat.setRowNo(rs.getInt("row_no"));
+      seat.setSeatNo(rs.getInt("seat_no"));
+      seat.setAvailable(false);
+      seat.setSold(true);
+      //setting Seat object of a Ticket
+      ticket.setSeat(seat);
 
       screeningTickets.add(ticket);
     }
@@ -77,8 +85,16 @@ public class TicketRepository {
         ticket.getId());
   }
 
-  public void deleteTicket(int id) {
-    jdbc.update("DELETE FROM tickets WHERE id = ?;", id);
+  public void deleteTicket(int screening_id, int rowNo, int seatNo) {
+    jdbc.update("DELETE FROM tickets WHERE " +
+        "screening_id = ? AND " +
+        "row_no = ? AND " +
+        "seat_no = ?;",
+        screening_id,
+        rowNo,
+        seatNo);
   }
+
+
 
 }

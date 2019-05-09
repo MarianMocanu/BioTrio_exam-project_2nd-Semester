@@ -13,32 +13,27 @@
     <main class="flex-fill">
         <div class="container">
             <div class="jumbotron text-dark rounded bg-light border border-dark">
-                <h1 class="display-4">Add a new screening!</h1>
+                <h1 class="display-4">Edit screening!</h1>
 
-                <form action="/manage/screenings/save" th:object="${screeningForm}" method="post">
+                <form action="/manage/screenings/edit" th:object="${selectedScreening}" method="post">
+                    <input type="hidden" name="id" th:value="${selectedScreening.getId()}">
                     <div class="form-group">
                         <label for="movie">Movie</label>
-                        <select class="form-control" th:field="${screeningForm.movieId}"
-                                id="movie" name="movie">
-                            <option th:each="movie:${movies}" th:text="${movie.getTitle()}"
-                                    th:value="${movie.getId()}"></option>
+                        <select class="form-control" th:field="${selectedScreening.movieId}" id="movie" name="movie">
+                            <option th:each="movie:${movies}" th:text="${movie.getTitle()}" th:value="${movie.getId()}" th:selected="${selectedScreening.getMovieId()} == ${movie.getId()}"></option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="theater">Theater</label>
-                        <select class="form-control" th:field="${screeningForm.theaterId}"
-                                id="theater" name="theater">
-                            <option th:each="theater:${theaters}" th:text="${theater.getName()}"
-                                    th:value="${theater.getId()}"></option>
+                        <select class="form-control" th:field="${selectedScreening.theaterId}" id="theater" name="theater">
+                            <option th:each="theater:${theaters}" th:text="${theater.getName()}" th:value="${theater.getId()}" th:selected="${selectedScreening.getTheaterId()} == ${theater.getId()}"></option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="start_time">Date & Time</label>
-                        <input type="text" class="form-control"
-                               th:field="${screeningForm.startTime}"
-                               id="start_time" name="start_time" placeholder="YYYY-MM-DD HH:MM">
+                        <input type="text" class="form-control" th:field="${selectedScreening.startTime}" id="start_time" name="start_time">
                     </div>
-                    <button type="submit" class="btn btn-primary">Create screening</button>
+                    <button type="submit" class="btn btn-primary">Submit changes</button>
                     <a href="/manage/screenings" class="btn btn-danger">Cancel</a>
                 </form>
             </div>

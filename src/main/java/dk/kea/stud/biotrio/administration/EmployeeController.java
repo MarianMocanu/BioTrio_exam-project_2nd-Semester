@@ -17,18 +17,20 @@ public class EmployeeController {
   private EmployeeRepository employeeRepo;
 
   @GetMapping("/manage/employees")
-    public String employees(Model m){
-      List<Employee> employeeList = employeeRepo.findAllEmployees();
-      m.addAttribute("employeelist", employeeList);
+  public String employees(Model m) {
+    List<Employee> employeeList = employeeRepo.findAllEmployees();
+    m.addAttribute("employeelist", employeeList);
 
-      return "employees/employees";
+    return "employees/employees-view";
   }
+
   @GetMapping("/manage/employees/add")
   public String create(Model m) {
     m.addAttribute("employeeform", new Employee());
 
-    return "employees/add-employee";
+    return "employees/employees-add";
   }
+
   @PostMapping("/manage/employees/add")
   public String saveEmployee(@ModelAttribute Employee e) {
     employeeRepo.insert(e);
@@ -40,7 +42,7 @@ public class EmployeeController {
   public String update(@PathVariable(name = "id") int id, Model m) {
     m.addAttribute("employee", employeeRepo.findEmployee(id));
 
-    return "employees/edit-employee";
+    return "employees/employees-edit";
   }
 
   @PostMapping("/manage/employees/edit")
@@ -50,12 +52,11 @@ public class EmployeeController {
     return "redirect:/manage/employees";
   }
 
-  //TODO are you sure you want to delete?
   @GetMapping("/manage/employees/delete/{id}")
   public String deleteEmployee(@PathVariable(name = "id") int id, Model m) {
     m.addAttribute("employee", employeeRepo.findEmployee(id));
 
-    return "employees/delete-employee";
+    return "employees/employees-delete";
   }
 
   @PostMapping("/manage/employees/delete")
