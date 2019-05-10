@@ -91,14 +91,14 @@ public class TicketRepository {
         ticket.getId());
   }
 
-  public void deleteTicket(int screening_id, int rowNo, int seatNo) {
+  public void deleteTicket(Ticket ticket) {
     jdbc.update("DELETE FROM tickets WHERE " +
         "screening_id = ? AND " +
         "row_no = ? AND " +
         "seat_no = ?;",
-        screening_id,
-        rowNo,
-        seatNo);
+        ticket.getScreening().getId(),
+        ticket.getSeat().getRowNo(),
+        ticket.getSeat().getSeatNo());
   }
 
 
