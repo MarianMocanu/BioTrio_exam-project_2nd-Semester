@@ -13,6 +13,7 @@ public class EmployeeRepository {
   @Autowired
   private JdbcTemplate jdbc;
 
+  // Find employee by ID
   public Employee findEmployee(int id) {
     SqlRowSet rs = jdbc.queryForRowSet("SELECT * FROM employees WHERE id = ?", id);
     Employee employee = new Employee();
@@ -26,7 +27,7 @@ public class EmployeeRepository {
     }
     return employee;
   }
-
+  //List all employees
   public List<Employee> findAllEmployees() {
     List<Employee> employees = new ArrayList();
 
@@ -43,19 +44,19 @@ public class EmployeeRepository {
     }
     return employees;
   }
-
+  //Insert a new employee
   public void insert(Employee employee) {
     //this works like prepared statement
     jdbc.update("INSERT INTO employees(first_name, last_name) VALUES(?,?)",
         employee.getFirstName(), employee.getLastName());
   }
-
+  // Update an employee
   public void update(Employee employee) {
 
     jdbc.update("UPDATE employees SET first_name =? ,last_name =?  WHERE id = ?",
         employee.getFirstName(), employee.getLastName(), employee.getId());
   }
-
+  //Delete an employee
   public void deleteEmployee(int id) {
     jdbc.update("DELETE FROM employees WHERE id = ?", id);
   }
