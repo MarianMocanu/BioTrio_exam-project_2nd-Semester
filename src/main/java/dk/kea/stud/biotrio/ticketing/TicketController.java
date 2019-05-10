@@ -23,8 +23,8 @@ public class TicketController {
 
 
 
-  @GetMapping("/manage/screening/{screening_id}/ticketing")
-  public String screeningTicketing(@PathVariable(name = "screening_id") int id, Model model) {
+  @GetMapping("/manage/screening/{screeningId}/ticketing")
+  public String screeningTicketing(@PathVariable(name = "screeningId") int id, Model model) {
     SeatData data = new SeatData();
     data.setSeats(seatRepo.getSeatStatusForScreening(id));
     data.setSubmittedData(new ArrayList<>());
@@ -40,8 +40,8 @@ public class TicketController {
     return "ticketing/screeningID-ticketing";
   }
 
-  @PostMapping("/manage/screening/{screening_id}/ticketing")
-  public String screeningTicketing(@PathVariable(name = "screening_id") int id,
+  @PostMapping("/manage/screening/{screeningId}/ticketing")
+  public String screeningTicketing(@PathVariable(name = "screeningId") int id,
                                    @ModelAttribute SeatData data) {
     for (Seat seat:seatRepo.getSeatsInfo(data.getSubmittedData())) {
       Ticket ticket = new Ticket();
@@ -53,8 +53,8 @@ public class TicketController {
     return "redirect:/manage/screening/" + id + "/ticketing";
   }
 
-  @GetMapping("/manage/screening/{screening_id}/ticketing/void")
-  public String deleteTicket(@PathVariable(name = "screening_id") int id, Model model) {
+  @GetMapping("/manage/screening/{screeningId}/ticketing/void")
+  public String deleteTicket(@PathVariable(name = "screeningId") int id, Model model) {
     SeatData data = new SeatData();
     data.setSeats(seatRepo.getSeatStatusForScreening(id));
     data.setSubmittedData(new ArrayList<>());
@@ -63,8 +63,8 @@ public class TicketController {
     return "ticketing/delete-ticket";
   }
 
-  @PostMapping("/manage/screening/{screening_id}/ticketing/void")
-  public String deleteTicket(@PathVariable(name = "screening_id") int id,
+  @PostMapping("/manage/screening/{screeningId}/ticketing/void")
+  public String deleteTicket(@PathVariable(name = "screeningId") int id,
                              @ModelAttribute SeatData data) {
     for (Seat seat : seatRepo.getSeatsInfo(data.getSubmittedData())) {
       Ticket ticket = new Ticket();

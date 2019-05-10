@@ -21,7 +21,7 @@
                         <th scope="col">Time</th>
                         <th scope="col">Movie</th>
                         <th scope="col">Seats</th>
-                        <th scope="col">Ticketing</th>
+                        <th class="text-center" scope="col">Ticketing</th>
                     </tr>
                     </thead>
                     <tbody th:each="screening:${screenings}">
@@ -30,12 +30,12 @@
                         <td th:text="${screening.getStartTime().toLocalTime().toString()}"></td>
                         <td th:text="${screening.getMovie().getTitle()}"></td>
                         <td th:text="${screening.getNoAvailableSeats()}"></td>
-                        <td><a class="btn btn-primary"
+                        <td class="text-center"><a class="btn btn-primary"
                                th:href="'/manage/screening/'+${screening.id}+'/ticketing'">
-                            Ticketing
-                        <td><a class="btn btn-primary"
+                            Sell available seats!</a>
+                            <a class="btn btn-primary"
                                th:href="'/manage/screening/'+${screening.id}+'/bookings'">
-                            Sell booked tits
+                            Sell booked seats!
                         </a></td>
                     </tr>
                     </tbody>
