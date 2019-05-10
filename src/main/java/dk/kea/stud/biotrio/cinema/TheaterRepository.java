@@ -12,7 +12,7 @@ import java.util.List;
 public class TheaterRepository {
   @Autowired
   private JdbcTemplate jdbc;
-
+  // Find theater by ID
   public Theater findTheater(int id) {
     SqlRowSet rs = jdbc.queryForRowSet("SELECT * FROM theaters WHERE id = ?", id);
     Theater theater = new Theater();
@@ -27,7 +27,7 @@ public class TheaterRepository {
     }
     return theater;
   }
-
+  //List all theaters
   public List<Theater> findAllTheaters() {
     SqlRowSet rs = jdbc.queryForRowSet("SELECT * FROM theaters");
     List<Theater> theaterList = new ArrayList<>();
@@ -42,19 +42,19 @@ public class TheaterRepository {
     }
     return theaterList;
   }
-
+  //Insert a new theater
   public void insert(Theater theater) {
     //this works like prepared statement
     jdbc.update("INSERT INTO theaters(name, no_of_rows, seats_per_row) VALUES(?,?,?)",
         theater.getName(), theater.getNoOfRows(), theater.getSeatsPerRow());
   }
-
+  // Update a theater
   public void update(Theater theater) {
 
     jdbc.update("UPDATE theaters SET name =? ,no_of_rows =? , seats_per_row =?  WHERE id = ?",
         theater.getName(), theater.getNoOfRows(), theater.getSeatsPerRow(), theater.getId());
   }
-
+  //Delete a theater
   public void deleteTheater(int id) {
     jdbc.update("DELETE FROM theaters WHERE id = ?", id);
   }
