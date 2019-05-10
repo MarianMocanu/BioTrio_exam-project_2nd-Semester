@@ -34,6 +34,12 @@ public class ScreeningController {
     return "screenings/screenings-view";
   }
 
+  @GetMapping("/manage/ticketing")
+  public String screeningsForBookingOrSale(Model model){
+    model.addAttribute("screenings", screeningRepo.findAllScreenings());
+    return "ticketing/ticketing";
+  }
+
   @GetMapping("/manage/screenings/add")
   public String manageScreenings(Model model) {
     model.addAttribute("movies", movieRepo.findAllMovies());
