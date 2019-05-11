@@ -5,7 +5,6 @@
     <title>Index</title>
 
     <div th:replace="fragments :: bootstrap_head"></div>
-    <link rel="stylesheet" th:href="@{'css/style.css'}"/>
 </head>
 <body>
 <div class="bg-dark d-flex flex-column sticky-footer-wrapper">
@@ -14,7 +13,18 @@
     <main class="flex-fill">
         <div class="container">
             <div class="jumbotron">
-                <h1 class="display-4">Welcome to Bio Trio</h1>
+                <h1 class="display-4">Input telephone number!</h1>
+                <form th:action="'/manage/screening/'+${screeningId}+'/bookings/'"
+                      method="post">
+                    <div class="form-group">
+                        <label for="phoneNo">Phone number</label>
+                        <input type="text" class="form-control"
+                               id="phoneNo" name="phoneNumber">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Find booking</button>
+                </form>
+
+
             </div>
         </div>
     </main>

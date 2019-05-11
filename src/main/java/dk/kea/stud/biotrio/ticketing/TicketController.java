@@ -75,4 +75,6 @@ public class TicketController {
     return "redirect:/manage/screening/" + id + "/ticketing";
   }
 
+
+
 }

@@ -5,14 +5,15 @@
     <title>Booking successful</title>
 
     <div th:replace="fragments :: bootstrap_head"></div>
+    <link rel="stylesheet" th:href="@{'css/style.css'}"/>
 </head>
 <body>
-<div class="d-flex flex-column sticky-footer-wrapper">
+<div class="bg-dark d-flex flex-column sticky-footer-wrapper">
     <div th:replace="fragments :: navbar"></div>
 
     <main class="flex-fill">
         <div class="container">
-            <div class="jumbotron text-dark rounded bg-light border border-dark">
+            <div class="jumbotron">
                 <h1 class="display-4">Your booking has been created!</h1>
                 <p>A confirmation SMS has been sent to <span th:text="${booking.getPhoneNo()}">
                 </span></p>
