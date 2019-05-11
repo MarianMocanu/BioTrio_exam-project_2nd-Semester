@@ -68,9 +68,6 @@ public class ScreeningRepository {
     }
 
     occupiedSeats = soldSeats + bookedSeats;
-    System.out.println(totalSeats);
-    System.out.println(occupiedSeats);
-    System.out.println((totalSeats - occupiedSeats));
     return (totalSeats - occupiedSeats);
   }
 
@@ -95,6 +92,11 @@ public class ScreeningRepository {
     return getScreeningsListFromRowSet(rs);
   }
 
+  /**
+   *
+   * @param rowSet jdkjkd
+   * @return
+   */
   private List<Screening> getScreeningsListFromRowSet(SqlRowSet rowSet) {
     List<Screening> result = new ArrayList<>();
 

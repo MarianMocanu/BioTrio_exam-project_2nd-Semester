@@ -24,6 +24,39 @@ public class BookingRepository {
   @Autowired
   private ScreeningRepository screeningRepo;
 
+  public Booking findBookingById(int id) {
+    Booking booking = new Booking();
+    String query = "SELECT * FROM bookings WHERE id = ?";
+    SqlRowSet rs = jdbc.queryForRowSet(query,id);
+    if(rs.first()) {
+      booking.setId(rs.getInt("id"));
+      booking.setScreening(screeningRepo.findById(rs.getInt("screening_id")));
+      booking.setCode(rs.getString("code"));
+      booking.setPhoneNo(rs.getString("phone_no"));
+
+      List<Seat> bookingSeats = new ArrayList<>();
+
+      String queryForSeats = "SELECT * FROM booked_seats WHERE booking_id = ?";
+      SqlRowSet seatsRS = jdbc.queryForRowSet(queryForSeats, booking.getId());
+
+      //iteration for setting the seats received from database
+      while (seatsRS.next()) {
+        Seat seat = new Seat();
+        seat.setRowNo(seatsRS.getInt("row_no"));
+        seat.setSeatNo(seatsRS.getInt("seat_no"));
+        seat.setAvailable(false);
+        seat.setSold(false);
+
+        //adding the booked seat in the array
+        bookingSeats.add(seat);
+      }
+
+      //setting the last attribute of the Booking object
+      booking.setSeats(bookingSeats);
+    }
+    return booking;
+  }
+
   public List<Booking> findBookingsForScreening(int id) {
     Booking booking = null;
     List<Booking> screeningBookings = new ArrayList<>();
@@ -67,24 +100,17 @@ public class BookingRepository {
     return screeningBookings;
   }
 
-  public List<Booking> findBookingsByPhoneNo(String phoneNo, int screeningId) {
-    Booking booking = null;
-    List<Booking> screeningBookings = new ArrayList<>();
-
+  public List<Booking> findBookingByPhoneNo(String phoneNo, int screeningId) {
     String query = "SELECT * FROM bookings WHERE phone_no = ? AND screening_id = ?";
-    SqlRowSet bookingsRS = jdbc.queryForRowSet(query, phoneNo, screeningId);
-
-    //iteration for setting the bookings received from the database
-    while (bookingsRS.next()) {
-      booking = new Booking();
-      booking.setId(bookingsRS.getInt("id"));
-      booking.setPhoneNo(bookingsRS.getString("phone_no"));
-      booking.setCode(bookingsRS.getString("code"));
+    SqlRowSet rs = jdbc.queryForRowSet(query, phoneNo, screeningId);
+    List<Booking> result = new ArrayList<>();
+    while (rs.next()) {
+      Booking booking = new Booking();
+      booking.setId(rs.getInt("id"));
+      booking.setPhoneNo(rs.getString("phone_no"));
+      booking.setCode(rs.getString("code"));
       booking.setScreening(screeningRepo.findById(screeningId));
-
-      //Booking object has an array of Seat objects
-      List<Seat> bookingSeats = new ArrayList<>();
-
+      List<Seat> seats = new ArrayList<>();
       String queryForSeats = "SELECT * FROM booked_seats WHERE booking_id = ?";
       SqlRowSet seatsRS = jdbc.queryForRowSet(queryForSeats, booking.getId());
 
@@ -97,16 +123,16 @@ public class BookingRepository {
         seat.setSold(false);
 
         //adding the booked seat in the array
-        bookingSeats.add(seat);
+        seats.add(seat);
       }
 
       //setting the last attribute of the Booking object
-      booking.setSeats(bookingSeats);
+      booking.setSeats(seats);
 
       //adding the Booking object in the screenings Array
-      screeningBookings.add(booking);
+      result.add(booking);
     }
-    return screeningBookings;
+    return result;
   }
 
   public boolean isCodeTaken(String code) {
@@ -143,7 +169,7 @@ public class BookingRepository {
 
   private void addBookedSeats(Booking booking) {
     String query = "INSERT INTO booked_seats VALUES (?, ?, ?);";
-    for (Seat seat: booking.getSeats()) {
+    for (Seat seat : booking.getSeats()) {
       jdbc.update(query, booking.getId(), seat.getRowNo(), seat.getSeatNo());
     }
   }
@@ -161,7 +187,7 @@ public class BookingRepository {
         booking.getId());
   }
 
-  public boolean deleteBooking(String code) {
+  public boolean deleteBookingByCode(String code) {
     SqlRowSet rs = jdbc.queryForRowSet("SELECT id FROM bookings WHERE code = ?;", code);
     int id;
 
@@ -173,6 +199,12 @@ public class BookingRepository {
     }
 
     return false;
+  }
+
+  public void deleteBookingById(int id) {
+    deleteBookedSeats(id);
+    String query = "DELETE FROM bookings WHERE id = ?;";
+    jdbc.update(query, id);
   }
 
   private void deleteBookedSeats(int bookingId) {

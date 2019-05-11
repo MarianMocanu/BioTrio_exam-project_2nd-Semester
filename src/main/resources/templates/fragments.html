@@ -33,14 +33,15 @@
                     Manage
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="/manage/screenings">Tickets</a>
+                    <a class="dropdown-item" href="/manage/ticketing">Ticketing</a>
                     <a class="dropdown-item" href="/manage/screenings">Screenings</a>
                     <a class="dropdown-item" href="/manage/movies">Movies</a>
                     <a class="dropdown-item" href="/manage/theaters">Theaters</a>
                     <a class="dropdown-item" href="/manage/employees">Employees</a>
+                    <a class="dropdown-item" href="/manage/users">Users</a>
                 </div>
             </li>
-            <li class="nav-item" sec:authorized="!authenticated">
+            <li class="nav-item" sec:authorize="!authenticated">
                 <a class="nav-link" href="/login">Login</a>
             </li>
             <li class="nav-item" sec:authorize="authenticated">

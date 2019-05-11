@@ -2,54 +2,44 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head>
     <meta charset="UTF-8">
-    <title>Index</title>
+    <title>Sell tickets</title>
 
     <div th:replace="fragments :: bootstrap_head"></div>
 </head>
 <body>
-<div class="bg-dark d-flex flex-column sticky-footer-wrapper">
+<div class="d-flex flex-column sticky-footer-wrapper">
     <div th:replace="fragments :: navbar"></div>
 
     <main class="flex-fill">
         <div class="container">
-            <div class="jumbotron">
-                <h1 class="display-4">Redeem booked seats!</h1>
-                <form th:object="${bookedSeats}"
-                      th:action="'/manage/screening/'+${bookedSeats.get(0).getScreening().getId()}+'/booking/'+${bookedSeats.get(0).getPhoneNo()}"
-                      method="post">
-                    <table class="table table-hover">
-                        <th:block th:each="booking:${bookedSeats}">
-                            <th:block th:each="seat:${booking.getSeats()}">
-                                <th:block th:if="">
-
-                                </th:block>
-                                    <tr><td th:text="'Row ' + ${seat.getRowNo()}"></td>
-                            </th:block>
+            <div class="jumbotron text-dark rounded bg-light border border-dark">
+                <h1 class="display-4">Choose your seats:</h1>
+                <form th:action="'/manage/screening/' + ${screeningId} + '/booking/redeem/'+${bookingId}" method="post">
+                    <table class="table table-hover" style="width: 20rem">
+                        <thead>
+                        <tr>
+                            <th scope="col">Row number</th>
+                            <th scope="col">Seat number</th>
+                            <th scope="col"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="seat: ${bookedSeats.getSeats()}">
+                            <td th:text="${seat.getRowNo()}"></td>
+                            <td th:text="${seat.getSeatNo()}"></td>
                             <td>
-                                <label th:for="${seat.getRowNo()} + '_' + ${seat.getSeatNo()}"
-                                       th:text="${seat.getSeatNo()}"></label>
-                                <br>
+                                <label th:for="${seat.getRowNo()} + '_' + ${seat.getSeatNo()}">
+                                </label>
                                 <input type="checkbox"
                                        th:id="${seat.getRowNo()} + '_' + ${seat.getSeatNo()}"
                                        th:value="${seat.getRowNo()} + '_' + ${seat.getSeatNo()}"
-                                       th:disabled="${!seat.isAvailable()} or ${seat.isSold()}"
-                                       th:field="${data.submittedData}">
+                                       th:field="${bookedSeats.submittedData}">
                             </td>
-                            <th:block
-                                    th:if="${seat.getSeatNo() == screening.getTheater().getSeatsPerRow()}">
-                                </tr>
-                            </th:block>
-                        </th:block>
+                        </tr>
+                        </tbody>
                     </table>
-                    <button type="submit" class="btn btn-primary">Select seats!</button>
-                    <br>
-                    <br>
-                    <br>
-                    <a class="btn btn-danger"
-                       th:href="'/manage/screening/'+${screening.getId()}+'/ticketing/void'">Delete
-                        tickets!</a>
+                    <button type="submit" class="btn btn-primary">Sell tits</button>
                 </form>
-
             </div>
         </div>
     </main>
