@@ -52,9 +52,19 @@ public class MovieController {
     return "redirect:/manage/movies";
   }
 
+  //From "delete" button goes to "Are you sure to delete(...)?"
   @GetMapping("/manage/movies/delete/{id}")
-  public String deleteMovie(@PathVariable("id") int id) {
+  public String deleteMovie(@PathVariable(name = "id") int id, Model m) {
+    m.addAttribute("movie", movieRepo.findMovieById(id));
+
+    return "movies/movies-delete";
+  }
+
+  //Deletes Movie and lists all the Movies
+  @PostMapping("/manage/movies/delete")
+  public String deleteMovie(int id) {
     movieRepo.deleteMovie(id);
+
     return "redirect:/manage/movies";
   }
 
