@@ -5,16 +5,17 @@
     <title>Users</title>
 
     <div th:replace="fragments :: bootstrap_head"></div>
+    <link rel="stylesheet" th:href="@{'/css/style.css'}"/>
 </head>
 <body>
-<div class="d-flex flex-column sticky-footer-wrapper">
+<div class="bg-dark d-flex flex-column sticky-footer-wrapper">
     <div th:replace="fragments :: navbar"></div>
 
     <main class="flex-fill">
         <div class="container">
-            <div class="jumbotron text-dark rounded bg-light border border-dark">
+            <div class="jumbotron">
                 <h1 class="display-4">Users</h1>
-                <table class="table table-hover">
+                <table class="table table-dark table-hover">
                     <thead>
                     <tr>
                         <th scope="col">ID</th>
@@ -35,7 +36,7 @@
                             </a>
                         </td>
                         <td>
-                            <a class="btn btn-danger" th:href="'/manage/users/delete/' + ${user.getId()}">
+                            <a class="btn btn-outline-danger" th:href="'/manage/users/delete/' + ${user.getId()}">
                                 Delete
                             </a>
                         </td>
@@ -44,7 +45,7 @@
 
                 </table>
                 <th scope="col">
-                    <a class="btn btn-primary" th:href="'/manage/users/add'">
+                    <a class="btn btn-secondary" th:href="'/manage/users/add'">
                         Add user
                     </a>
                 </th>

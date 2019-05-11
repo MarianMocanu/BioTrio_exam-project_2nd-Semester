@@ -5,7 +5,7 @@
     <title>Movies</title>
 
     <div th:replace="fragments :: bootstrap_head"></div>
-    <link rel="stylesheet" th:href="@{'css/style.css'}"/>
+    <link rel="stylesheet" th:href="@{'/css/style.css'}"/>
 </head>
 <body>
 <div class="bg-dark d-flex flex-column sticky-footer-wrapper">
@@ -16,7 +16,7 @@
             <div class="jumbotron">
                 <h1 class="display-4">Here you have all movies!</h1>
 
-                <table class="table table-hover">
+                <table class="table table-dark table-hover">
                     <thead>
                     <tr>
                         <!--<th scope="col">ID</th>-->
@@ -55,19 +55,19 @@
                         <!--<td th:text="${movie.ageRestriction}"></td>-->
                         <!--<td th:text="${movie.poster}"></td>-->
                         <td>
-                            <a class="btn btn-primary" th:href="'/manage/movies/edit/' + ${movie.id}">
+                            <a class="btn btn-secondary" th:href="'/manage/movies/edit/' + ${movie.id}">
                                 Edit
                             </a>
                         </td>
                         <td>
-                            <a class="btn btn-danger" th:href="'/manage/movies/delete/' + ${movie.id}">
+                            <a class="btn btn-outline-danger" th:href="'/manage/movies/delete/' + ${movie.id}">
                                 Delete
                             </a>
                         </td>
                     </tr>
                     </tbody>
                 </table>
-                <a class="btn btn-primary" th:href="'/manage/movies/add'">Add new movie</a>
+                <a class="btn btn-secondary" th:href="'/manage/movies/add'">Add new movie</a>
             </div>
         </div>
     </main>

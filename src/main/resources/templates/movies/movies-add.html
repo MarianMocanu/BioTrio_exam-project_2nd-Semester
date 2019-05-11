@@ -5,7 +5,7 @@
     <title>Add movie</title>
 
     <div th:replace="fragments :: bootstrap_head"></div>
-    <link rel="stylesheet" th:href="@{'css/style.css'}"/>
+    <link rel="stylesheet" th:href="@{'/css/style.css'}"/>
 </head>
 <body>
 <div class="bg-dark d-flex flex-column sticky-footer-wrapper">
@@ -85,8 +85,8 @@
                         <input type="text" class="form-control" th:field="${movie.trailerLink}"
                                name="trailer_link" id="trailer_link">
                     </div>
-                    <button type="submit" class="btn btn-primary">Add Movie</button>
-                    <a href="/manage/movies" class="btn btn-danger">Cancel</a>
+                    <button type="submit" class="btn btn-secondary">Add Movie</button>
+                    <a href="/manage/movies" class="btn btn-outline-danger">Cancel</a>
                 </form>
             </div>
         </div>

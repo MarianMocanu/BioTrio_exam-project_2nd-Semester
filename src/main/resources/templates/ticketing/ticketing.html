@@ -5,16 +5,17 @@
     <title>Screenings</title>
 
     <div th:replace="fragments :: bootstrap_head"></div>
+    <link rel="stylesheet" th:href="@{'/css/style.css'}"/>
 </head>
 <body>
-<div class="d-flex flex-column sticky-footer-wrapper">
+<div class="bg-dark d-flex flex-column sticky-footer-wrapper">
     <div th:replace="fragments :: navbar"></div>
 
     <main class="flex-fill">
         <div class="container">
-            <div class="jumbotron text-dark rounded bg-light border border-dark">
+            <div class="jumbotron">
                 <h1 class="display-4">Screenings</h1>
-                <table class="table table-hover">
+                <table class="table table-dark table-hover">
                     <thead>
                     <tr>
                         <th scope="col">Date</th>
@@ -30,17 +31,17 @@
                         <td th:text="${screening.getStartTime().toLocalTime().toString()}"></td>
                         <td th:text="${screening.getMovie().getTitle()}"></td>
                         <td th:text="${screening.getNoAvailableSeats()}"></td>
-                        <td class="text-center"><a class="btn btn-primary"
+                        <td class="text-center"><a class="btn btn-secondary"
                                th:href="'/manage/screening/'+${screening.id}+'/ticketing'">
                             Sell available seats!</a>
-                            <a class="btn btn-primary"
+                            <a class="btn btn-secondary"
                                th:href="'/manage/screening/'+${screening.id}+'/bookings'">
                             Sell booked seats!
                         </a></td>
                     </tr>
                     </tbody>
                 </table>
-                <a class="btn btn-primary" href="/manage/screenings/add">Create new screening</a>
+                <a class="btn btn-secondary" href="/manage/screenings/add">Create new screening</a>
             </div>
         </div>
     </main>

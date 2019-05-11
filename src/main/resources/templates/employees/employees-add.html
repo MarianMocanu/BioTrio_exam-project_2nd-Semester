@@ -5,7 +5,7 @@
     <title>Add employee</title>
 
     <div th:replace="fragments :: bootstrap_head"></div>
-    <link rel="stylesheet" th:href="@{'css/style.css'}"/>
+    <link rel="stylesheet" th:href="@{'/css/style.css'}"/>
 </head>
 <body>
 <div class="bg-dark d-flex flex-column sticky-footer-wrapper">
@@ -25,8 +25,8 @@
                         <label for="last_name">Last name:</label>
                         <input type="text" class="form-control" th:field="${employeeform.lastName}" id="last_name">
                     </div>
-                    <button type="submit" class="btn btn-primary">Add employee</button>
-                    <a class="btn btn-danger" href="/manage/employees">Cancel</a>
+                    <button type="submit" class="btn btn-secondary">Add employee</button>
+                    <a class="btn btn-outline-danger" href="/manage/employees">Cancel</a>
                 </form>
 
             </div>

@@ -5,7 +5,7 @@
     <title>Add theater</title>
 
     <div th:replace="fragments :: bootstrap_head"></div>
-    <link rel="stylesheet" th:href="@{'css/style.css'}"/>
+    <link rel="stylesheet" th:href="@{'/css/style.css'}"/>
 </head>
 <body>
 <div class="bg-dark d-flex flex-column sticky-footer-wrapper">
@@ -32,8 +32,8 @@
                         <input type="text" class="form-control"
                                th:field="${theaterform.seatsPerRow}" id="seats_per_row">
                     </div>
-                    <button type="submit" class="btn btn-primary">Add Theater</button>
-                    <a href="/manage/theaters" class="btn btn-danger">Cancel</a>
+                    <button type="submit" class="btn btn-secondary">Add Theater</button>
+                    <a href="/manage/theaters" class="btn btn-outline-danger">Cancel</a>
                 </form>
 
             </div>

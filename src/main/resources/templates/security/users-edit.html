@@ -5,14 +5,15 @@
     <title>Add user</title>
 
     <div th:replace="fragments :: bootstrap_head"></div>
+    <link rel="stylesheet" th:href="@{'/css/style.css'}"/>
 </head>
 <body>
-<div class="d-flex flex-column sticky-footer-wrapper">
+<div class="bg-dark d-flex flex-column sticky-footer-wrapper">
     <div th:replace="fragments :: navbar"></div>
 
     <main class="flex-fill">
         <div class="container">
-            <div class="jumbotron text-dark rounded bg-light border border-dark">
+            <div class="jumbotron">
                 <h1 class="display-4">Edit user <span th:text="${userData.getUsername()}"></span></h1>
                 <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
 
@@ -46,8 +47,8 @@
                             <option>To be implemented</option>
                         </select>
                     </div>
-                    <button type="submit" class="btn btn-primary">Done</button>
-                    <a class="btn btn-danger" href="/manage/users">Cancel</a>
+                    <button type="submit" class="btn btn-secondary">Done</button>
+                    <a class="btn btn-outline-danger" href="/manage/users">Cancel</a>
                 </form>
             </div>
         </div>

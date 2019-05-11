@@ -5,7 +5,7 @@
     <title>Theaters</title>
 
     <div th:replace="fragments :: bootstrap_head"></div>
-    <link rel="stylesheet" th:href="@{'css/style.css'}"/>
+    <link rel="stylesheet" th:href="@{'/css/style.css'}"/>
 </head>
 <body>
 <div class="bg-dark d-flex flex-column sticky-footer-wrapper">
@@ -34,13 +34,13 @@
                         <td th:text="${theater.name}"></td>
                         <td th:text="${theater.seatsPerRow} * ${theater.noOfRows}"></td>
                         <td>
-                            <a class="btn btn-primary"
+                            <a class="btn btn-secondary"
                                th:href="'/manage/theaters/edit/' + ${theater.id}">
                                 Edit
                             </a>
                         </td>
                         <td>
-                            <a class="btn btn-danger"
+                            <a class="btn btn-outline-danger"
                                th:href="'/manage/theaters/delete/' + ${theater.id}">
                                 Delete
                             </a>
@@ -50,7 +50,7 @@
 
                 </table>
                 </div>
-                <a class="btn btn-primary" th:href="'/manage/theaters/add'">Add theater</a>
+                <a class="btn btn-secondary" th:href="'/manage/theaters/add'">Add theater</a>
             </div>
         </div>
     </main>

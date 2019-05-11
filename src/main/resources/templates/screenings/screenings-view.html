@@ -5,7 +5,7 @@
     <title>Screenings</title>
 
     <div th:replace="fragments :: bootstrap_head"></div>
-    <link rel="stylesheet" th:href="@{'css/style.css'}"/>
+    <link rel="stylesheet" th:href="@{'/css/style.css'}"/>
 </head>
 <body>
 <div class="bg-dark d-flex flex-column sticky-footer-wrapper">
@@ -15,7 +15,7 @@
         <div class="container">
             <div class="jumbotron">
                 <h1 class="display-4">Screenings</h1>
-                <div class="table table-hover">
+                <div class="table table-dark table-hover">
                 <table class = theater>
                     <thead>
                         <tr>
@@ -33,11 +33,11 @@
                             <td th:text="${screening.getStartTime().toLocalTime().toString()}"></td>
                             <td th:text="${screening.getMovie().getTitle()}"></td>
                             <td th:text="${screening.getNoAvailableSeats()}"></td>
-                            <td><a class="btn btn-primary"
+                            <td><a class="btn btn-secondary"
                                    th:href="'/manage/screenings/edit/' + ${screening.getId()}">
                                 Edit
                             </a></td>
-                            <td><a class="btn btn-danger"
+                            <td><a class="btn btn-outline-danger"
                                    th:href="'/manage/screenings/delete/' + ${screening.getId()}">
                                 Delete
                             </a></td>
@@ -45,7 +45,7 @@
                     </tbody>
                 </table>
                 </div>
-                <a class="btn btn-primary" href="/manage/screenings/add">Create new screening</a>
+                <a class="btn btn-secondary" href="/manage/screenings/add">Create new screening</a>
             </div>
         </div>
     </main>

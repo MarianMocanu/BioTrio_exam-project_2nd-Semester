@@ -5,22 +5,23 @@
     <title>Delete employee</title>
 
     <div th:replace="fragments :: bootstrap_head"></div>
+    <link rel="stylesheet" th:href="@{'/css/style.css'}"/>
 </head>
 <body>
-<div class="d-flex flex-column sticky-footer-wrapper">
+<div class="bg-dark d-flex flex-column sticky-footer-wrapper">
     <div th:replace="fragments :: navbar"></div>
 
     <main class="flex-fill">
         <div class="container">
-            <div class="jumbotron text-dark rounded bg-light border border-dark">
+            <div class="jumbotron">
                 <h1 class="display-4">Delete a movie</h1>
                 <form action="/manage/movies/delete/" method="post" th:object="${movie}">
                     <input type="hidden" th:value="${movie.id}" th:field="${movie.id}" name="id">
                     <div class="form-group">
                         <p th:text="'Are you sure you want to delete ' + ${movie.title} + ' ?'"></p>
                     </div>
-                    <button type="submit" class="btn btn-danger">Delete</button>
-                    <a class="btn btn-primary" href="/manage/movies">Cancel</a>
+                    <button type="submit" class="btn btn-outline-danger">Delete</button>
+                    <a class="btn btn-secondary" href="/manage/movies">Cancel</a>
                 </form>
             </div>
         </div>

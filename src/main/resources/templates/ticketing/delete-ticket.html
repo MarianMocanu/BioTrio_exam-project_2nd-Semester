@@ -5,6 +5,7 @@
     <title>Index</title>
 
     <div th:replace="fragments :: bootstrap_head"></div>
+    <link rel="stylesheet" th:href="@{'/css/style.css'}"/>
 </head>
 <body>
 <div class="bg-dark d-flex flex-column sticky-footer-wrapper">
@@ -16,7 +17,7 @@
                 <h1 class="display-4">Choose the seat in order to delete the existing ticket!</h1>
                 <form th:action="'/manage/screening/'+${screening.getId()}+'/ticketing/void'"
                       method="post">
-                    <table class="table table-hover">
+                    <table class="table table-dark table-hover">
                         <th:block th:each="seat:${data.getSeats()}">
                             <th:block th:if="${seat.getSeatNo()} == 1">
                                 <tr>
@@ -37,7 +38,7 @@
                             </th:block>
                         </th:block>
                     </table>
-                    <button type="submit" class="btn btn-primary">Delete seats!</button>
+                    <button type="submit" class="btn btn-secondary">Delete seats!</button>
                 </form>
             </div>
         </div>

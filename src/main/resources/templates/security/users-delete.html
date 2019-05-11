@@ -5,14 +5,15 @@
     <title>Delete employee</title>
 
     <div th:replace="fragments :: bootstrap_head"></div>
+    <link rel="stylesheet" th:href="@{'/css/style.css'}"/>
 </head>
 <body>
-<div class="d-flex flex-column sticky-footer-wrapper">
+<div class="bg-dark d-flex flex-column sticky-footer-wrapper">
     <div th:replace="fragments :: navbar"></div>
 
     <main class="flex-fill">
         <div class="container">
-            <div class="jumbotron text-dark rounded bg-light border border-dark">
+            <div class="jumbotron">
                 <h1 class="display-4">Delete an employee</h1>
                 <form action="/manage/employees/delete/" method="post" th:object="${user}">
                     <input type="hidden" th:value="${user.id}" th:field="${user.id}" name="id">
@@ -20,8 +21,8 @@
                         <p th:text="'Are you sure you want to delete user ' + ${user.username}"></p>
                         <p>This action cannot be undone</p>
                     </div>
-                    <button type="submit" class="btn btn-danger">Delete</button>
-                    <a class="btn btn-primary" href="/manage/employees">Cancel</a>
+                    <button type="submit" class="btn btn-outline-danger">Delete</button>
+                    <a class="btn btn-secondary" href="/manage/employees">Cancel</a>
                 </form>
             </div>
         </div>

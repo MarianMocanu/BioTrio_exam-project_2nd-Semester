@@ -5,7 +5,7 @@
     <title>Employees</title>
 
     <div th:replace="fragments :: bootstrap_head"></div>
-    <link rel="stylesheet" th:href="@{'css/style.css'}"/>
+    <link rel="stylesheet" th:href="@{'/css/style.css'}"/>
 </head>
 <body>
 <div class="bg-dark d-flex flex-column sticky-footer-wrapper">
@@ -15,7 +15,7 @@
         <div class="container">
             <div class="jumbotron">
                 <h1 class="display-4">About employees</h1>
-                <table class="table table-hover">
+                <table class="table table-dark table-hover">
                     <thead>
                     <tr>
                         <th scope="col">ID</th>
@@ -36,7 +36,7 @@
                             </a>
                         </td>
                         <td>
-                            <a class="btn btn-danger" th:href="'/manage/employees/delete/' + ${employee.id}">
+                            <a class="btn btn-outline-danger" th:href="'/manage/employees/delete/' + ${employee.id}">
                                 Delete
                             </a>
                         </td>
@@ -45,7 +45,7 @@
 
                 </table>
                 <th scope="col">
-                    <a class="btn btn-primary" th:href="'/manage/employees/add'">
+                    <a class="btn btn-secondary" th:href="'/manage/employees/add'">
                         Add employee
                     </a>
                 </th>

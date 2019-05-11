@@ -5,17 +5,18 @@
     <title>Sell tickets</title>
 
     <div th:replace="fragments :: bootstrap_head"></div>
+    <link rel="stylesheet" th:href="@{'/css/style.css'}"/>
 </head>
 <body>
-<div class="d-flex flex-column sticky-footer-wrapper">
+<div class="bg-dark d-flex flex-column sticky-footer-wrapper">
     <div th:replace="fragments :: navbar"></div>
 
     <main class="flex-fill">
         <div class="container">
-            <div class="jumbotron text-dark rounded bg-light border border-dark">
+            <div class="jumbotron">
                 <h1 class="display-4">Choose your seats:</h1>
                 <form th:action="'/manage/screening/' + ${screeningId} + '/booking/redeem/'+${bookingId}" method="post">
-                    <table class="table table-hover" style="width: 20rem">
+                    <table class="table table-dark table-hover" style="width: 20rem">
                         <thead>
                         <tr>
                             <th scope="col">Row number</th>
@@ -38,7 +39,7 @@
                         </tr>
                         </tbody>
                     </table>
-                    <button type="submit" class="btn btn-primary">Sell tits</button>
+                    <button type="submit" class="btn btn-secondary">Sell tits</button>
                 </form>
             </div>
         </div>

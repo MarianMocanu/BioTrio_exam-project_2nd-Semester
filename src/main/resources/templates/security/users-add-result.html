@@ -5,20 +5,21 @@
     <title>Add user</title>
 
     <div th:replace="fragments :: bootstrap_head"></div>
+    <link rel="stylesheet" th:href="@{'/css/style.css'}"/>
 </head>
 <body>
-<div class="d-flex flex-column sticky-footer-wrapper">
+<div class="bg-dark d-flex flex-column sticky-footer-wrapper">
     <div th:replace="fragments :: navbar"></div>
 
     <main class="flex-fill">
         <div class="container">
-            <div class="jumbotron text-dark rounded bg-light border border-dark">
+            <div class="jumbotron">
                 <h1 class="display-4" th:if="${success}">Success</h1>
                 <h1 class="display-4" th:unless="${success}">Error</h1>
 
                 <p th:text="${message}"></p>
 
-                <a class="btn btn-primary" href="/manage/users">Go back</a>
+                <a class="btn btn-secondary" href="/manage/users">Go back</a>
             </div>
         </div>
     </main>
