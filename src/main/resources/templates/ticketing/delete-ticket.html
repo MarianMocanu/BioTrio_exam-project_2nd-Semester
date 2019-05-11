@@ -7,12 +7,12 @@
     <div th:replace="fragments :: bootstrap_head"></div>
 </head>
 <body>
-<div class="d-flex flex-column sticky-footer-wrapper">
+<div class="bg-dark d-flex flex-column sticky-footer-wrapper">
     <div th:replace="fragments :: navbar"></div>
 
     <main class="flex-fill">
         <div class="container">
-            <div class="jumbotron text-dark rounded bg-light border border-dark">
+            <div class="jumbotron">
                 <h1 class="display-4">Choose the seat in order to delete the existing ticket!</h1>
                 <form th:action="'/manage/screening/'+${screening.getId()}+'/ticketing/void'"
                       method="post">
