@@ -98,9 +98,19 @@ public class ScreeningController {
     return "redirect:/manage/screenings";
   }
 
+  //From "delete" button goes to "Are you sure to delete(...)?"
   @GetMapping("/manage/screenings/delete/{id}")
-  public String deleteScreening(@PathVariable("id") int id) {
+  public String deleteScreening(@PathVariable(name = "id") int id, Model m) {
+    m.addAttribute("screening", screeningRepo.findById(id));
+
+    return "screenings/screenings-delete";
+  }
+
+  //Deletes Movie and lists all the Movies
+  @PostMapping("/manage/screenigns/delete")
+  public String deleteScreening(int id) {
     screeningRepo.deleteScreening(id);
+
     return "redirect:/manage/screenings";
   }
 

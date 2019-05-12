@@ -148,7 +148,5 @@ public class ScreeningRepository {
         screening.getId());
   }
 
-  public void deleteScreening(int id) {
-    jdbc.update("DELETE FROM screenings WHERE id = ?;", id);
-  }
+  public void deleteScreening(int id) {jdbc.update("DELETE FROM screenings WHERE id = ?;", id); }
 }
