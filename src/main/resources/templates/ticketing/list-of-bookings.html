@@ -14,7 +14,14 @@
     <main class="flex-fill">
         <div class="container">
             <div class="jumbotron">
-                <h1 class="display-4">Welcome to Bio Trio</h1>
+                <h1 class="display-4">Select your booking</h1>
+                <form >
+                <ul th:each= "booking:${bookingList}">
+                    <li><a th:href="'/manage/screening/'+${booking.getScreening().getId()}+'/bookings/' +${booking.getId()}"
+                        th:text="'Booking number ' +${booking.getId()}">
+                    </a>
+                    </li>
+                </ul>
             </div>
         </div>
     </main>

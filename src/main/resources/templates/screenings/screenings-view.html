@@ -5,16 +5,17 @@
     <title>Screenings</title>
 
     <div th:replace="fragments :: bootstrap_head"></div>
+    <link rel="stylesheet" th:href="@{'/css/style.css'}"/>
 </head>
 <body>
-<div class="d-flex flex-column sticky-footer-wrapper">
+<div class="bg-dark d-flex flex-column sticky-footer-wrapper">
     <div th:replace="fragments :: navbar"></div>
 
     <main class="flex-fill">
         <div class="container">
-            <div class="jumbotron text-dark rounded bg-light border border-dark">
+            <div class="jumbotron">
                 <h1 class="display-4">Screenings</h1>
-                <div class="table table-hover">
+                <div class="table table-dark table-hover">
                 <table class = theater>
                     <thead>
                         <tr>
@@ -24,8 +25,6 @@
                             <th scope="col">Seats</th>
                             <th scope="col">Edit</th>
                             <th scope="col">Delete</th>
-                            <th scope="col">Ticketing</th>
-                            <th scope="col">Bookings</th>
                         </tr>
                     </thead>
                     <tbody th:each="screening:${screenings}">
@@ -34,27 +33,19 @@
                             <td th:text="${screening.getStartTime().toLocalTime().toString()}"></td>
                             <td th:text="${screening.getMovie().getTitle()}"></td>
                             <td th:text="${screening.getNoAvailableSeats()}"></td>
-                            <td><a class="btn btn-primary"
+                            <td><a class="btn btn-secondary"
                                    th:href="'/manage/screenings/edit/' + ${screening.getId()}">
                                 Edit
                             </a></td>
-                            <td><a class="btn btn-danger"
+                            <td><a class="btn btn-outline-danger"
                                    th:href="'/manage/screenings/delete/' + ${screening.getId()}">
                                 Delete
-                            </a></td>
-                            <td><a class="btn btn-primary"
-                                   th:href="'/manage/screening/'+${screening.id}+'/ticketing'">
-                                Sell available seats!
-                            </a></td>
-                            <td><a class="btn btn-primary"
-                                   th:href="'/manage/screening/'+${screening.id}+'/bookings'">
-                                Sell booked seats!
                             </a></td>
                         </tr>
                     </tbody>
                 </table>
                 </div>
-                <a class="btn btn-primary" href="/manage/screenings/add">Create new screening</a>
+                <a class="btn btn-secondary" href="/manage/screenings/add">Create new screening</a>
             </div>
         </div>
     </main>

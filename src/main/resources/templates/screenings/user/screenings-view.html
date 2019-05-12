@@ -5,16 +5,17 @@
     <title>Screenings</title>
 
     <div th:replace="fragments :: bootstrap_head"></div>
+    <link rel="stylesheet" th:href="@{'/css/style.css'}"/>
 </head>
 <body>
-<div class="d-flex flex-column sticky-footer-wrapper">
+<div class="bg-dark d-flex flex-column sticky-footer-wrapper">
     <div th:replace="fragments :: navbar"></div>
 
     <main class="flex-fill">
         <div class="container">
-            <div class="jumbotron text-dark rounded bg-light border border-dark">
+            <div class="jumbotron">
                 <h1 class="display-4">Available Screenings</h1>
-                <table class="table table-hover">
+                <table class="table table-dark table-hover">
                     <thead>
                         <tr>
                             <th scope="col">Date</th>
@@ -37,7 +38,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <a class="btn btn-primary" href="/booking/cancel">Cancel a booking</a>
+                <a class="btn btn-secondary" href="/booking/cancel">Cancel a booking</a>
             </div>
         </div>
     </main>

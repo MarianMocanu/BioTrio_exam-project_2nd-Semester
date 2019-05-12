@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head>
     <meta charset="UTF-8">
-    <title>Index</title>
+    <title>Add user</title>
 
     <div th:replace="fragments :: bootstrap_head"></div>
     <link rel="stylesheet" th:href="@{'/css/style.css'}"/>
@@ -14,7 +14,12 @@
     <main class="flex-fill">
         <div class="container">
             <div class="jumbotron">
-                <h1 class="display-4">Welcome to Bio Trio</h1>
+                <h1 class="display-4" th:if="${success}">Success</h1>
+                <h1 class="display-4" th:unless="${success}">Error</h1>
+
+                <p th:text="${message}"></p>
+
+                <a class="btn btn-secondary" href="/manage/users">Go back</a>
             </div>
         </div>
     </main>

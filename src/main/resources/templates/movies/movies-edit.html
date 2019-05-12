@@ -2,17 +2,18 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head>
     <meta charset="UTF-8">
-    <title>Index</title>
+    <title>Edit movie</title>
 
     <div th:replace="fragments :: bootstrap_head"></div>
+    <link rel="stylesheet" th:href="@{'/css/style.css'}"/>
 </head>
 <body>
-<div class="d-flex flex-column sticky-footer-wrapper">
+<div class="bg-dark d-flex flex-column sticky-footer-wrapper">
     <div th:replace="fragments :: navbar"></div>
 
     <main class="flex-fill">
         <div class="container">
-            <div class="jumbotron text-dark rounded bg-light border border-dark">
+            <div class="jumbotron">
                 <h1 class="display-4">Edit current movie!</h1>
 
                 <form action="/manage/movies/edit" th:object="${currentMovie}" method="post">
@@ -85,8 +86,8 @@
                         <input type="text" class="form-control" th:field="${currentMovie.trailerLink}"
                                name="trailer_link" id="trailer_link">
                     </div>
-                    <button type="submit" class="btn btn-primary">Submit Changes</button>
-                    <a href="/manage/movies" class="btn btn-danger">Cancel</a>
+                    <button type="submit" class="btn btn-secondary">Submit Changes</button>
+                    <a href="/manage/movies" class="btn btn-outline-danger">Cancel</a>
                 </form>
 
             </div>

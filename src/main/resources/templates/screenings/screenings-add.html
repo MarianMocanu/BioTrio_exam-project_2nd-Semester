@@ -2,17 +2,18 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head>
     <meta charset="UTF-8">
-    <title>Index</title>
+    <title>Add a screening</title>
 
     <div th:replace="fragments :: bootstrap_head"></div>
+    <link rel="stylesheet" th:href="@{'/css/style.css'}"/>
 </head>
 <body>
-<div class="d-flex flex-column sticky-footer-wrapper">
+<div class="bg-dark d-flex flex-column sticky-footer-wrapper">
     <div th:replace="fragments :: navbar"></div>
 
     <main class="flex-fill">
         <div class="container">
-            <div class="jumbotron text-dark rounded bg-light border border-dark">
+            <div class="jumbotron">
                 <h1 class="display-4">Add a new screening!</h1>
 
                 <form action="/manage/screenings/save" th:object="${screeningForm}" method="post">
@@ -38,8 +39,8 @@
                                th:field="${screeningForm.startTime}"
                                id="start_time" name="start_time" placeholder="YYYY-MM-DD HH:MM">
                     </div>
-                    <button type="submit" class="btn btn-primary">Create screening</button>
-                    <a href="/manage/screenings" class="btn btn-danger">Cancel</a>
+                    <button type="submit" class="btn btn-secondary">Create screening</button>
+                    <a href="/manage/screenings" class="btn btn-outline-danger">Cancel</a>
                 </form>
             </div>
         </div>

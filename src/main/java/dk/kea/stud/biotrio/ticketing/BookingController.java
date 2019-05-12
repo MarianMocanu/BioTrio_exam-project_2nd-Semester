@@ -1,6 +1,5 @@
 package dk.kea.stud.biotrio.ticketing;
 
-import dk.kea.stud.biotrio.cinema.Screening;
 import dk.kea.stud.biotrio.cinema.ScreeningRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,11 +23,12 @@ public class BookingController {
   private SeatRepository seatRepo;
 
   @GetMapping("/booking/{id}")
-  public String showBookingsView(@PathVariable("id") int screeningId, Model model) {
+  public String showBookingsView(@PathVariable("id") int screeningId,
+                                 Model model) {
     SeatData data = new SeatData();
     data.setSeats(seatRepo.getSeatStatusForScreening(screeningId));
     data.setSubmittedData(new ArrayList<>());
-    for (Seat seat: data.getSeats()) {
+    for (Seat seat : data.getSeats()) {
       if (seat.isSold()) {
         data.getSubmittedData().add("" + seat.getRowNo() + "_" + seat.getSeatNo());
       } else {
@@ -47,7 +47,7 @@ public class BookingController {
                             @RequestParam String phoneNo,
                             Model model) {
     List<Seat> seats = new ArrayList<>();
-    for (String bookedSeatString: seatData.getSubmittedData()) {
+    for (String bookedSeatString : seatData.getSubmittedData()) {
       Seat currentSeat = new Seat();
       String[] seatLocation = bookedSeatString.split("_");
       currentSeat.setRowNo(Integer.valueOf(seatLocation[0]));
@@ -72,8 +72,9 @@ public class BookingController {
   }
 
   @PostMapping("/booking/cancel")
-  public String bookingCancelled(@RequestParam String bookingCode, Model model) {
-    boolean success = bookingRepo.deleteBooking(bookingCode.toLowerCase());
+  public String bookingCancelled(@RequestParam String bookingCode,
+                                 Model model) {
+    boolean success = bookingRepo.deleteBookingByCode(bookingCode.toLowerCase());
     model.addAttribute("success", success);
     return "bookings/user/booking-cancelled";
   }
@@ -97,25 +98,62 @@ public class BookingController {
     return result.toString();
   }
 
-  //for employee use
-  @GetMapping("/manage/screening/{screening_id}/bookings")
-  public String findBooking(@PathVariable (name = "screening_id") int id, Model model){
+  @GetMapping("/manage/screening/{screeningId}/bookings")
+  public String getPhoneNo(@PathVariable(name = "screeningId") int id,
+                           Model model) {
     model.addAttribute("screeningId", id);
-    return "ticketing/select-booking";
+    return "ticketing/get-phone-no";
   }
 
-  //for employee use
-  @PostMapping("/manage/screening/{screening_id}/bookings")
-  public String selectBooking(@RequestParam String phoneNumber, Model model,
-                              @PathVariable(name = "screening_id") int id) {
-    List<Booking> bookingList = bookingRepo.findBookingsByPhoneNo(phoneNumber, id);
-    model.addAttribute("bookedSeats", bookingList);
+  @PostMapping("/manage/screening/{screeningId}/bookings")
+  public String showBooking(@RequestParam String bookingPhoneNo,
+                            @PathVariable(name = "screeningId") int id,
+                            Model model) {
+    List<Booking> bookingList = bookingRepo.findBookingByPhoneNo(bookingPhoneNo, id);
+    model.addAttribute("screeningId", id);
+    switch (bookingList.size()) {
+      case 0:
+        return "ticketing/no-seats-for-booking";
+      case 1:
+        SeatData bookingData = new SeatData();
+        bookingData.setSeats(bookingList.get(0).getSeats());
+        bookingData.setSubmittedData(new ArrayList<>());
+        model.addAttribute("bookedSeats", bookingData);
+        model.addAttribute("bookingId", bookingList.get(0).getId());
+        return "ticketing/booking-view";
+      default:
+        model.addAttribute("bookingList", bookingList);
+        return "ticketing/list-of-bookings";
+    }
+  }
+
+  @GetMapping("/manage/screening/{screeningId}/bookings/{bookingId}")
+  public String sellBookedSeats(Model model,
+                                @PathVariable(name = "screeningId") int screeningId,
+                                @PathVariable(name = "bookingId") int bookingId) {
+    Booking booking = bookingRepo.findBookingById(bookingId);
+    SeatData bookingData = new SeatData();
+    bookingData.setSeats(booking.getSeats());
+    bookingData.setSubmittedData(new ArrayList<>());
+    model.addAttribute("screeningID", screeningId);
+    model.addAttribute("bookedSeats", bookingData);
+    model.addAttribute("bookingId", bookingId);
     return "ticketing/booking-view";
   }
 
-  @PostMapping("manage/screening/{screening_id}/booking/{phoneNo}")
-  public String sellBookedSeats(){
-
+  @PostMapping("/manage/screening/{screeningId}/booking/redeem/{bookingId}")
+  public String sellBookedSeats(@PathVariable(name = "screeningId") int screeningId,
+                                @ModelAttribute SeatData data,
+                                @PathVariable(name = "bookingId") int bookingId) {
+    List<Ticket> ticketsList = new ArrayList<>();
+    for (Seat seat : seatRepo.getSeatsInfo(data.getSubmittedData())) {
+      Ticket ticket = new Ticket();
+      ticket.setScreening(screeningRepo.findById(screeningId));
+      ticket.setSeat(seat);
+      ticketsList.add(ticket);
+    }
+    ticketRepo.addTickets(ticketsList);
+    bookingRepo.deleteBookingById(bookingId);
     return "redirect:/manage/screenings";
   }
 

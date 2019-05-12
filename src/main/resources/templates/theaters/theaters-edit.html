@@ -2,17 +2,18 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head>
     <meta charset="UTF-8">
-    <title>Add theater</title>
+    <title>Edit theater</title>
 
     <div th:replace="fragments :: bootstrap_head"></div>
+    <link rel="stylesheet" th:href="@{'/css/style.css'}"/>
 </head>
 <body>
-<div class="d-flex flex-column sticky-footer-wrapper">
+<div class="bg-dark d-flex flex-column sticky-footer-wrapper">
     <div th:replace="fragments :: navbar"></div>
 
     <main class="flex-fill">
         <div class="container">
-            <div class="jumbotron text-dark rounded bg-light border border-dark">
+            <div class="jumbotron">
                 <h1 class="display-4">Edit a theater</h1>
 
                 <form action="/manage/theaters/edit/" method="post" th:object="${theater}">
@@ -33,8 +34,8 @@
                         <input type="text" class="form-control"
                                th:field="${theater.seatsPerRow}" id="seats_per_row">
                     </div>
-                    <button type="submit" class="btn btn-primary">Submit changes</button>
-                    <a href="/manage/theaters" class="btn btn-danger">Cancel</a>
+                    <button type="submit" class="btn btn-secondary">Submit changes</button>
+                    <a href="/manage/theaters" class="btn btn-outline-danger">Cancel</a>
                 </form>
 
             </div>

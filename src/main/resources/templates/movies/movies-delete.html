@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head>
     <meta charset="UTF-8">
-    <title>Index</title>
+    <title>Delete employee</title>
 
     <div th:replace="fragments :: bootstrap_head"></div>
     <link rel="stylesheet" th:href="@{'/css/style.css'}"/>
@@ -14,18 +14,15 @@
     <main class="flex-fill">
         <div class="container">
             <div class="jumbotron">
-                <h1 class="display-4">Input telephone number!</h1>
-                <form th:action="'/manage/screening/'+${screeningId}+'/bookings/'"
-                      method="post">
+                <h1 class="display-4">Delete a movie</h1>
+                <form action="/manage/movies/delete/" method="post" th:object="${movie}">
+                    <input type="hidden" th:value="${movie.id}" th:field="${movie.id}" name="id">
                     <div class="form-group">
-                        <label for="phoneNo">Phone number</label>
-                        <input type="text" class="form-control"
-                               id="phoneNo" name="phoneNumber">
+                        <p th:text="'Are you sure you want to delete ' + ${movie.title} + ' ?'"></p>
                     </div>
-                    <button type="submit" class="btn btn-secondary">Find booking</button>
+                    <button type="submit" class="btn btn-outline-danger">Delete</button>
+                    <a class="btn btn-secondary" href="/manage/movies">Cancel</a>
                 </form>
-
-
             </div>
         </div>
     </main>

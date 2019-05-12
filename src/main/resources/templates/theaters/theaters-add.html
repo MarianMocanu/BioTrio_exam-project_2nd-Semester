@@ -5,14 +5,15 @@
     <title>Add theater</title>
 
     <div th:replace="fragments :: bootstrap_head"></div>
+    <link rel="stylesheet" th:href="@{'/css/style.css'}"/>
 </head>
 <body>
-<div class="d-flex flex-column sticky-footer-wrapper">
+<div class="bg-dark d-flex flex-column sticky-footer-wrapper">
     <div th:replace="fragments :: navbar"></div>
 
     <main class="flex-fill">
         <div class="container">
-            <div class="jumbotron text-dark rounded bg-light border border-dark">
+            <div class="jumbotron">
                 <h1 class="display-4">Add a new theater</h1>
 
                 <form action="/manage/theaters/add" method="post" th:object="${theaterform}">
@@ -31,8 +32,8 @@
                         <input type="text" class="form-control"
                                th:field="${theaterform.seatsPerRow}" id="seats_per_row">
                     </div>
-                    <button type="submit" class="btn btn-primary">Add Theater</button>
-                    <a href="/manage/theaters" class="btn btn-danger">Cancel</a>
+                    <button type="submit" class="btn btn-secondary">Add Theater</button>
+                    <a href="/manage/theaters" class="btn btn-outline-danger">Cancel</a>
                 </form>
 
             </div>

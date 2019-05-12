@@ -5,14 +5,15 @@
     <title>Edit employee</title>
 
     <div th:replace="fragments :: bootstrap_head"></div>
+    <link rel="stylesheet" th:href="@{'/css/style.css'}"/>
 </head>
 <body>
-<div class="d-flex flex-column sticky-footer-wrapper">
+<div class="bg-dark d-flex flex-column sticky-footer-wrapper">
     <div th:replace="fragments :: navbar"></div>
 
     <main class="flex-fill">
         <div class="container">
-            <div class="jumbotron text-dark rounded bg-light border border-dark">
+            <div class="jumbotron">
                 <h1 class="display-4">Edit an employee</h1>
                 <form action="/manage/employees/edit/" method="post" th:object="${employee}">
                     <input type="hidden" th:value="${employee.id}" th:field="${employee.id}" name="id">
@@ -24,8 +25,8 @@
                         <label for="last_name">Last name:</label>
                         <input type="text" class="form-control" th:field="${employee.lastName}" id="last_name">
                     </div>
-                    <button type="submit" class="btn btn-primary">Submit changes</button>
-                    <a href="/manage/employees" class="btn btn-danger">Cancel</a>
+                    <button type="submit" class="btn btn-secondary">Submit changes</button>
+                    <a href="/manage/employees" class="btn btn-outline-danger">Cancel</a>
                 </form>
             </div>
         </div>

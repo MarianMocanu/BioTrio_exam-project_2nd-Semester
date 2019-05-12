@@ -5,14 +5,15 @@
     <title>Add employee</title>
 
     <div th:replace="fragments :: bootstrap_head"></div>
+    <link rel="stylesheet" th:href="@{'/css/style.css'}"/>
 </head>
 <body>
-<div class="d-flex flex-column sticky-footer-wrapper">
+<div class="bg-dark d-flex flex-column sticky-footer-wrapper">
     <div th:replace="fragments :: navbar"></div>
 
     <main class="flex-fill">
         <div class="container">
-            <div class="jumbotron text-dark rounded bg-light border border-dark">
+            <div class="jumbotron">
                 <h1 class="display-4">Add a new employee</h1>
 
                 <form action="/manage/employees/add" method="post" th:object="${employeeform}">
@@ -24,8 +25,8 @@
                         <label for="last_name">Last name:</label>
                         <input type="text" class="form-control" th:field="${employeeform.lastName}" id="last_name">
                     </div>
-                    <button type="submit" class="btn btn-primary">Add employee</button>
-                    <a class="btn btn-danger" href="/manage/employees">Cancel</a>
+                    <button type="submit" class="btn btn-secondary">Add employee</button>
+                    <a class="btn btn-outline-danger" href="/manage/employees">Cancel</a>
                 </form>
 
             </div>
