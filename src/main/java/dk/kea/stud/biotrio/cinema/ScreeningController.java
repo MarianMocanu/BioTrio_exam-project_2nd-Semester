@@ -107,7 +107,7 @@ public class ScreeningController {
   }
 
   //Deletes Movie and lists all the Movies
-  @PostMapping("/manage/screenigns/delete")
+  @PostMapping("/manage/screenings/delete")
   public String deleteScreening(int id) {
     screeningRepo.deleteScreening(id);
 
