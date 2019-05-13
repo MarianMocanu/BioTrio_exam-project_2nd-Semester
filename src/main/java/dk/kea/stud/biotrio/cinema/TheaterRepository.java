@@ -59,4 +59,13 @@ public class TheaterRepository {
     jdbc.update("DELETE FROM theaters WHERE id = ?", id);
   }
 
+  public boolean canDelete(Theater t){
+    String query = ("SELECT COUNT(*) FROM screenings WHERE theater_id= "+t.getId());
+    SqlRowSet rs = jdbc.queryForRowSet(query);
+    rs.first();
+    int noScreenings = rs.getInt(1);
+
+    return noScreenings == 0;
+  }
+
 }

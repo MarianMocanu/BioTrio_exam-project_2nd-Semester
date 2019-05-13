@@ -2,26 +2,35 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head>
     <meta charset="UTF-8">
-    <title>Delete theater</title>
+    <title>Theaters</title>
 
     <div th:replace="fragments :: bootstrap_head"></div>
+    <link rel="stylesheet" th:href="@{'/css/style.css'}"/>
 </head>
 <body>
-<div class="d-flex flex-column sticky-footer-wrapper">
+<div class="bg-dark d-flex flex-column sticky-footer-wrapper">
     <div th:replace="fragments :: navbar"></div>
 
     <main class="flex-fill">
         <div class="container">
-            <div class="jumbotron text-dark rounded bg-light border border-dark">
-                <h1 class="display-4">Delete a theater</h1>
-                <form action="/manage/theaters/delete/" method="post" th:object="${theater}">
-                    <input type="hidden" th:value="${theater.id}" th:field="${theater.id}" name="id">
-                    <div class="form-group">
-                        <p th:text="'Are you sure you want to delete ' + ${theater.name} + ' ?'"></p>
-                    </div>
-                    <button type="submit" class="btn btn-danger">Delete</button>
-                    <a class="btn btn-primary" href="/manage/employees">Cancel</a>
-                </form>
+            <div class="jumbotron">
+                <div th:if="${canDelete}">
+                    <h1 class="display-4">Delete a theater</h1>
+                    <form action="/manage/theater/delete/" method="post" th:object="${theater}">
+                        <input type="hidden" th:value="${theater.id}" th:field="${theater.id}" name="id">
+                        <div class="form-group">
+                            <p th:text="'Are you sure you want to delete ' + ${theater.name} + ' ?'"></p>
+                        </div>
+                        <button type="submit" class="btn btn-outline-danger">Delete</button>
+                        <a class="btn btn-secondary" href="/manage/theaters">Cancel</a>
+                    </form>
+                </div>
+                <div th:unless="${canDelete}">
+                    <h1 class="display-4">Delete a theater</h1>
+                    <form action="/manage/theater/delete/" method="post" th:object="${theater}">
+                        <div th:text=" 'Theater ' + ${theater.name} + ' can not be deleted, because it shows a screening'">Error</div>
+                    </form>
+                </div>
             </div>
         </div>
     </main>

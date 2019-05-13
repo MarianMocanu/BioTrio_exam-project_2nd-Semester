@@ -49,11 +49,13 @@ public class TheaterController {
 
     return "redirect:/manage/theaters/";
   }
-  //From "delete" button goes to "Are you sure to delete(...)?"
+  //From "delete" button goes to "Are you sure to delete(...)?" or "Theater can't be deleted"
   @GetMapping("/manage/theaters/delete/{id}")
   public String deleteTheater(@PathVariable(name = "id") int id, Model m) {
-    m.addAttribute("theater", theaterRepo.findTheater(id));
-
+    Theater t = theaterRepo.findTheater(id);
+    boolean canDelete = theaterRepo.canDelete(t);
+    m.addAttribute("canDelete", canDelete);
+    m.addAttribute("theater", t);
     return "theaters/theaters-delete";
   }
   //Deletes Theater and lists all the Theaters
