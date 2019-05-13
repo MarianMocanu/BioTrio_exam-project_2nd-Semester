@@ -16,7 +16,7 @@
             <div class="jumbotron">
                 <div th:if="${canDelete}">
                     <h1 class="display-4">Delete a theater</h1>
-                    <form action="/manage/theater/delete/" method="post" th:object="${theater}">
+                    <form action="/manage/theaters/delete/" method="post" th:object="${theater}">
                         <input type="hidden" th:value="${theater.id}" th:field="${theater.id}" name="id">
                         <div class="form-group">
                             <p th:text="'Are you sure you want to delete ' + ${theater.name} + ' ?'"></p>
@@ -27,9 +27,7 @@
                 </div>
                 <div th:unless="${canDelete}">
                     <h1 class="display-4">Delete a theater</h1>
-                    <form action="/manage/theater/delete/" method="post" th:object="${theater}">
-                        <div th:text=" 'Theater ' + ${theater.name} + ' can not be deleted, because it shows a screening'">Error</div>
-                    </form>
+                    <div th:text=" 'Theater ' + ${theater.name} + ' can not be deleted, because it shows a screening'">Error</div>
                 </div>
             </div>
         </div>
