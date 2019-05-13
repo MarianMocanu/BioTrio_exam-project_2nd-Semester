@@ -14,15 +14,25 @@
     <main class="flex-fill">
         <div class="container">
             <div class="jumbotron">
-                <h1 class="display-4">Delete a movie</h1>
-                <form action="/manage/movies/delete/" method="post" th:object="${movie}">
-                    <input type="hidden" th:value="${movie.id}" th:field="${movie.id}" name="id">
-                    <div class="form-group">
-                        <p th:text="'Are you sure you want to delete ' + ${movie.title} + ' ?'"></p>
-                    </div>
-                    <button type="submit" class="btn btn-outline-danger">Delete</button>
-                    <a class="btn btn-secondary" href="/manage/movies">Cancel</a>
-                </form>
+                <div th:if="${canDelete}">
+                    <h1 class="display-4">Delete a movie</h1>
+                    <form action="/manage/movies/delete/" method="post" th:object="${movie}">
+                        <input type="hidden" th:value="${movie.id}" th:field="${movie.id}"
+                               name="id">
+                        <div class="form-group">
+                            <p th:text="'Are you sure you want to delete ' + ${movie.title} + ' ?'"></p>
+                        </div>
+                        <button type="submit" class="btn btn-outline-danger">Delete</button>
+                        <a class="btn btn-secondary" href="/manage/movies">Cancel</a>
+                    </form>
+                </div>
+                <div th:unless="${canDelete}">
+                    <h1 class="display-4">Delete a movie</h1>
+                    <form action="/manage/theater/delete/" method="post" th:object="${movie}">
+                        <div th:text=" 'Movie ' + ${movie.title} + ' can not be deleted, because it is shown at a screening'">
+                            Error</div>
+                    </form>
+                </div>
             </div>
         </div>
     </main>
