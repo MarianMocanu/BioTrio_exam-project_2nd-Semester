@@ -120,5 +120,13 @@ public class MovieRepository {
     public void deleteMovie(int id) {
         jdbc.update( "DELETE FROM movies WHERE id = ?", id );
     }
+    public boolean canDelete(Movie m){
+        String query = ("SELECT COUNT(*) FROM screenings WHERE movie_id= "+m.getId());
+        SqlRowSet rs = jdbc.queryForRowSet(query);
+        rs.first();
+        int noScreenings = rs.getInt(1);
+
+        return noScreenings == 0;
+    }
 
 }
