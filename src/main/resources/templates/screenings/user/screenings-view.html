@@ -15,67 +15,105 @@
         <div class="container">
             <div class="jumbotron">
                 <h1 class="display-4">Available Screenings</h1>
-                <div class="card border-0">
-                    <ul class="nav nav-tabs" th:each="key, iter: ${upcomingScreenings.keySet()}" role="tablist" id="myTabs">
-                        <li class="nav-item"  >
-                            <a th:class="${iter.index} == 0 ? 'nav-link active' : 'nav-link'"
-                               th:href="'#tab' + ${iter.index}" data-toggle="tab" th:text="${key}"
-                            role="tab" th:onclick="|openTab(event,${iter.index})|"
-                            >
-                            </a>
-                        </li>
-                    </ul>
-                    <div class="tab-content px-1 pt-3" th:each="entry, iter: ${upcomingScreenings.entrySet()}">
-                        <div th:class="${iter.index}==0 ? 'tab-panel active': 'tab-panel'" th:id="${iter.index}"
-                                role="tabpanel">
-                            <table>
-                                <thead>
-                                    <th scope="col">Movie</th>
-                                    <th scope="col">Seats</th>
-                                    <th scope="col"></th>
-                                </thead>
-                                <tbody th:each="screening: ${entry.getValue()}">
-                                    <tr>
-                                        <td>
-                                            <a th:text="${screening.getMovie().getTitle()}"
-                                               th:href="'/movie/' + ${screening.getMovie().getId()}">
-                                            </a>
-                                        </td>
-                                        <td th:text="${screening.getNoAvailableSeats()}"></td>
-                                        <td>
-                                            <a th:href="'/booking/' + ${screening.getId()}">
-                                                Book tickets
-                                            </a>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+
+                <div class="tab flex-row" th:each="key,iter:${upcomingScreenings.keySet()}">
+                    <button class="tablinks" th:text="${key}"
+                            th:onclick="|openTab(event,${iter.index})|">
+                    </button>
                 </div>
+                <br>
+                <br>
+                <br>
+                <th:block th:each="entry,iter:${upcomingScreenings.entrySet()}">
+                    <div th:id="${iter.index}" class="tabcontent">
+                        <table class="table table-dark table-hover">
+                            <thead>
+                            <th scope="col">Movie</th>
+                            <th scope="col">Seats</th>
+                            <th scope="col"></th>
+                            </thead>
+                            <tbody th:each="screening: ${entry.getValue()}">
+                            <tr>
+                                <td>
+                                    <a th:text="${screening.getMovie().getTitle()}"
+                                       th:href="'/movie/' + ${screening.getMovie().getId()}">
+                                    </a>
+                                </td>
+                                <td th:text="${screening.getNoAvailableSeats()}"></td>
+                                <td>
+                                    <a th:href="'/booking/' + ${screening.getId()}">
+                                        Book tickets
+                                    </a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </th:block>
+
+
+                <!--<nav>-->
+                <!--<ul class="nav nav-tabs" th:each="key, iter: ${upcomingScreenings.keySet()}" role="tablist" id="myTabs">-->
+                <!--<li class="nav-item"  >-->
+                <!--<a th:class="${iter.index} == 0 ? 'nav-link active' : 'nav-link'"-->
+                <!--th:href="'#tab' + ${iter.index}" data-toggle="tab" th:text="${key}"-->
+                <!--role="tab" th:onclick="|openTab(event,${iter.index})|">-->
+                <!--</a>-->
+                <!--</li>-->
+                <!--</ul>-->
+                <!--<div class="tab-content px-1 pt-3" th:each="entry, iter: ${upcomingScreenings.entrySet()}">-->
+                <!--<div th:class="${iter.index}==0 ? 'tab-panel active': 'tab-panel'" th:id="${iter.index}"-->
+                <!--role="tabpanel">-->
                 <!--<table class="table table-dark table-hover">-->
-                    <!--<thead>-->
-                        <!--<tr>-->
-                            <!--<th scope="col">Date</th>-->
-                            <!--<th scope="col">Time</th>-->
-                            <!--<th scope="col">Movie</th>-->
-                            <!--<th scope="col">Seats</th>-->
-                            <!--<th scope="col"></th>-->
-                        <!--</tr>-->
-                    <!--</thead>-->
-                    <!--<tbody th:each="screening:${upcomingScreenings}">-->
-                        <!--<tr>-->
-                            <!--<td th:text="${screening.getStartTime().toLocalDate().toString()}"></td>-->
-                            <!--<td th:text="${screening.getStartTime().toLocalTime().toString()}"></td>-->
-                            <!--<td><a th:text="${screening.getMovie().getTitle()}"-->
-                                   <!--th:href="'/movie/' + ${screening.getMovie().getId()}"></a></td>-->
-                            <!--<td th:text="${screening.getNoAvailableSeats()}"></td>-->
-                            <!--<td><a th:href="'/booking/' + ${screening.getId()}">-->
-                                <!--Book tickets-->
-                            <!--</a></td>-->
-                        <!--</tr>-->
-                    <!--</tbody>-->
+                <!--<thead>-->
+                <!--<th scope="col">Movie</th>-->
+                <!--<th scope="col">Seats</th>-->
+                <!--<th scope="col"></th>-->
+                <!--</thead>-->
+                <!--<tbody th:each="screening: ${entry.getValue()}">-->
+                <!--<tr>-->
+                <!--<td>-->
+                <!--<a th:text="${screening.getMovie().getTitle()}"-->
+                <!--th:href="'/movie/' + ${screening.getMovie().getId()}">-->
+                <!--</a>-->
+                <!--</td>-->
+                <!--<td th:text="${screening.getNoAvailableSeats()}"></td>-->
+                <!--<td>-->
+                <!--<a th:href="'/booking/' + ${screening.getId()}">-->
+                <!--Book tickets-->
+                <!--</a>-->
+                <!--</td>-->
+                <!--</tr>-->
+                <!--</tbody>-->
                 <!--</table>-->
+                <!--</div>-->
+                <!--</div>-->
+                <!--</nav>-->
+                <!--<table class="table table-dark table-hover">-->
+                <!--<thead>-->
+                <!--<tr>-->
+                <!--<th scope="col">Date</th>-->
+                <!--<th scope="col">Time</th>-->
+                <!--<th scope="col">Movie</th>-->
+                <!--<th scope="col">Seats</th>-->
+                <!--<th scope="col"></th>-->
+                <!--</tr>-->
+                <!--</thead>-->
+                <!--<tbody th:each="screening:${upcomingScreenings}">-->
+                <!--<tr>-->
+                <!--<td th:text="${screening.getStartTime().toLocalDate().toString()}"></td>-->
+                <!--<td th:text="${screening.getStartTime().toLocalTime().toString()}"></td>-->
+                <!--<td><a th:text="${screening.getMovie().getTitle()}"-->
+                <!--th:href="'/movie/' + ${screening.getMovie().getId()}"></a></td>-->
+                <!--<td th:text="${screening.getNoAvailableSeats()}"></td>-->
+                <!--<td><a th:href="'/booking/' + ${screening.getId()}">-->
+                <!--Book tickets-->
+                <!--</a></td>-->
+                <!--</tr>-->
+                <!--</tbody>-->
+                <!--</table>-->
+                <br>
+                <br>
                 <a class="btn btn-secondary" href="/booking/cancel">Cancel a booking</a>
             </div>
         </div>
@@ -83,11 +121,11 @@
     <script>
         function openTab(evt, key) {
             var i, tabpanel, tablinks;
-            tabpanel = document.getElementsByClassName("tab-panel");
+            tabpanel = document.getElementsByClassName("tabcontent");
             for (i = 0; i < tabpanel.length; i++) {
                 tabpanel[i].style.display = "none";
             }
-            tablinks = document.getElementsByClassName("nav-item");
+            tablinks = document.getElementsByClassName("tablinks");
             for (i = 0; i < tablinks.length; i++) {
                 tablinks[i].className = tablinks[i].className.replace(" active", "");
             }

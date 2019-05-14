@@ -16,10 +16,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Repository
 public class ScreeningRepository {
@@ -89,7 +86,7 @@ public class ScreeningRepository {
 
   public Map<String,List<Screening>> findUpcomingSreeningsAsMap() {
     List<Screening> screeningList = findUpcomingScreenings();
-    Map<String,List<Screening>> screenings = new HashMap<>();
+    Map<String,List<Screening>> screenings = new LinkedHashMap<>();
     for(Screening screening:screeningList){
       String screeningDate = convertToStringLabel(screening.getStartTime());
       if(!screenings.containsKey(screeningDate)) {
