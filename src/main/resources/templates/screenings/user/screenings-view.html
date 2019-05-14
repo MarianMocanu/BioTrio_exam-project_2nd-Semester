@@ -17,14 +17,16 @@
                 <h1 class="display-4">Available Screenings</h1>
                 <div class="card border-0">
                     <ul class="nav nav-tabs" th:each="key, iter: ${upcomingScreenings.keySet()}" role="tablist" id="myTabs">
-                        <li th:class="${iter.index} == 0 ? 'nav-item active' : 'nav-item'">
+                        <li class="nav-item"  >
                             <a th:class="${iter.index} == 0 ? 'nav-link active' : 'nav-link'"
                                th:href="'#tab' + ${iter.index}" data-toggle="tab" th:text="${key}"
-                            role="tab"></a>
+                            role="tab" th:onclick="|openTab(event,${iter.index})|"
+                            >
+                            </a>
                         </li>
                     </ul>
                     <div class="tab-content px-1 pt-3" th:each="entry, iter: ${upcomingScreenings.entrySet()}">
-                        <div th:class="${iter.index} == 0 ? 'tab-pane active' : 'tab-pane'" th:id="'tab' + ${iter.index}"
+                        <div class="tab-panel" th:id="${iter.index}"
                                 role="tabpanel">
                             <table>
                                 <thead>
@@ -50,12 +52,6 @@
                             </table>
                         </div>
                     </div>
-                    <script>
-                        $('#myTabs a').on('click', function (e) {
-                            e.preventDefault()
-                            $(this).tab('show')
-                        })
-                    </script>
                 </div>
                 <!--<table class="table table-dark table-hover">-->
                     <!--<thead>-->
@@ -84,6 +80,21 @@
             </div>
         </div>
     </main>
+    <script>
+        function openTab(evt, key) {
+            var i, tabpanel, tablinks;
+            tabpanel = document.getElementsByClassName("tab-panel");
+            for (i = 0; i < tabpanel.length; i++) {
+                tabpanel[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("nav-item");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(key).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+    </script>
 
     <div th:replace="fragments :: footer"></div>
 </div>
