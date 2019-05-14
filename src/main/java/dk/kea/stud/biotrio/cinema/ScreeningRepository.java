@@ -87,7 +87,7 @@ public class ScreeningRepository {
     return startTime.format(timeFormatter);
   }
 
-  public Map<String,List<Screening>> findUpcomingSreeningsForMap() {
+  public Map<String,List<Screening>> findUpcomingSreeningsAsMap() {
     List<Screening> screeningList = findUpcomingScreenings();
     Map<String,List<Screening>> screenings = new HashMap<>();
     for(Screening screening:screeningList){
