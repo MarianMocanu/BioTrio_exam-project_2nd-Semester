@@ -9,6 +9,7 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,26 +26,30 @@ public class MovieRepository {
         SqlRowSet rs = jdbc.queryForRowSet(query);
 
         while (rs.next()) {
-            Movie movie = new Movie();
-            movie.setId(rs.getInt("id"));
-            movie.setTitle(rs.getString("title"));
-            movie.setRuntime(rs.getInt("runtime"));
-            movie.setSynopsis(rs.getString("synopsis"));
-            movie.setGenre(rs.getString("genre"));
-            movie.setLanguage(rs.getString("language"));
-            movie.setSubtitles(rs.getString("subtitles"));
-            movie.setProjectionType(rs.getString("projection_type"));
-            movie.setTrailerLink(rs.getString("trailer_link"));
-            Timestamp ts = rs.getTimestamp("release_date");
-            movie.setReleaseDate(ts == null ? null : ts.toLocalDateTime().toLocalDate());
-            movie.setCast(rs.getString("cast"));
-            movie.setDirector(rs.getString("director"));
-            movie.setAgeRestriction(rs.getString("age_restriction"));
-            movie.setPoster(rs.getString("poster"));
-
-            moviesList.add(movie);
+            moviesList.add(extractNextMovieFromRowSet(rs));
         }
         return moviesList;
+    }
+
+    private Movie extractNextMovieFromRowSet(SqlRowSet rs) {
+        Movie movie = new Movie();
+        movie.setId(rs.getInt("id"));
+        movie.setTitle(rs.getString("title"));
+        movie.setRuntime(rs.getInt("runtime"));
+        movie.setSynopsis(rs.getString("synopsis"));
+        movie.setGenre(rs.getString("genre"));
+        movie.setLanguage(rs.getString("language"));
+        movie.setSubtitles(rs.getString("subtitles"));
+        movie.setProjectionType(rs.getString("projection_type"));
+        movie.setTrailerLink(rs.getString("trailer_link"));
+        Timestamp ts = rs.getTimestamp("release_date");
+        movie.setReleaseDate(ts == null ? null : ts.toLocalDateTime().toLocalDate());
+        movie.setCast(rs.getString("cast"));
+        movie.setDirector(rs.getString("director"));
+        movie.setAgeRestriction(rs.getString("age_restriction"));
+        movie.setPoster(rs.getString("poster"));
+
+        return movie;
     }
 
     public Movie findMovieById(int id) {
@@ -53,23 +58,7 @@ public class MovieRepository {
         String query = "SELECT * FROM movies WHERE id = ?";
         SqlRowSet rs = jdbc.queryForRowSet(query, id);
         if (rs.first()) {
-            movie = new Movie();
-
-            movie.setId(rs.getInt("id"));
-            movie.setTitle(rs.getString("title"));
-            movie.setRuntime(rs.getInt("runtime"));
-            movie.setSynopsis(rs.getString("synopsis"));
-            movie.setGenre(rs.getString("genre"));
-            movie.setLanguage(rs.getString("language"));
-            movie.setSubtitles(rs.getString("subtitles"));
-            movie.setProjectionType(rs.getString("projection_type"));
-            movie.setTrailerLink(rs.getString("trailer_link"));
-            Timestamp ts = rs.getTimestamp("release_date");
-            movie.setReleaseDate(ts == null ? null : ts.toLocalDateTime().toLocalDate());
-            movie.setCast(rs.getString("cast"));
-            movie.setDirector(rs.getString("director"));
-            movie.setAgeRestriction(rs.getString("age_restriction"));
-            movie.setPoster(rs.getString("poster"));
+            movie = extractNextMovieFromRowSet(rs);
         }
         return movie;
     }
@@ -142,6 +131,7 @@ public class MovieRepository {
     public void deleteMovie(int id) {
         jdbc.update("DELETE FROM movies WHERE id = ?", id);
     }
+
     public boolean canDelete(Movie m){
         String query = ("SELECT COUNT(*) FROM screenings WHERE movie_id= "+m.getId());
         SqlRowSet rs = jdbc.queryForRowSet(query);
@@ -151,4 +141,33 @@ public class MovieRepository {
         return noScreenings == 0;
     }
 
+    public void addMovieToUpcomingList(Movie movie, LocalDate estimated_date) {
+        jdbc.update("INSERT INTO upcoming_movies VALUE (?, ?);", movie.getId(), Date.valueOf(estimated_date));
+    }
+
+    public void removeMovieFromUpcomingList(int movieId) {
+        jdbc.update("DELETE FROM upcoming_movies WHERE movie_id = ?;", movieId);
+    }
+
+    public List<Movie> getUpcomingMovies() {
+        SqlRowSet rs = jdbc.queryForRowSet("SELECT * FROM upcoming_movies INNER JOIN movies ON upcoming_movies.movie_id = movies.id ORDER BY upcoming_movies.estimated_date;");
+
+        List<Movie> result = rs.isBeforeFirst() ? new ArrayList<>() : null;
+        while (rs.next()) {
+            result.add(extractNextMovieFromRowSet(rs));
+        }
+
+        return result;
+    }
+
+    public List<Movie> getMoviesThatArentUpcoming() {
+        SqlRowSet rs = jdbc.queryForRowSet("SELECT * FROM movies WHERE id NOT IN (SELECT movie_id FROM upcoming_movies);");
+
+        List<Movie> result = rs.isBeforeFirst() ? new ArrayList<>() : null;
+        while (rs.next()) {
+            result.add(extractNextMovieFromRowSet(rs));
+        }
+
+        return result;
+    }
 }

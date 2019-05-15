@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Movies</title>
+
+    <div th:replace="fragments :: bootstrap_head"></div>
+    <link rel="stylesheet" th:href="@{'/css/style.css'}"/>
+</head>
+<body>
+<div class="bg-dark d-flex flex-column sticky-footer-wrapper">
+    <div th:replace="fragments :: navbar"></div>
+
+    <main class="flex-fill">
+        <div class="container">
+            <div class="jumbotron">
+                <h1 class="display-4">Here you have all movies!</h1>
+
+                <table class="table table-dark table-hover">
+                    <thead>
+                    <tr>
+                        <th scope="col">Title</th>
+                        <th scope="col"></th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="movie:${upcomingMovies}">
+                        <td th:text="${movie.title}"></td>
+                        <td>
+                            <a class="btn btn-outline-danger" th:href="'/manage/upcoming/remove/' + ${movie.id}">
+                                Remove
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <a class="btn btn-secondary" th:href="'/manage/upcoming/add'">Add movie to list</a>
+            </div>
+        </div>
+    </main>
+
+    <div th:replace="fragments :: footer"></div>
+</div>
+<div th:replace="fragments :: bootstrap_body"></div>
+</body>
+</html>

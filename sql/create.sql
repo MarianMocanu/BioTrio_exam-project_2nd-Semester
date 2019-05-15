@@ -90,3 +90,16 @@ CREATE TABLE tickets
     PRIMARY KEY (id),
     FOREIGN KEY (screening_id) REFERENCES screenings (id)
 );
+
+CREATE TABLE upcoming_movies
+(
+    movie_id       INT  NOT NULL,
+    estimated_date DATE NULL,
+    CONSTRAINT upcoming_movies_movie_id_uindex
+        UNIQUE (movie_id),
+    CONSTRAINT upcoming_movies_movies_id_fk
+        FOREIGN KEY (movie_id) REFERENCES movies (id)
+);
+
+ALTER TABLE upcoming_movies
+    ADD PRIMARY KEY (movie_id);

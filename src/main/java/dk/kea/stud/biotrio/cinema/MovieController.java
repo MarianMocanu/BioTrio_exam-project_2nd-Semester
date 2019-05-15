@@ -1,12 +1,13 @@
 package dk.kea.stud.biotrio.cinema;
 
+import dk.kea.stud.biotrio.AppSettings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 
 @Controller
 public class MovieController {
@@ -70,4 +71,43 @@ public class MovieController {
     return "redirect:/manage/movies";
   }
 
+  @GetMapping("/manage/upcoming")
+  public String showUpcomingMovies(Model model) {
+    model.addAttribute("upcomingMovies", movieRepo.getUpcomingMovies());
+    return "movies/upcoming-movies-view";
+  }
+
+  @GetMapping("/manage/upcoming/add")
+  public String addToUpcomingMovies(Model model,
+                                    @RequestParam(value="error", required = false) String error) {
+    if (error != null) {
+      model.addAttribute("error", "date");
+    }
+    model.addAttribute("movies", movieRepo.getMoviesThatArentUpcoming());
+    return "movies/upcoming-movies-add";
+  }
+
+  @PostMapping("/manage/upcoming/add")
+  public String saveInUpcomingList(@ModelAttribute("selectedMovie") int movieId,
+                                   @ModelAttribute("estDate") String estDate) {
+    try {
+      LocalDate estimatedDate = LocalDate.parse(estDate, AppSettings.DateFormat);
+      movieRepo.addMovieToUpcomingList(movieRepo.findMovieById(movieId), estimatedDate);
+      return "redirect:/manage/upcoming";
+    } catch (DateTimeParseException e) {
+      return "redirect:/manage/upcoming/add?error=date";
+    }
+  }
+
+  @GetMapping("/manage/upcoming/remove/{id}")
+  public String removeMovieFromList(@PathVariable("id") int movieId, Model model) {
+    model.addAttribute("movie", movieRepo.findMovieById(movieId));
+    return "movies/upcoming-movies-remove";
+  }
+
+  @PostMapping("/manage/upcoming/remove")
+  public String doRemoveFromList(@ModelAttribute("movieId") int movieId) {
+    movieRepo.removeMovieFromUpcomingList(movieId);
+    return "redirect:/manage/upcoming";
+  }
 }
