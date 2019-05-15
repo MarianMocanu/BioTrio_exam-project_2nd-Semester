@@ -1,7 +1,5 @@
 package dk.kea.stud.biotrio.cinema;
 
-import dk.kea.stud.biotrio.ticketing.BookingRepository;
-import dk.kea.stud.biotrio.ticketing.TicketRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -33,24 +31,18 @@ public class ScreeningRepository {
     SqlRowSet rs = jdbc.queryForRowSet(query, id);
 
     if (rs.first()) {
-      result = new Screening();
-      result.setId(id);
-      result.setMovie(movieRepo.findMovieById(rs.getInt("movie_id")));
-      result.setTheater(theaterRepo.findTheater(rs.getInt("theater_id")));
-      Timestamp ts = rs.getTimestamp("start_time");
-      result.setStartTime(ts == null ? null : ts.toLocalDateTime());
-      result.setNoAvailableSeats(getAvailableSeatsForScreening(result.getTheater().getId()));
+      result = extractNextScreeningFromRowSet(rs);
     }
 
     return result;
   }
 
-  private int getAvailableSeatsForScreening(int id) {
-    Theater currentTheater = theaterRepo.findTheater(id);
+  private int getAvailableSeatsForScreening(int id, int theater_id) {
+    Theater currentTheater = theaterRepo.findTheater(theater_id);
     int totalSeats = currentTheater.getNoOfRows() * currentTheater.getSeatsPerRow();
     int occupiedSeats;
 
-//  calculating the number of booked seats based on 2 tables from the database
+    //  calculating the number of booked seats based on 2 tables from the database
     int bookedSeats = 0;
     String query = "SELECT COUNT(*) FROM bookings INNER JOIN booked_seats ON " +
         "booked_seats.booking_id = bookings.id WHERE bookings.screening_id = ?";
@@ -59,7 +51,7 @@ public class ScreeningRepository {
       bookedSeats = rs.getInt(1);
     }
 
-//  calculating the number of sold seats based on 1 table from the database
+    //  calculating the number of sold seats based on 1 table from the database
     int soldSeats = 0;
     query = "SELECT COUNT(*) FROM tickets WHERE screening_id = ?";
     rs = jdbc.queryForRowSet(query, id);
@@ -79,12 +71,13 @@ public class ScreeningRepository {
   }
 
   public List<Screening> findAllScreenings() {
-    String query = "SELECT * FROM screenings;";
+    String query = "SELECT * FROM screenings ORDER BY start_time;";
     SqlRowSet rs = jdbc.queryForRowSet(query);
 
     return getScreeningsListFromRowSet(rs);
   }
 
+  // TODO: remove later if not needed
   public List<Screening> findTodaysScreenings() {
     String query = "SELECT * FROM screenings WHERE DATE(start_time) = CURDATE() ORDER BY start_time";
     SqlRowSet rs = jdbc.queryForRowSet(query);
@@ -92,25 +85,24 @@ public class ScreeningRepository {
     return getScreeningsListFromRowSet(rs);
   }
 
-  /**
-   *
-   * @param rowSet jdkjkd
-   * @return
-   */
   private List<Screening> getScreeningsListFromRowSet(SqlRowSet rowSet) {
     List<Screening> result = new ArrayList<>();
 
     while (rowSet.next()) {
-      Screening screening = new Screening();
-      screening.setId(rowSet.getInt("id"));
-      screening.setMovie(movieRepo.findMovieById(rowSet.getInt("movie_id")));
-      screening.setTheater(theaterRepo.findTheater(rowSet.getInt("theater_id")));
-      Timestamp start = rowSet.getTimestamp("start_time");
-      screening.setStartTime(start == null ? null : start.toLocalDateTime());
-      screening.setNoAvailableSeats(getAvailableSeatsForScreening(screening.getTheater().getId()));
-      result.add(screening);
+      result.add(extractNextScreeningFromRowSet(rowSet));
     }
 
+    return result;
+  }
+
+  private Screening extractNextScreeningFromRowSet(SqlRowSet rowSet) {
+    Screening result = new Screening();
+    result.setId(rowSet.getInt("id"));
+    result.setMovie(movieRepo.findMovieById(rowSet.getInt("movie_id")));
+    result.setTheater(theaterRepo.findTheater(rowSet.getInt("theater_id")));
+    Timestamp start = rowSet.getTimestamp("start_time");
+    result.setStartTime(start == null ? null : start.toLocalDateTime());
+    result.setNoAvailableSeats(getAvailableSeatsForScreening(result.getId(), result.getTheater().getId()));
     return result;
   }
 
@@ -148,5 +140,28 @@ public class ScreeningRepository {
         screening.getId());
   }
 
-  public void deleteScreening(int id) {jdbc.update("DELETE FROM screenings WHERE id = ?;", id); }
+  public void deleteScreening(int id) {
+    jdbc.update("DELETE FROM screenings WHERE id = ?;", id);
+  }
+
+  public List<Screening> findScreeningsThatMightConflict(Screening screening) {
+    String query = "SELECT * FROM screenings " +
+        "WHERE start_time > ? - INTERVAL 12 HOUR " +
+        "AND start_time < ? + INTERVAL 12 HOUR " +
+        "AND theater_id = ? " +
+        "ORDER BY start_time;";
+    Timestamp startTimeAsTimestamp = Timestamp.valueOf(screening.getStartTime());
+    SqlRowSet rs = jdbc.queryForRowSet(query, startTimeAsTimestamp,
+        startTimeAsTimestamp, screening.getTheater().getId());
+
+    // isBeforeFirst() returns true only if the cursor is before the first record,
+    // but false if it's not, or if there are no records at all
+    List<Screening> result = rs.isBeforeFirst() ? new ArrayList<>() : null;
+    while (rs.next()) {
+      Screening scr = extractNextScreeningFromRowSet(rs);
+      result.add(scr);
+    }
+
+    return result;
+  }
 }

@@ -15,14 +15,13 @@
         <div class="container">
             <div class="jumbotron">
                 <h1 class="display-4">Screenings</h1>
-                <div class="table table-dark table-hover">
-                <table class = theater>
+                <table class="table table-dark table-hover">
                     <thead>
                         <tr>
                             <th scope="col">Date</th>
                             <th scope="col">Time</th>
                             <th scope="col">Movie</th>
-                            <th scope="col">Seats</th>
+                            <th scope="col">Theater</th>
                             <th scope="col">Edit</th>
                             <th scope="col">Delete</th>
                         </tr>
@@ -32,7 +31,7 @@
                             <td th:text="${screening.getStartTime().toLocalDate().toString()}"></td>
                             <td th:text="${screening.getStartTime().toLocalTime().toString()}"></td>
                             <td th:text="${screening.getMovie().getTitle()}"></td>
-                            <td th:text="${screening.getNoAvailableSeats()}"></td>
+                            <td th:text="${screening.getTheater().getName()}"></td>
                             <td><a class="btn btn-secondary"
                                    th:href="'/manage/screenings/edit/' + ${screening.getId()}">
                                 Edit
@@ -44,7 +43,6 @@
                         </tr>
                     </tbody>
                 </table>
-                </div>
                 <a class="btn btn-secondary" href="/manage/screenings/add">Create new screening</a>
             </div>
         </div>

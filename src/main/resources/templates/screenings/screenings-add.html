@@ -16,6 +16,11 @@
             <div class="jumbotron">
                 <h1 class="display-4">Add a new screening!</h1>
 
+                <div th:if="${error}" class="alert alert-danger">
+                    <span th:if="${error.equals('start_time')}">Error parsing the starting time. Required format is YYYY-MM-DD HH:MM. Try again.</span>
+                    <span th:if="${error.equals('conflict')}">There is a scheduling conflict with another screening. Try again.</span>
+                </div>
+
                 <form action="/manage/screenings/save" th:object="${screeningForm}" method="post">
                     <div class="form-group">
                         <label for="movie">Movie</label>
