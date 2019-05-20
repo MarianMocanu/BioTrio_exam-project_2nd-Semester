@@ -168,4 +168,14 @@ public class ScreeningRepository {
   }
 
   public void deleteScreening(int id) {jdbc.update("DELETE FROM screenings WHERE id = ?;", id); }
+
+  public boolean canDelete(Screening s){
+    String query = ("SELECT COUNT(*) FROM bookings INNER JOIN tickets ON " +
+        "bookings.screening_id = tickets.screening_id WHERE bookings.screening_id= "+s.getId());
+    SqlRowSet rs = jdbc.queryForRowSet(query);
+    rs.first();
+    int noScreenings = rs.getInt(1);
+
+    return noScreenings == 0;
+  }
 }
