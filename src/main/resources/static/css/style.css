@@ -5746,3 +5746,24 @@ body, .sticky-footer-wrapper {
 .flex-fill {
     flex:1 1 auto;
 }
+
+.seatChkBox {
+  display: none;
+}
+.seatLabel {
+  background-image: url("/img/seats.png");
+  background-position: left center;
+  background-size: auto 100%;
+  width: 40px;
+  height: 40px;
+  background-repeat: no-repeat;
+  text-align: center;
+  color: #000000;
+}
+.seatChkBox:checked + .checker {
+  background-position: right center;
+}
+
+.seatChkBox:disabled + .checker {
+  background-image: url("/img/seat_neutral.png");
+}

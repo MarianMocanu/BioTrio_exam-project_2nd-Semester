@@ -24,10 +24,11 @@
                                     <td th:text="'Row ' + ${seat.getRowNo()}"></td>
                             </th:block>
                             <td>
-                                <label th:for="${seat.getRowNo()} + '_' + ${seat.getSeatNo()}"
+                                <label class="seatLabel"
+                                       th:for="${seat.getRowNo()} + '_' + ${seat.getSeatNo()}"
                                        th:text="${seat.getSeatNo()}"></label>
                                 <br>
-                                <input type="checkbox"
+                                <input type="checkbox" class="seatChkBox"
                                        th:id="${seat.getRowNo()} + '_' + ${seat.getSeatNo()}"
                                        th:value="${seat.getRowNo()} + '_' + ${seat.getSeatNo()}"
                                        th:disabled="${!seat.isSold()}"
