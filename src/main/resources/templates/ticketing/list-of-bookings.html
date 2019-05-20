@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head>
     <meta charset="UTF-8">
-    <title>Index</title>
+    <title>Bookings</title>
 
     <div th:replace="fragments :: bootstrap_head"></div>
     <link rel="stylesheet" th:href="@{'/css/style.css'}"/>
@@ -15,7 +15,6 @@
         <div class="container">
             <div class="jumbotron">
                 <h1 class="display-4">Select your booking</h1>
-                <form >
                 <ul th:each= "booking:${bookingList}">
                     <li><a th:href="'/manage/screening/'+${booking.getScreening().getId()}+'/bookings/' +${booking.getId()}"
                         th:text="'Booking number ' +${booking.getId()}">

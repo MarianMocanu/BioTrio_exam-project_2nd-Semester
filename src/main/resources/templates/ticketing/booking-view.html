@@ -28,13 +28,12 @@
                         <tr th:each="seat: ${bookedSeats.getSeats()}">
                             <td th:text="${seat.getRowNo()}"></td>
                             <td th:text="${seat.getSeatNo()}"></td>
-                            <td>
-                                <label th:for="${seat.getRowNo()} + '_' + ${seat.getSeatNo()}">
-                                </label>
+                            <td class="seatChkBox2">
                                 <input type="checkbox"
                                        th:id="${seat.getRowNo()} + '_' + ${seat.getSeatNo()}"
                                        th:value="${seat.getRowNo()} + '_' + ${seat.getSeatNo()}"
                                        th:field="${bookedSeats.submittedData}">
+                                <label th:for="${seat.getRowNo()} + '_' + ${seat.getSeatNo()}"></label>
                             </td>
                         </tr>
                         </tbody>

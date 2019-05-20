@@ -14,18 +14,15 @@
     <main class="flex-fill">
         <div class="container">
             <div class="jumbotron">
-                <h1 class="display-4">About cinema</h1>
-                <!--<p class="display-4">BioTrio is located in a shiny
-                 hill and has comfortable seats available.</p>
-                <p class="display-4">Here is the list of our theaters:</p>-->
-                <div class = "table table-dark table-hover">
-<!--                    TODO width <table = "table table-hover">-->
-                <table>
+                <h1 class="display-4">Theaters</h1>
+                <table class="table table-dark table-hover">
                     <thead>
                     <tr>
                         <th scope="col">ID</th>
                         <th scope="col">Name</th>
                         <th scope="col">Number of seats</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -49,7 +46,6 @@
                     </tbody>
 
                 </table>
-                </div>
                 <a class="btn btn-secondary" th:href="'/manage/theaters/add'">Add theater</a>
             </div>
         </div>
