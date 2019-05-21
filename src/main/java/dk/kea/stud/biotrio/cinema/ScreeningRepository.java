@@ -12,8 +12,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 @Repository
 public class ScreeningRepository {
@@ -68,6 +69,24 @@ public class ScreeningRepository {
     SqlRowSet rs = jdbc.queryForRowSet(query);
 
     return getScreeningsListFromRowSet(rs);
+  }
+
+  private String convertToStringLabel(LocalDateTime startTime){
+    DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("dd MMM");
+    return startTime.format(timeFormatter);
+  }
+
+  public Map<String,List<Screening>> findUpcomingSreeningsAsMap() {
+    List<Screening> screeningList = findUpcomingScreenings();
+    Map<String,List<Screening>> screenings = new LinkedHashMap<>();
+    for(Screening screening:screeningList){
+      String screeningDate = convertToStringLabel(screening.getStartTime());
+      if(!screenings.containsKey(screeningDate)) {
+        screenings.put(screeningDate, new ArrayList<>());
+      }
+      screenings.get(screeningDate).add(screening);
+    }
+    return screenings;
   }
 
   public List<Screening> findAllScreenings() {
@@ -163,5 +182,14 @@ public class ScreeningRepository {
     }
 
     return result;
+  }
+  public boolean canDelete(Screening s){
+    String query = ("SELECT COUNT(*) FROM bookings INNER JOIN tickets ON " +
+        "bookings.screening_id = tickets.screening_id WHERE bookings.screening_id= "+s.getId());
+    SqlRowSet rs = jdbc.queryForRowSet(query);
+    rs.first();
+    int noScreenings = rs.getInt(1);
+
+    return noScreenings == 0;
   }
 }

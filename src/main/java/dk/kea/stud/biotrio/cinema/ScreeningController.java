@@ -23,7 +23,7 @@ public class ScreeningController {
   // For the end-users
   @GetMapping("/screenings")
   public String screeningsUsers(Model model) {
-    model.addAttribute("upcomingScreenings", screeningRepo.findUpcomingScreenings());
+    model.addAttribute("upcomingScreenings", screeningRepo.findUpcomingSreeningsAsMap());
     return "screenings/user/screenings-view";
   }
 
@@ -113,7 +113,10 @@ public class ScreeningController {
   //From "delete" button goes to "Are you sure to delete(...)?"
   @GetMapping("/manage/screenings/delete/{id}")
   public String deleteScreening(@PathVariable(name = "id") int id, Model m) {
-    m.addAttribute("screening", screeningRepo.findById(id));
+    Screening s = screeningRepo.findById(id);
+    boolean canDelete = screeningRepo.canDelete(s);
+    m.addAttribute("canDelete", canDelete);
+    m.addAttribute("screening", s);
 
     return "screenings/screenings-delete";
   }
