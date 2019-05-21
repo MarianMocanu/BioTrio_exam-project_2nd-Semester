@@ -28,15 +28,14 @@
                         <th:block th:if="${seat.getSeatNo() == 1}">
                             <tr><td th:text="'Row ' + ${seat.getRowNo()}"></td>
                         </th:block>
-                                <td>
-                                    <label th:for="${seat.getRowNo()} + '_' + ${seat.getSeatNo()}"
-                                           th:text="${seat.getSeatNo()}"></label>
-                                    <br>
+                                <td class="seatChkBox2">
                                     <input type="checkbox"
                                            th:id="${seat.getRowNo()} + '_' + ${seat.getSeatNo()}"
                                            th:value="${seat.getRowNo()} + '_' + ${seat.getSeatNo()}"
                                            th:disabled="${!seat.isAvailable()} or ${seat.isSold()}"
                                            th:field="${seatData.submittedData}">
+                                    <label th:for="${seat.getRowNo()} + '_' + ${seat.getSeatNo()}"
+                                           th:text="${seat.getSeatNo()}"></label>
                                 </td>
                         <th:block th:if="${seat.getSeatNo() == screening.theater.getSeatsPerRow()}">
                             </tr>

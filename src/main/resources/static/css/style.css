@@ -8256,9 +8256,6 @@ td.seatChkBox2 label {
     user-select: none;
     -webkit-tap-highlight-color: transparent;
     transition: all .2s;
-}
-
-td.seatChkBox2 label {
     cursor: pointer;
 }
 
@@ -8276,16 +8273,13 @@ td.seatChkBox2 label::before {
 td.seatChkBox2 input[type="checkbox"]:checked + label {
     border: 2px solid #000000;
     background-color: #0000FF;
-    color: #fff;
+    color: #ccc;
     transition: all .2s;
     content: "x";
 }
 
 td.seatChkBox2 input[type="checkbox"] {
     display: absolute;
-}
-
-td.seatChkBox2 input[type="checkbox"] {
     position: absolute;
     opacity: 0;
 }
