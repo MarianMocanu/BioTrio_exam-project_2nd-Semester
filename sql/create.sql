@@ -93,13 +93,37 @@ CREATE TABLE tickets
 
 CREATE TABLE upcoming_movies
 (
-    movie_id       INT  NOT NULL,
+    movie_id       INT UNIQUE NOT NULL,
     estimated_date DATE NULL,
-    CONSTRAINT upcoming_movies_movie_id_uindex
-        UNIQUE (movie_id),
-    CONSTRAINT upcoming_movies_movies_id_fk
-        FOREIGN KEY (movie_id) REFERENCES movies (id)
+    PRIMARY KEY (movie_id),
+    FOREIGN KEY (movie_id) REFERENCES movies (id)
 );
 
-ALTER TABLE upcoming_movies
-    ADD PRIMARY KEY (movie_id);
+CREATE TABLE technologies
+(
+    id INT UNIQUE AUTO_INCREMENT,
+    name VARCHAR(255) UNIQUE NOT NULL,
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE technologies_to_movies
+(
+    technology_id INT NOT NULL,
+    movie_id INT NOT NULL,
+    PRIMARY KEY (technology_id, movie_id),
+    FOREIGN KEY (technology_id) REFERENCES technologies(id),
+    FOREIGN KEY (movie_id) REFERENCES movies(id)
+);
+
+CREATE TABLE technologies_to_theaters
+(
+    technology_id INT NOT NULL,
+    theater_id INT NOT NULL,
+    PRIMARY KEY (technology_id, theater_id),
+    FOREIGN KEY (technology_id) REFERENCES technologies(id),
+    FOREIGN KEY (theater_id) REFERENCES theaters(id)
+);
+
+INSERT INTO roles (name) VALUES ('User'), ('Manager'), ('Admin');
+
+INSERT INTO technologies (name) VALUES ('3D'), ('Dolby Atmos');
