@@ -33,15 +33,14 @@
                         <td th:text="${screening.getNoAvailableSeats()}"></td>
                         <td class="text-center"><a class="btn btn-secondary"
                                th:href="'/manage/screening/'+${screening.id}+'/ticketing'">
-                            Sell available seats!</a>
+                            Sell seats</a>
                             <a class="btn btn-secondary"
                                th:href="'/manage/screening/'+${screening.id}+'/bookings'">
-                            Sell booked seats!
+                            Redeem booking
                         </a></td>
                     </tr>
                     </tbody>
                 </table>
-                <a class="btn btn-secondary" href="/manage/screenings/add">Create new screening</a>
             </div>
         </div>
     </main>

@@ -5746,3 +5746,92 @@ body, .sticky-footer-wrapper {
 .flex-fill {
     flex:1 1 auto;
 }
+
+/*.seatChkBox {*/
+/*  display: none;*/
+/*}*/
+/*.seatLabel {*/
+/*  background-image: url("/img/seats.png");*/
+/*  background-position: left center;*/
+/*  background-size: auto 100%;*/
+/*  width: 40px;*/
+/*  height: 40px;*/
+/*  background-repeat: no-repeat;*/
+/*  text-align: center;*/
+/*  color: #000000;*/
+/*}*/
+/*.seatChkBox:checked + .checker {*/
+/*  background-position: right center;*/
+/*}*/
+
+/*.seatChkBox:disabled + .checker {*/
+/*  background-image: url("/img/seat_neutral.png");*/
+/*}*/
+
+td.seatChkBox2 {
+  text-align: center;
+}
+
+td.seatChkBox2 label{
+  width: 2rem;
+  height: 2rem;
+  display: inline-block;
+  background-color: rgba(0, 255, 0, .75);
+  border: 2px solid #000000;
+  color: #111111;
+  font-family: Helvetica, sans-serif;
+  font-size: large;
+  font-weight: bold;
+  vertical-align: middle;
+  border-radius: 50%;
+  white-space: nowrap;
+  margin: 0px 0px;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: all .2s;
+}
+
+td.seatChkBox2 label {
+  cursor: pointer;
+}
+
+td.seatChkBox2 label::before {
+  display: inline-block;
+  font-style: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  font-weight: 900;
+  font-size: 12px;
+  transition: transform .3s ease-in-out;
+}
+
+td.seatChkBox2 input[type="checkbox"]:checked + label {
+  border: 2px solid #000000;
+  background-color: #0000FF;
+  color: #fff;
+  transition: all .2s;
+  content: "x";
+}
+
+td.seatChkBox2 input[type="checkbox"] {
+  display: absolute;
+}
+td.seatChkBox2 input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+}
+
+td.seatChkBox2 input[type="checkbox"]:disabled + label {
+  background-color: rgba(255, 165, 0, .75);
+  border: 2px solid #000000;
+}
+
+td.seatChkBox2 input[type="checkbox"]:disabled:checked + label {
+  background-color: rgba(255, 0, 0, .75);
+  border: 2px solid #000000;
+}

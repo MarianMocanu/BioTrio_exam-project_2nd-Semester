@@ -14,7 +14,7 @@
     <main class="flex-fill">
         <div class="container">
             <div class="jumbotron">
-                <h1 class="display-4">About employees</h1>
+                <h1 class="display-4">Employees</h1>
                 <table class="table table-dark table-hover">
                     <thead>
                     <tr>
@@ -31,7 +31,7 @@
                         <td th:text="${employee.firstName}"></td>
                         <td th:text="${employee.lastName}"></td>
                         <td>
-                            <a class="btn btn-success" th:href="'/manage/employees/edit/' + ${employee.id}">
+                            <a class="btn btn-secondary" th:href="'/manage/employees/edit/' + ${employee.id}">
                                 Edit
                             </a>
                         </td>
