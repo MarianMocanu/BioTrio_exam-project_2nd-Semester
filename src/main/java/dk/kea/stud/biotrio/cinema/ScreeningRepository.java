@@ -72,7 +72,7 @@ public class ScreeningRepository {
   }
 
   private String convertToStringLabel(LocalDateTime startTime){
-    DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("dd MMM");
+    DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("EEE dd MMM");
     return startTime.format(timeFormatter);
   }
 
