@@ -1,6 +1,9 @@
 package dk.kea.stud.biotrio.cinema;
 
+import dk.kea.stud.biotrio.AppSettings;
+
 import java.time.LocalDate;
+import java.util.List;
 
 public class Movie {
   private int id;
@@ -10,7 +13,7 @@ public class Movie {
   private String genre;
   private String language;
   private String subtitles;
-  private String projectionType;
+  private List<Technology> requiredTechnologies;
   private String trailerLink;
   private LocalDate releaseDate;
   private String cast;
@@ -74,12 +77,12 @@ public class Movie {
     this.subtitles = subtitles;
   }
 
-  public String getProjectionType() {
-    return projectionType;
+  public List<Technology> getRequiredTechnologies() {
+    return requiredTechnologies;
   }
 
-  public void setProjectionType(String projectionType) {
-    this.projectionType = projectionType;
+  public void setRequiredTechnologies(List<Technology> requiredTechnologies) {
+    this.requiredTechnologies = requiredTechnologies;
   }
 
   public String getTrailerLink() {
@@ -92,6 +95,10 @@ public class Movie {
 
   public LocalDate getReleaseDate() {
     return releaseDate;
+  }
+
+  public String getFormattedReleaseDate() {
+    return releaseDate == null ? null : releaseDate.format(AppSettings.DateFormat);
   }
 
   public void setReleaseDate(LocalDate releaseDate) {

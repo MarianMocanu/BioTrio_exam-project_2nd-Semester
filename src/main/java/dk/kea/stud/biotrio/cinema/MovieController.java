@@ -8,12 +8,16 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class MovieController {
 
   @Autowired
   private MovieRepository movieRepo;
+  @Autowired
+  private TechnologyRepository technologyRepo;
 
   // For the end-users
   @GetMapping("/movie/{id}")
@@ -31,24 +35,50 @@ public class MovieController {
 
   @GetMapping("/manage/movies/add")
   public String addMovie(Model model) {
+    model.addAttribute("technologies", technologyRepo.getAllTechnologies());
+    model.addAttribute("selectedTechnologies", new ArrayList<Integer>());
     model.addAttribute("movie", new Movie());
     return "movies/movies-add";
   }
 
   @PostMapping("/manage/movies/save")
-  public String saveMovie(@ModelAttribute Movie movie) {
+  public String saveMovie(@ModelAttribute Movie movie,
+                          @RequestParam String releaseDateString,
+                          @RequestParam List<Integer> selectedTechnologies) {
+    LocalDate releaseDate;
+    try {
+      releaseDate = LocalDate.parse(releaseDateString, AppSettings.DateFormat);
+    } catch (DateTimeParseException e) {
+      releaseDate = null;
+    }
+    movie.setReleaseDate(releaseDate);
+    movie.setRequiredTechnologies(technologyRepo.convertFromIdList(selectedTechnologies));
     movieRepo.addMovie(movie);
     return "redirect:/manage/movies";
   }
 
   @GetMapping("/manage/movies/edit/{id}")
   public String editMovie(@PathVariable("id") int id, Model model) {
-    model.addAttribute("currentMovie", movieRepo.findMovieById(id));
+    Movie selectedMovie = movieRepo.findMovieById(id);
+    model.addAttribute("technologies", technologyRepo.getAllTechnologies());
+    model.addAttribute("currentMovie", selectedMovie);
+    model.addAttribute("selectedTechnologies", technologyRepo.
+        convertToIdList(selectedMovie.getRequiredTechnologies()));
     return "movies/movies-edit";
   }
 
   @PostMapping("/manage/movies/edit")
-  public String updateMovie(@ModelAttribute Movie movie) {
+  public String updateMovie(@ModelAttribute Movie movie,
+                            @RequestParam String releaseDateString,
+                            @RequestParam List<Integer> selectedTechnologies) {
+    LocalDate releaseDate;
+    try {
+      releaseDate = LocalDate.parse(releaseDateString, AppSettings.DateFormat);
+    } catch (DateTimeParseException e) {
+      releaseDate = null;
+    }
+    movie.setReleaseDate(releaseDate);
+    movie.setRequiredTechnologies(technologyRepo.convertFromIdList(selectedTechnologies));
     movieRepo.updateMovie(movie);
     return "redirect:/manage/movies";
   }

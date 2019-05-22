@@ -134,10 +134,9 @@ public class ScreeningController {
     screening.setId(formData.getId());
     screening.setMovie(movieRepo.findMovieById(formData.getMovieId()));
     screening.setTheater(theaterRepo.findTheater(formData.getTheaterId()));
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
     LocalDateTime startTime;
     try {
-      startTime = LocalDateTime.parse(formData.getStartTime(), formatter);
+      startTime = LocalDateTime.parse(formData.getStartTime(), AppSettings.DTFormat);
     } catch (DateTimeParseException e) {
       return null;
     }

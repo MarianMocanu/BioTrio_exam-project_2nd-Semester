@@ -40,14 +40,18 @@
                         <p><b><u>Release date:</u></b></p>
                         <p th:text="${movie.getReleaseDate()}"></p>
                         <br>
-                        <p><b><u>Language:</u></b></p><br>
+                        <p><b><u>Language:</u></b></p>
                         <p th:text="${movie.getLanguage()}"></p>
                         <br>
-                        <p><b><u>Subtitles:</u></b></p><br>
+                        <p><b><u>Subtitles:</u></b></p>
                         <p th:text="${movie.getSubtitles()}"></p>
                         <br>
-                        <p><b><u>Projection type:</u></b></p>
-                        <p th:text="${movie.getProjectionType()}"></p>
+                        <p><b><u>Technologies:</u></b></p>
+                        <p>
+                            <th:block th:each="technology:${movie.getRequiredTechnologies()}">
+                                <span th:text="${technology.getName()}"></span><br>
+                            </th:block>
+                        </p>
                         <br>
                         <p><b><u>Age restriction:</u></b></p>
                         <p th:text="${movie.getAgeRestriction()}"></p>
