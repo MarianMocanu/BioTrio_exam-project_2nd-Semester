@@ -1,16 +1,12 @@
 package dk.kea.stud.biotrio.ticketing;
 
-import dk.kea.stud.biotrio.cinema.Screening;
 import dk.kea.stud.biotrio.cinema.ScreeningRepository;
-import dk.kea.stud.biotrio.cinema.Theater;
-import dk.kea.stud.biotrio.cinema.TheaterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 public class TicketController {
@@ -42,7 +38,7 @@ public class TicketController {
     }
     model.addAttribute("data", data);
     model.addAttribute("screening", screeningRepo.findById(id)); 
-    return "ticketing/screeningID-ticketing";
+    return "ticketing-id-add";
   }
 
   @PostMapping("/manage/screening/{screeningId}/ticketing")
@@ -65,7 +61,7 @@ public class TicketController {
     data.setSubmittedData(new ArrayList<>());
     model.addAttribute("data", data);
     model.addAttribute("screening", screeningRepo.findById(id));
-    return "ticketing/delete-ticket";
+    return "ticketing-void";
   }
 
   @PostMapping("/manage/screening/{screeningId}/ticketing/void")

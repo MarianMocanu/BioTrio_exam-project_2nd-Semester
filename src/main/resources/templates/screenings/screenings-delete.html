@@ -14,21 +14,11 @@
     <main class="flex-fill">
         <div class="container">
             <div class="jumbotron">
-                <div th:if="${canDelete}">
+
                 <h1 class="display-4">Delete a screening</h1>
-                <form action="/manage/screenings/delete/" method="post" th:object="${screening}">
-                    <input type="hidden" th:value="${screening.id}" th:field="${screening.id}" name="id">
-                    <div class="form-group">
-                        <p th:text="'Are you sure you want to delete ' + ${screening.getMovie().getTitle()} + ' screening?'"></p>
-                    </div>
-                    <button type="submit" class="btn btn-outline-danger">Delete</button>
-                    <a class="btn btn-primary" href="/manage/screenings">Cancel</a>
-                </form>
-                </div>
-                <div th:unless="${canDelete}">
-                    <h1 class="display-4">Delete a screening</h1>
-                    <div th:text=" 'This screening of ' + ${screening.getMovie().getTitle()} + ' can not be deleted, because tickets were booked or sold for it'">Error</div>
-                </div>
+                <p th:text=" 'This screening of ' + ${movieTitle} + ' can not be deleted, because tickets were booked or sold for it'">
+                    Error
+                </p>
             </div>
         </div>
     </main>

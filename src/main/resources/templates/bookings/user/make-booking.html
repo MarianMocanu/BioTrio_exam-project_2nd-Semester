@@ -15,7 +15,7 @@
         <div class="container">
             <div class="jumbotron">
                 <h1 class="display-4">Choose your seats:</h1>
-                <form action="/booking/save" method="post" name="seats">
+                <form action="/booking/save" method="post" name="seats" style="overflow: auto">
                     <input type="hidden" name="screeningId" th:value="${screening.getId()}">
                     <div class="form-group">
                         <label for="phone_no">Phone No: </label>

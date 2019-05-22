@@ -219,8 +219,8 @@ public class ScreeningRepository {
   // Check if a screening has associated tickets and/or bookings
   public boolean canDelete(Screening s){
     String query = ("SELECT COUNT(*) FROM bookings INNER JOIN tickets ON " +
-        "bookings.screening_id = tickets.screening_id WHERE bookings.screening_id= "+s.getId());
-    SqlRowSet rs = jdbc.queryForRowSet(query);
+        "bookings.screening_id = tickets.screening_id WHERE bookings.screening_id = ? ");
+    SqlRowSet rs = jdbc.queryForRowSet(query, s.getId());
     rs.first();
     int noScreenings = rs.getInt(1);
 
