@@ -23,7 +23,7 @@ public class ScreeningController {
   // For the end-users
   @GetMapping("/screenings")
   public String screeningsUsers(Model model) {
-    model.addAttribute("upcomingScreenings", screeningRepo.findUpcomingSreeningsAsMap());
+    model.addAttribute("upcomingScreenings", screeningRepo.findUpcomingScreeningsAsMap());
     return "screenings/user/screenings-view";
   }
 

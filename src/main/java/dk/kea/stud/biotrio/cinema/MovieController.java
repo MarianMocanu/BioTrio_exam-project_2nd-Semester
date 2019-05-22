@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 @Controller
@@ -14,11 +15,16 @@ public class MovieController {
 
   @Autowired
   private MovieRepository movieRepo;
+  @Autowired
+  private ScreeningRepository screeningRepo;
 
   // For the end-users
   @GetMapping("/movie/{id}")
   public String findMovies(@PathVariable(name = "id") int id, Model model) {
     model.addAttribute("movie", movieRepo.findMovieById(id));
+    model.addAttribute("upcomingMovieScreenings", screeningRepo.findUpcomingScreeningsForMovieById(id));
+    model.addAttribute("date", DateTimeFormatter.ofPattern("EEE dd MMM"));
+    model.addAttribute("time", DateTimeFormatter.ofPattern("HH:mm"));
     return "movies/user/movies-detail-view";
   }
 
@@ -79,7 +85,7 @@ public class MovieController {
 
   @GetMapping("/manage/upcoming/add")
   public String addToUpcomingMovies(Model model,
-                                    @RequestParam(value="error", required = false) String error) {
+                                    @RequestParam(value = "error", required = false) String error) {
     if (error != null) {
       model.addAttribute("error", "date");
     }
