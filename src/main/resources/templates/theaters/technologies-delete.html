@@ -8,7 +8,7 @@
     <link rel="stylesheet" th:href="@{'/css/style.css'}"/>
 </head>
 <body>
-<div class="bg-dark d-flex flex-column sticky-footer-wrapper">
+<div class="d-flex flex-column sticky-footer-wrapper">
     <div th:replace="fragments :: navbar"></div>
 
     <main class="flex-fill">
@@ -22,7 +22,7 @@
                         <p><b>This action cannot be undone</b> and will also remove it from any associated theaters and / or movies.</p>
                     </div>
                     <button type="submit" class="btn btn-outline-danger">Delete</button>
-                    <a class="btn btn-secondary" href="/manage/screenings">Cancel</a>
+                    <a class="btn btn-primary" href="/manage/screenings">Cancel</a>
                 </form>
 
             </div>

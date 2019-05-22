@@ -8,7 +8,7 @@
     <link rel="stylesheet" th:href="@{'/css/style.css'}"/>
 </head>
 <body>
-<div class="bg-dark d-flex flex-column sticky-footer-wrapper">
+<div class="d-flex flex-column sticky-footer-wrapper">
     <div th:replace="fragments :: navbar"></div>
 
     <main class="flex-fill">
@@ -31,7 +31,7 @@
                         <td th:text="${user.getUsername()}"></td>
                         <td th:text="${user.getRole()}"></td>
                         <td>
-                            <a class="btn btn-secondary" th:href="'/manage/users/edit/' + ${user.getId()}">
+                            <a class="btn btn-primary" th:href="'/manage/users/edit/' + ${user.getId()}">
                                 Edit
                             </a>
                         </td>
@@ -45,7 +45,7 @@
 
                 </table>
                 <th scope="col">
-                    <a class="btn btn-secondary" th:href="'/manage/users/add'">
+                    <a class="btn btn-primary" th:href="'/manage/users/add'">
                         Add user
                     </a>
                 </th>

@@ -8,7 +8,7 @@
     <link rel="stylesheet" th:href="@{'/css/style.css'}"/>
 </head>
 <body>
-<div class="bg-dark d-flex flex-column sticky-footer-wrapper">
+<div class="d-flex flex-column sticky-footer-wrapper">
     <div th:replace="fragments :: navbar"></div>
 
     <main class="flex-fill">
@@ -47,7 +47,7 @@
                             <option>To be implemented</option>
                         </select>
                     </div>
-                    <button type="submit" class="btn btn-secondary">Done</button>
+                    <button type="submit" class="btn btn-primary">Done</button>
                     <a class="btn btn-outline-danger" href="/manage/users">Cancel</a>
                 </form>
             </div>

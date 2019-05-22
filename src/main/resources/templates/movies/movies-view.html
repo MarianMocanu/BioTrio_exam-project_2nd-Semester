@@ -8,7 +8,7 @@
     <link rel="stylesheet" th:href="@{'/css/style.css'}"/>
 </head>
 <body>
-<div class="bg-dark d-flex flex-column sticky-footer-wrapper">
+<div class="d-flex flex-column sticky-footer-wrapper">
     <div th:replace="fragments :: navbar"></div>
 
     <main class="flex-fill">
@@ -35,7 +35,7 @@
                         <td th:text="${movie.synopsis}"></td>
                         <td th:text="${movie.genre}"></td>
                         <td>
-                            <a class="btn btn-secondary" th:href="'/manage/movies/edit/' + ${movie.id}">
+                            <a class="btn btn-primary" th:href="'/manage/movies/edit/' + ${movie.id}">
                                 Edit
                             </a>
                         </td>
@@ -47,7 +47,7 @@
                     </tr>
                     </tbody>
                 </table>
-                <a class="btn btn-secondary" th:href="'/manage/movies/add'">Add new movie</a>
+                <a class="btn btn-primary" th:href="'/manage/movies/add'">Add new movie</a>
             </div>
         </div>
     </main>

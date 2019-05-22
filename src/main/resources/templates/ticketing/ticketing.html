@@ -8,7 +8,7 @@
     <link rel="stylesheet" th:href="@{'/css/style.css'}"/>
 </head>
 <body>
-<div class="bg-dark d-flex flex-column sticky-footer-wrapper">
+<div class="d-flex flex-column sticky-footer-wrapper">
     <div th:replace="fragments :: navbar"></div>
 
     <main class="flex-fill">
@@ -31,10 +31,10 @@
                         <td th:text="${screening.getStartTime().toLocalTime().toString()}"></td>
                         <td th:text="${screening.getMovie().getTitle()}"></td>
                         <td th:text="${screening.getNoAvailableSeats()}"></td>
-                        <td class="text-center"><a class="btn btn-secondary"
+                        <td class="text-center"><a class="btn btn-primary"
                                th:href="'/manage/screening/'+${screening.id}+'/ticketing'">
                             Sell seats</a>
-                            <a class="btn btn-secondary"
+                            <a class="btn btn-primary"
                                th:href="'/manage/screening/'+${screening.id}+'/bookings'">
                             Redeem booking
                         </a></td>

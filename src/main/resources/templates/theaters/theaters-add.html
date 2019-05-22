@@ -8,7 +8,7 @@
     <link rel="stylesheet" th:href="@{'/css/style.css'}"/>
 </head>
 <body>
-<div class="bg-dark d-flex flex-column sticky-footer-wrapper">
+<div class="d-flex flex-column sticky-footer-wrapper">
     <div th:replace="fragments :: navbar"></div>
 
     <main class="flex-fill">
@@ -41,7 +41,7 @@
                                     th:text="${technology.getName()}"></option>
                         </select>
                     </div>
-                    <button type="submit" class="btn btn-secondary">Add Theater</button>
+                    <button type="submit" class="btn btn-primary">Add Theater</button>
                     <a href="/manage/theaters" class="btn btn-outline-danger">Cancel</a>
                 </form>
 

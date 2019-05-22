@@ -1,5 +1,6 @@
 package dk.kea.stud.biotrio.ticketing;
 
+import dk.kea.stud.biotrio.AppSettings;
 import dk.kea.stud.biotrio.cinema.ScreeningRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,14 +29,15 @@ public class BookingController {
     SeatData data = new SeatData();
     data.setSeats(seatRepo.getSeatStatusForScreening(screeningId));
     data.setSubmittedData(new ArrayList<>());
-    for (Seat seat : data.getSeats()) {
-      if (seat.isSold()) {
-        data.getSubmittedData().add("" + seat.getRowNo() + "_" + seat.getSeatNo());
-      } else {
-        data.getSubmittedData().add("");
-      }
-    }
+//    for (Seat seat : data.getSeats()) {
+//      if (seat.isAvailable()) {
+//        data.getSubmittedData().add("");
+//      } else {
+//        data.getSubmittedData().add("" + seat.getRowNo() + "_" + seat.getSeatNo());
+//      }
+//    }
 
+    model.addAttribute("maxSeatsPerBooking", AppSettings.MAX_NUMBER_OF_SEATS_PER_BOOKING);
     model.addAttribute("screening", screeningRepo.findById(screeningId));
     model.addAttribute("seatData", data);
     return "bookings/user/make-booking";

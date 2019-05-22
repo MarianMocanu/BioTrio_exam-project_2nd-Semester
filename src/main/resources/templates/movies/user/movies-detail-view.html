@@ -8,7 +8,7 @@
     <link rel="stylesheet" th:href="@{'/css/style.css'}"/>
 </head>
 <body>
-<div class="bg-dark d-flex flex-column sticky-footer-wrapper">
+<div class="d-flex flex-column sticky-footer-wrapper">
     <div th:replace="fragments :: navbar"></div>
 
     <main class="flex-fill">
@@ -17,55 +17,65 @@
                 <div class="row">
                     <h3 class="display-4" th:text="${movie.getTitle()}"></h3>
                 </div>
-                <div class="row" th:if="${movie.getTrailerLink()}">
-                    <iframe id="ytplayer" type="text/html" width="640" height="360"
+                <div class="row trailerContainer" th:if="${movie.getTrailerLink()}">
+                    <iframe id="ytplayer" type="text/html" allowfullscreen class="trailerPlayer"
                             th:src="'https://www.youtube.com/embed/' + ${movie.getTrailerLink()} +
                             '?autoplay=1&origin=http://example.com'"
                             frameborder="0"></iframe>
                 </div>
+                <hr style="border-color: #6C20D9">
                 <div class="row">
-                    <div class="col-md">
-                        <p><b><u>Main cast:</u></b></p>
-                        <p th:text="${movie.getCast()}"></p>
-                        <br>
-                        <p><b><u>Director:</u></b></p>
-                        <p th:text="${movie.getDirector()}"></p>
-                        <br>
-                        <p><b><u>Runtime:</u></b></p>
-                        <p><span th:text="${movie.getRuntime()}"></span> minutes</p>
-                        <br>
-                        <p><b><u>Genre:</u></b></p>
-                        <p th:text="${movie.getGenre()}"></p>
-                        <br>
-                        <p><b><u>Release date:</u></b></p>
-                        <p th:text="${movie.getReleaseDate()}"></p>
-                        <br>
-                        <p><b><u>Language:</u></b></p>
-                        <p th:text="${movie.getLanguage()}"></p>
-                        <br>
-                        <p><b><u>Subtitles:</u></b></p>
-                        <p th:text="${movie.getSubtitles()}"></p>
-                        <br>
-                        <p><b><u>Technologies:</u></b></p>
+                    <div class="col-md-8">
                         <p>
-                            <th:block th:each="technology:${movie.getRequiredTechnologies()}">
-                                <span th:text="${technology.getName()}"></span><br>
+                            <b>Synopsis:</b>
+                            <span th:text="${movie.getSynopsis()}"></span>
+                        </p>
+                        <p>
+                            <b>Main cast:</b>
+                            <span th:text="${movie.getCast()}"></span>
+                        </p>
+                        <p>
+                            <b>Director:</b>
+                            <span th:text="${movie.getDirector()}"></span>
+                        </p>
+                        <p>
+                            <b>Runtime:</b>
+                            <span th:text="${movie.getRuntime()}"></span> minutes
+                        </p>
+                        <p>
+                            <b>Genre:</b>
+                            <span th:text="${movie.getGenre()}"></span>
+                        </p>
+                        <p>
+                            <b>Release date:</b>
+                            <span th:text="${movie.getReleaseDate()}"></span>
+                        </p>
+                        <p>
+                            <b>Language:</b>
+                            <span th:text="${movie.getLanguage()}"></span>
+                        </p>
+                        <p>
+                            <b>Subtitles:</b>
+                            <span th:text="${movie.getSubtitles()}"></span>
+                        </p>
+                        <p><b>Technologies:</b>
+
+                            <th:block th:each="technology, iter:${movie.getRequiredTechnologies()}">
+                                <span th:text="${technology.getName()} + (${iter.last} ? '' : ', ')"></span><br>
                             </th:block>
                         </p>
-                        <br>
-                        <p><b><u>Age restriction:</u></b></p>
-                        <p th:text="${movie.getAgeRestriction()}"></p>
-                        <br>
+                        <p>
+                            <b>Age restriction:</b>
+                            <span th:text="${movie.getAgeRestriction()}"></span>
+                        </p>
                     </div>
-                    <div class="col-md">
-                        <img th:if="${movie.getPoster()}" th:src="'/posters/' + ${movie.getPoster()}"
+                    <div class="col-md-4">
+                        <img th:if="${movie.getPoster()}" th:src="${movie.getPoster()}"
                              th:alt="'Poster for ' + ${movie.getTitle()}" class="img-fluid">
                     </div>
                 </div>
                 <div class="row">
-                    <p><b><u>Synopsis:</u></b></p>
-                    <p th:text="${movie.getSynopsis()}"></p>
-                    <br>
+<!--                    TODO: The screenings will go in here-->
                 </div>
             </div>
         </div>

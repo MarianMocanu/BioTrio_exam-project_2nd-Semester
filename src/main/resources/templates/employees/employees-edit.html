@@ -8,7 +8,7 @@
     <link rel="stylesheet" th:href="@{'/css/style.css'}"/>
 </head>
 <body>
-<div class="bg-dark d-flex flex-column sticky-footer-wrapper">
+<div class="d-flex flex-column sticky-footer-wrapper">
     <div th:replace="fragments :: navbar"></div>
 
     <main class="flex-fill">
@@ -25,7 +25,7 @@
                         <label for="last_name">Last name:</label>
                         <input type="text" class="form-control" th:field="${employee.lastName}" id="last_name">
                     </div>
-                    <button type="submit" class="btn btn-secondary">Submit changes</button>
+                    <button type="submit" class="btn btn-primary">Submit changes</button>
                     <a href="/manage/employees" class="btn btn-outline-danger">Cancel</a>
                 </form>
             </div>

@@ -8,7 +8,7 @@
     <link rel="stylesheet" th:href="@{'/css/style.css'}"/>
 </head>
 <body>
-<div class="bg-dark d-flex flex-column sticky-footer-wrapper">
+<div class="d-flex flex-column sticky-footer-wrapper">
     <div th:replace="fragments :: navbar"></div>
 
     <main class="flex-fill">
@@ -90,7 +90,7 @@
                         <input type="text" class="form-control" th:field="${currentMovie.trailerLink}"
                                id="trailer_link">
                     </div>
-                    <button type="submit" class="btn btn-secondary">Submit Changes</button>
+                    <button type="submit" class="btn btn-primary">Submit Changes</button>
                     <a href="/manage/movies" class="btn btn-outline-danger">Cancel</a>
                 </form>
 
