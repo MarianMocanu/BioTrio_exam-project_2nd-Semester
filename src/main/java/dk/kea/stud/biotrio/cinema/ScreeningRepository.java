@@ -32,6 +32,19 @@ public class ScreeningRepository {
     return getScreeningsListFromRowSet(rs);
   }
 
+  public Map<String,List<Screening>> findUpcomingScreeningsForMovieAsMap(int movieId) {
+    List<Screening> screeningList = findUpcomingScreeningsForMovieById(movieId);
+    Map<String,List<Screening>> screenings = new LinkedHashMap<>();
+    for(Screening screening:screeningList){
+      String screeningDate = convertToStringLabel(screening.getStartTime());
+      if(!screenings.containsKey(screeningDate)) {
+        screenings.put(screeningDate, new ArrayList<>());
+      }
+      screenings.get(screeningDate).add(screening);
+    }
+    return screenings;
+  }
+
   public Screening findById(int id) {
     Screening result = null;
     String query = "SELECT * FROM screenings WHERE id = ?";

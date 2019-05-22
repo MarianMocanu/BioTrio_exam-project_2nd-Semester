@@ -26,9 +26,7 @@ public class MovieController {
   @GetMapping("/movie/{id}")
   public String findMovies(@PathVariable(name = "id") int id, Model model) {
     model.addAttribute("movie", movieRepo.findMovieById(id));
-    model.addAttribute("upcomingMovieScreenings", screeningRepo.findUpcomingScreeningsForMovieById(id));
-    model.addAttribute("date", DateTimeFormatter.ofPattern("EEE dd MMM"));
-    model.addAttribute("time", DateTimeFormatter.ofPattern("HH:mm"));
+    model.addAttribute("upcomingMovieScreenings", screeningRepo.findUpcomingScreeningsForMovieAsMap(id));
     return "movies/user/movies-detail-view";
   }
 
