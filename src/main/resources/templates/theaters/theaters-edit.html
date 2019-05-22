@@ -34,6 +34,18 @@
                         <input type="text" class="form-control"
                                th:field="${theater.seatsPerRow}" id="seats_per_row">
                     </div>
+                    <div class="form-group">
+                        <label for="technologies">Projection type</label>
+                        <select class="form-control" multiple size="5" id="technologies"
+                                name="selectedTechnologies">
+                            <option th:each="technology:${technologies}"
+                                    th:value="${technology.getId()}"
+                                    th:text="${technology.getName()}"
+                                    th:selected="${selectedTechnologies == null ? false :
+                                       #lists.contains(selectedTechnologies, technology.getId())}">
+                            </option>
+                        </select>
+                    </div>
                     <button type="submit" class="btn btn-secondary">Submit changes</button>
                     <a href="/manage/theaters" class="btn btn-outline-danger">Cancel</a>
                 </form>

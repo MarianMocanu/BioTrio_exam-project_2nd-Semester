@@ -17,34 +17,24 @@ public class TechnologyRepository {
     String query = "SELECT * FROM technologies ORDER BY id;";
     SqlRowSet rs = jdbc.queryForRowSet(query);
 
-    List<Technology> result = new ArrayList<>();
-    while (rs.next()) {
-      Technology current = new Technology();
-      current.setId(rs.getInt("id"));
-      current.setName(rs.getString("name"));
-
-      result.add(current);
-    }
-
-    return result;
+    return extractTechnologiesFromRowSet(rs);
   }
 
   public Technology getTechnologyById(int id) {
     String query = "SELECT * FROM technologies WHERE id = ?;";
     SqlRowSet rs = jdbc.queryForRowSet(query, id);
 
-    Technology result = null;
-    if (rs.first()) {
-      result = new Technology();
-      result.setId(rs.getInt("id"));
-      result.setName(rs.getString("name"));
-    }
+    List<Technology> result = extractTechnologiesFromRowSet(rs);
 
-    return result;
+    // If the ID exists in the database, there will always be exactly one result for the
+    // query, otherwise the method is supposed to return null
+    return result == null ? null : result.get(0);
   }
 
+  // Get a list of Technology objects for a given theaterId, which represent that
+  // theater's supported technologies
   public List<Technology> getSupportedTechnologies(int theaterId) {
-    String query = "SELECT technologies.name FROM technologies_to_theaters " +
+    String query = "SELECT technologies.id, technologies.name FROM technologies_to_theaters " +
         "INNER JOIN technologies ON technologies_to_theaters.technology_id = technologies.id " +
         "WHERE technologies_to_theaters.theater_id = ?";
     SqlRowSet rs = jdbc.queryForRowSet(query, theaterId);
@@ -52,6 +42,8 @@ public class TechnologyRepository {
     return extractTechnologiesFromRowSet(rs);
   }
 
+  // Get a list of Technology objects for a given movieId, which represent that
+  // movie's required technologies
   public List<Technology> getRequiredTechnologies(int movieId) {
     String query = "SELECT technologies.id, technologies.name FROM technologies_to_movies " +
         "INNER JOIN technologies ON technologies_to_movies.technology_id = technologies.id " +
@@ -76,11 +68,15 @@ public class TechnologyRepository {
   }
 
   public List<Technology> convertFromIdList(List<Integer> techIds) {
-    List<Technology> result = new ArrayList<>();
-    for (int id : techIds) {
-      result.add(getTechnologyById(id));
+    if (techIds != null) {
+      List<Technology> result = new ArrayList<>();
+      for (int id : techIds) {
+        result.add(getTechnologyById(id));
+      }
+      return result;
+    } else {
+      return null;
     }
-    return result;
   }
 
   private List<Technology> extractTechnologiesFromRowSet(SqlRowSet rs) {
@@ -106,8 +102,8 @@ public class TechnologyRepository {
     jdbc.update("DELETE FROM technologies WHERE id = ?;", id);
   }
 
-  // This method, and the next one, also work as delete methods just by passing a null
-  // or even an empty list, as the second parameter
+  // This method, and the next one, also work as delete methods, by passing a null value
+  // or an empty list as the second parameter
   public void setRequiredTechnologies(int movieId, List<Technology> technologies) {
     // First clear the old associated technologies
     jdbc.update("DELETE FROM technologies_to_movies WHERE movie_id = ?;", movieId);
@@ -128,7 +124,7 @@ public class TechnologyRepository {
     }
   }
 
-  public void setAvailableTechnologies(int theaterId, List<Technology> technologies) {
+  public void setSupportedTechnologies(int theaterId, List<Technology> technologies) {
     // First clear the old associated technologies
     jdbc.update("DELETE FROM technologies_to_theaters WHERE theater_id = ?;", theaterId);
 

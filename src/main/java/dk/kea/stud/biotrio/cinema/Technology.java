@@ -19,4 +19,8 @@ public class Technology {
   public void setName(String name) {
     this.name = name;
   }
+
+  public boolean equals(Technology other) {
+    return this.id == other.getId();
+  }
 }

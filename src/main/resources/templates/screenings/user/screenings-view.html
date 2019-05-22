@@ -35,24 +35,28 @@
                          role="tabpanel">
                         <table class="table table-dark table-hover">
                             <thead>
-                            <th scope="col">Movie</th>
-                            <th scope="col">Seats</th>
-                            <th scope="col"></th>
+                                <tr>
+                                    <th scope="col">Time</th>
+                                    <th scope="col">Movie</th>
+                                    <th scope="col">Seats</th>
+                                    <th scope="col"></th>
+                                </tr>
                             </thead>
                             <tbody th:each="screening: ${entry.getValue()}">
-                            <tr>
-                                <td>
-                                    <a th:text="${screening.getMovie().getTitle()}"
-                                       th:href="'/movie/' + ${screening.getMovie().getId()}">
-                                    </a>
-                                </td>
-                                <td th:text="${screening.getNoAvailableSeats()}"></td>
-                                <td>
-                                    <a th:href="'/booking/' + ${screening.getId()}">
-                                        Book tickets
-                                    </a>
-                                </td>
-                            </tr>
+                                <tr>
+                                    <td th:text="${screening.getStartTime().toLocalTime()}"></td>
+                                    <td>
+                                        <a th:text="${screening.getMovie().getTitle()}"
+                                           th:href="'/movie/' + ${screening.getMovie().getId()}">
+                                        </a>
+                                    </td>
+                                    <td th:text="${screening.getNoAvailableSeats()}"></td>
+                                    <td>
+                                        <a th:href="'/booking/' + ${screening.getId()}">
+                                            Book tickets
+                                        </a>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>

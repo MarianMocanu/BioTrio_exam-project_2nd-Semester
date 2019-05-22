@@ -44,7 +44,8 @@ public class MovieController {
   @PostMapping("/manage/movies/save")
   public String saveMovie(@ModelAttribute Movie movie,
                           @RequestParam String releaseDateString,
-                          @RequestParam List<Integer> selectedTechnologies) {
+                          @RequestParam(value = "selectedTechnologies", required = false)
+                                List<Integer> selectedTechnologies) {
     LocalDate releaseDate;
     try {
       releaseDate = LocalDate.parse(releaseDateString, AppSettings.DateFormat);
@@ -70,7 +71,8 @@ public class MovieController {
   @PostMapping("/manage/movies/edit")
   public String updateMovie(@ModelAttribute Movie movie,
                             @RequestParam String releaseDateString,
-                            @RequestParam List<Integer> selectedTechnologies) {
+                            @RequestParam(value = "selectedTechnologies", required = false)
+                                  List<Integer> selectedTechnologies) {
     LocalDate releaseDate;
     try {
       releaseDate = LocalDate.parse(releaseDateString, AppSettings.DateFormat);
