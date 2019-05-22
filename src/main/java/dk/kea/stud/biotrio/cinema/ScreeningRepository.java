@@ -25,6 +25,13 @@ public class ScreeningRepository {
   @Autowired
   private TheaterRepository theaterRepo;
 
+  public List<Screening> findPastScreenings(){
+    String query = "SELECT * FROM screenings WHERE start_time < CURDATE() ORDER BY start_time";
+    SqlRowSet rs = jdbc.queryForRowSet(query);
+
+    return getScreeningsListFromRowSet(rs);
+  }
+
   public List<Screening> findUpcomingScreeningsForMovieById(int movieId) {
     String query = "SELECT * FROM screenings WHERE start_time >= CURDATE() AND movie_id = ? ORDER BY start_time";
     SqlRowSet rs = jdbc.queryForRowSet(query, movieId);
@@ -180,6 +187,12 @@ public class ScreeningRepository {
 
   public void deleteScreening(int id) {
     jdbc.update("DELETE FROM screenings WHERE id = ?;", id);
+  }
+
+  public void deletePastScreenings(){
+    for (Screening screening : findPastScreenings()) {
+      deleteScreening(screening.getId());
+    }
   }
 
   public List<Screening> findScreeningsThatMightConflict(Screening screening) {

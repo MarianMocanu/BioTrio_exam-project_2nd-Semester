@@ -31,6 +31,7 @@ public class ScreeningController {
   @GetMapping("/manage/screenings")
   public String screenings(Model model) {
     model.addAttribute("screenings", screeningRepo.findAllScreenings());
+    model.addAttribute("pastScreenings", screeningRepo.findPastScreenings());
     return "screenings/screenings-view";
   }
 
@@ -120,6 +121,12 @@ public class ScreeningController {
   public String deleteScreening(int id) {
     screeningRepo.deleteScreening(id);
 
+    return "redirect:/manage/screenings";
+  }
+
+  @PostMapping("/manage/screenings/delete/past/screenings")
+  public String deletePastScreenings(){
+    screeningRepo.deletePastScreenings();
     return "redirect:/manage/screenings";
   }
 
