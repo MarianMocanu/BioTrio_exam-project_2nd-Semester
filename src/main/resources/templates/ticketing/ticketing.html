@@ -14,33 +14,84 @@
     <main class="flex-fill">
         <div class="container">
             <div class="jumbotron">
-                <h1 class="display-4">Screenings</h1>
-                <table class="table table-dark table-hover">
-                    <thead>
-                    <tr>
-                        <th scope="col">Date</th>
-                        <th scope="col">Time</th>
-                        <th scope="col">Movie</th>
-                        <th scope="col">Seats</th>
-                        <th class="text-center" scope="col">Ticketing</th>
-                    </tr>
-                    </thead>
-                    <tbody th:each="screening:${screenings}">
-                    <tr>
-                        <td th:text="${screening.getStartTime().toLocalDate().toString()}"></td>
-                        <td th:text="${screening.getStartTime().toLocalTime().toString()}"></td>
-                        <td th:text="${screening.getMovie().getTitle()}"></td>
-                        <td th:text="${screening.getNoAvailableSeats()}"></td>
-                        <td class="text-center"><a class="btn btn-primary"
-                               th:href="'/manage/screening/'+${screening.id}+'/ticketing'">
-                            Sell seats</a>
-                            <a class="btn btn-primary"
-                               th:href="'/manage/screening/'+${screening.id}+'/bookings'">
-                            Redeem booking
-                        </a></td>
-                    </tr>
-                    </tbody>
-                </table>
+                <h1 class="display-4">Upcoming Screenings</h1>
+
+                <!-- Navigation pills -->
+                <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                    <li class="nav-item" th:each="key,iter:${upcomingScreenings.keySet()}">
+                        <a th:class="${iter.index} == 0 ? 'nav-link our-pills active' : 'nav-link our-pills'"
+                           th:id="'pill'+${iter.index}"
+                           th:href="'#linkPill'+${iter.index}"
+                           role="tab"
+                           th:text="${key}"
+                           data-toggle="pill">
+                        </a>
+                    </li>
+                </ul>
+                <!-- Pills content -->
+                <div class="tab-content">
+                    <div th:each="entry,iter:${upcomingScreenings.entrySet()}"
+                         th:class="${iter.index}==0 ? 'tab-pane active': 'tab-pane'"
+                         th:id="'linkPill'+${iter.index}"
+                         role="tabpanel">
+                        <table class="table table-dark table-hover">
+                            <thead>
+                            <tr>
+                                <th scope="col">Time</th>
+                                <th scope="col">Movie</th>
+                                <th scope="col">Theater</th>
+                                <th scope="col">Seats</th>
+                                <th class="text-center" scope="col">Ticketing</th>
+                            </tr>
+                            </thead>
+                            <tbody th:each="screening: ${entry.getValue()}">
+                            <tr>
+                                <td th:text="${screening.getStartTime().toLocalTime()}"></td>
+                                <td>
+                                    <a th:text="${screening.getMovie().getTitle()}"
+                                       th:href="'/movie/' + ${screening.getMovie().getId()}">
+                                    </a>
+                                </td>
+                                <td th:text="${screening.getTheater().getName()}"></td>
+                                <td th:text="${screening.getNoAvailableSeats()}"></td>
+                                <td class="text-center"><a class="btn btn-primary"
+                                                           th:href="'/manage/screening/'+${screening.id}+'/ticketing'">
+                                    Sell seats</a>
+                                    <a class="btn btn-primary"
+                                       th:href="'/manage/screening/'+${screening.id}+'/bookings'">
+                                        Redeem booking
+                                    </a></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!--<table class="table table-dark table-hover">-->
+                    <!--<thead>-->
+                    <!--<tr>-->
+                        <!--<th scope="col">Date</th>-->
+                        <!--<th scope="col">Time</th>-->
+                        <!--<th scope="col">Movie</th>-->
+                        <!--<th scope="col">Seats</th>-->
+                        <!--<th class="text-center" scope="col">Ticketing</th>-->
+                    <!--</tr>-->
+                    <!--</thead>-->
+                    <!--<tbody th:each="screening:${screenings}">-->
+                    <!--<tr>-->
+                        <!--<td th:text="${screening.getStartTime().toLocalDate().toString()}"></td>-->
+                        <!--<td th:text="${screening.getStartTime().toLocalTime().toString()}"></td>-->
+                        <!--<td th:text="${screening.getMovie().getTitle()}"></td>-->
+                        <!--<td th:text="${screening.getNoAvailableSeats()}"></td>-->
+                        <!--<td class="text-center"><a class="btn btn-primary"-->
+                                                   <!--th:href="'/manage/screening/'+${screening.id}+'/ticketing'">-->
+                            <!--Sell seats</a>-->
+                            <!--<a class="btn btn-primary"-->
+                               <!--th:href="'/manage/screening/'+${screening.id}+'/bookings'">-->
+                                <!--Redeem booking-->
+                            <!--</a></td>-->
+                    <!--</tr>-->
+                    <!--</tbody>-->
+                <!--</table>-->
             </div>
         </div>
     </main>

@@ -23,6 +23,11 @@ public class TicketController {
 
 
 
+  @GetMapping("/manage/ticketing")
+  public String screeningsForBookingOrSale(Model model){
+    model.addAttribute("upcomingScreenings", screeningRepo.findUpcomingScreeningsAsMap());
+    return "ticketing/ticketing";
+  }
   @GetMapping("/manage/screening/{screeningId}/ticketing")
   public String screeningTicketing(@PathVariable(name = "screeningId") int id, Model model) {
     SeatData data = new SeatData();
