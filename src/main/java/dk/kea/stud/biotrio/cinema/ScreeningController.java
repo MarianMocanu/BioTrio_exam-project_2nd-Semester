@@ -108,20 +108,16 @@ public class ScreeningController {
   //From "delete" button goes to "Are you sure to delete(...)?"
   @GetMapping("/manage/screenings/delete/{id}")
   public String deleteScreening(@PathVariable(name = "id") int id, Model m) {
-    Screening s = screeningRepo.findById(id);
-    boolean canDelete = screeningRepo.canDelete(s);
-    m.addAttribute("canDelete", canDelete);
-    m.addAttribute("screening", s);
+    Screening screening = screeningRepo.findById(id);
+    boolean canDelete = screeningRepo.canDelete(screening);
 
-    return "screenings/screenings-delete";
-  }
-
-  //Deletes Movie and lists all the Movies
-  @PostMapping("/manage/screenings/delete")
-  public String deleteScreening(int id) {
-    screeningRepo.deleteScreening(id);
-
-    return "redirect:/manage/screenings";
+    if (canDelete) {
+      screeningRepo.deleteScreening(id);
+      return "redirect:/manage/screenings";
+    } else {
+      m.addAttribute("movieTitle", screening.getMovie().getTitle());
+      return "screenings/screenings-delete";
+    }
   }
 
   @PostMapping("/manage/screenings/delete/past/screenings")

@@ -16,8 +16,7 @@
             <div class="jumbotron">
                 <h1 class="display-4">Select seats</h1>
                 <form th:action="'/manage/screening/'+${screening.getId()}+'/ticketing'"
-                      method="post">
-                    <div style="overflow: auto">
+                      method="post" style="overflow: auto">
                     <table class="table table-dark table-hover">
                         <th:block th:each="seat:${data.getSeats()}">
                             <th:block th:if="${seat.getSeatNo()} == 1">
@@ -40,7 +39,6 @@
                             </th:block>
                         </th:block>
                     </table>
-                    </div>
                     <button type="submit" class="btn btn-primary">Sell tickets</button>
                     <br>
                     <br>
