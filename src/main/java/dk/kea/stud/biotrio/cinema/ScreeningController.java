@@ -30,7 +30,7 @@ public class ScreeningController {
   // For the employees
   @GetMapping("/manage/screenings")
   public String screenings(Model model) {
-    model.addAttribute("screenings", screeningRepo.findAllScreenings());
+    model.addAttribute("screenings", screeningRepo.findAllScreeningsAsMap());
     model.addAttribute("pastScreenings", screeningRepo.findPastScreenings());
     return "screenings/screenings-view";
   }
