@@ -38,6 +38,7 @@
                                 <tr>
                                     <th scope="col">Time</th>
                                     <th scope="col">Movie</th>
+                                    <th scope="col">Theater</th>
                                     <th scope="col">Seats</th>
                                     <th scope="col"></th>
                                 </tr>
@@ -50,6 +51,7 @@
                                            th:href="'/movie/' + ${screening.getMovie().getId()}">
                                         </a>
                                     </td>
+                                    <td th:text="${screening.getTheater().getName()}"></td>
                                     <td th:text="${screening.getNoAvailableSeats()}"></td>
                                     <td>
                                         <a th:href="'/booking/' + ${screening.getId()}">

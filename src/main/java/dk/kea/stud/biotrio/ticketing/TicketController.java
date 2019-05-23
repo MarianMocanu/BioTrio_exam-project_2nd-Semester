@@ -1,16 +1,12 @@
 package dk.kea.stud.biotrio.ticketing;
 
-import dk.kea.stud.biotrio.cinema.Screening;
 import dk.kea.stud.biotrio.cinema.ScreeningRepository;
-import dk.kea.stud.biotrio.cinema.Theater;
-import dk.kea.stud.biotrio.cinema.TheaterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 public class TicketController {
@@ -23,6 +19,11 @@ public class TicketController {
 
 
 
+  @GetMapping("/manage/ticketing")
+  public String screeningsForBookingOrSale(Model model){
+    model.addAttribute("upcomingScreenings", screeningRepo.findUpcomingScreeningsAsMap());
+    return "ticketing/ticketing";
+  }
   @GetMapping("/manage/screening/{screeningId}/ticketing")
   public String screeningTicketing(@PathVariable(name = "screeningId") int id, Model model) {
     SeatData data = new SeatData();
@@ -37,7 +38,7 @@ public class TicketController {
     }
     model.addAttribute("data", data);
     model.addAttribute("screening", screeningRepo.findById(id)); 
-    return "ticketing/screeningID-ticketing";
+    return "ticketing/ticketing-id-add";
   }
 
   @PostMapping("/manage/screening/{screeningId}/ticketing")
@@ -48,6 +49,7 @@ public class TicketController {
       ticket.setScreening(screeningRepo.findById(id));
       ticket.setSeat(seat);
       ticketRepo.addTicket(ticket);
+      Helper.printTicket(ticket);
       //TODO SomeClass.print(ticketRepo.addTicket(soldTicket));
     }
     return "redirect:/manage/screening/" + id + "/ticketing";
@@ -60,7 +62,7 @@ public class TicketController {
     data.setSubmittedData(new ArrayList<>());
     model.addAttribute("data", data);
     model.addAttribute("screening", screeningRepo.findById(id));
-    return "ticketing/delete-ticket";
+    return "ticketing/ticketing-void";
   }
 
   @PostMapping("/manage/screening/{screeningId}/ticketing/void")

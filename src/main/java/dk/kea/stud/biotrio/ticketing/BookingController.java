@@ -64,7 +64,7 @@ public class BookingController {
     booking.setPhoneNo(phoneNo);
     bookingRepo.addBooking(booking);
     model.addAttribute("booking", booking);
-
+    Helper.printBooking(booking);
     return "bookings/user/booking-confirmed";
   }
 
@@ -115,14 +115,14 @@ public class BookingController {
     model.addAttribute("screeningId", id);
     switch (bookingList.size()) {
       case 0:
-        return "ticketing/no-seats-for-booking";
+        return "booking-none";
       case 1:
         SeatData bookingData = new SeatData();
         bookingData.setSeats(bookingList.get(0).getSeats());
         bookingData.setSubmittedData(new ArrayList<>());
         model.addAttribute("bookedSeats", bookingData);
         model.addAttribute("bookingId", bookingList.get(0).getId());
-        return "ticketing/booking-view";
+        return "booking-redeem-seats";
       default:
         model.addAttribute("bookingList", bookingList);
         return "ticketing/list-of-bookings";
@@ -140,7 +140,7 @@ public class BookingController {
     model.addAttribute("screeningID", screeningId);
     model.addAttribute("bookedSeats", bookingData);
     model.addAttribute("bookingId", bookingId);
-    return "ticketing/booking-view";
+    return "booking-redeem-seats";
   }
 
   @PostMapping("/manage/screening/{screeningId}/booking/redeem/{bookingId}")

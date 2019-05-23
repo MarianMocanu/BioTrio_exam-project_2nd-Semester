@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -25,11 +26,31 @@ public class ScreeningRepository {
   @Autowired
   private TheaterRepository theaterRepo;
 
+  public List<Screening> findPastScreenings(){
+    String query = "SELECT * FROM screenings WHERE start_time < CURDATE() ORDER BY start_time";
+    SqlRowSet rs = jdbc.queryForRowSet(query);
+
+    return getScreeningsListFromRowSet(rs);
+  }
+
   public List<Screening> findUpcomingScreeningsForMovieById(int movieId) {
     String query = "SELECT * FROM screenings WHERE start_time >= CURDATE() AND movie_id = ? ORDER BY start_time";
     SqlRowSet rs = jdbc.queryForRowSet(query, movieId);
 
     return getScreeningsListFromRowSet(rs);
+  }
+
+  public Map<String,List<Screening>> findUpcomingScreeningsForMovieAsMap(int movieId) {
+    List<Screening> screeningList = findUpcomingScreeningsForMovieById(movieId);
+    Map<String,List<Screening>> screenings = new LinkedHashMap<>();
+    for(Screening screening:screeningList){
+      String screeningDate = convertToStringLabel(screening.getStartTime());
+      if(!screenings.containsKey(screeningDate)) {
+        screenings.put(screeningDate, new ArrayList<>());
+      }
+      screenings.get(screeningDate).add(screening);
+    }
+    return screenings;
   }
 
   public Screening findById(int id) {
@@ -83,16 +104,29 @@ public class ScreeningRepository {
   }
 
   public Map<String,List<Screening>> findUpcomingScreeningsAsMap() {
-    List<Screening> screeningList = findUpcomingScreenings();
-    Map<String,List<Screening>> screenings = new LinkedHashMap<>();
-    for(Screening screening:screeningList){
+    List<Screening> screeningsList = findUpcomingScreenings();
+    Map<String,List<Screening>> screeningsMap = new LinkedHashMap<>();
+    for(Screening screening:screeningsList){
       String screeningDate = convertToStringLabel(screening.getStartTime());
-      if(!screenings.containsKey(screeningDate)) {
-        screenings.put(screeningDate, new ArrayList<>());
+      if(!screeningsMap.containsKey(screeningDate)) {
+        screeningsMap.put(screeningDate, new ArrayList<>());
       }
-      screenings.get(screeningDate).add(screening);
+      screeningsMap.get(screeningDate).add(screening);
     }
-    return screenings;
+    return screeningsMap;
+  }
+
+  public Map<String, List<Screening>> findAllScreeningsAsMap(){
+    List<Screening> screeningsList = findAllScreenings();
+    Map<String, List<Screening>> screeningsMap = new LinkedHashMap<>();
+    for (Screening screening : screeningsList) {
+      String screeningDate = convertToStringLabel(screening.getStartTime());
+      if (!screeningsMap.containsKey(screeningDate)) {
+        screeningsMap.put(screeningDate, new ArrayList<>());
+      }
+      screeningsMap.get(screeningDate).add(screening);
+    }
+    return screeningsMap;
   }
 
   public List<Screening> findAllScreenings() {
@@ -169,6 +203,12 @@ public class ScreeningRepository {
     jdbc.update("DELETE FROM screenings WHERE id = ?;", id);
   }
 
+  public void deletePastScreenings(){
+    for (Screening screening : findPastScreenings()) {
+      deleteScreening(screening.getId());
+    }
+  }
+
   public List<Screening> findScreeningsThatMightConflict(Screening screening) {
     String query = "SELECT * FROM screenings " +
         "WHERE start_time > ? - INTERVAL 12 HOUR " +
@@ -192,9 +232,12 @@ public class ScreeningRepository {
 
   // Check if a screening has associated tickets and/or bookings
   public boolean canDelete(Screening s){
+    if (s.getStartTime().isBefore(LocalDateTime.now())) {
+      return true;
+    }
     String query = ("SELECT COUNT(*) FROM bookings INNER JOIN tickets ON " +
-        "bookings.screening_id = tickets.screening_id WHERE bookings.screening_id= "+s.getId());
-    SqlRowSet rs = jdbc.queryForRowSet(query);
+        "bookings.screening_id = tickets.screening_id WHERE bookings.screening_id = ? ");
+    SqlRowSet rs = jdbc.queryForRowSet(query, s.getId());
     rs.first();
     int noScreenings = rs.getInt(1);
 

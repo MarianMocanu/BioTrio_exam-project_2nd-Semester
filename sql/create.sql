@@ -127,3 +127,22 @@ CREATE TABLE technologies_to_theaters
 INSERT INTO roles (name) VALUES ('User'), ('Manager'), ('Admin');
 
 INSERT INTO technologies (name) VALUES ('3D'), ('Dolby Atmos');
+
+-- update table tickets for cascade deleting
+ALTER TABLE `biotrio`.`tickets`
+DROP FOREIGN KEY `tickets_ibfk_1`;
+ALTER TABLE `biotrio`.`tickets`
+ADD CONSTRAINT `tickets_ibfk_1`
+  FOREIGN KEY (`screening_id`)
+  REFERENCES `biotrio`.`screenings` (`id`)
+  ON DELETE CASCADE
+  ON UPDATE RESTRICT;
+
+-- update table bookings for cascade deleting
+ALTER TABLE `biotrio`.`bookings`
+DROP FOREIGN KEY `bookings_ibfk_1`;
+ALTER TABLE `biotrio`.`bookings`
+ADD CONSTRAINT `bookings_ibfk_1`
+  FOREIGN KEY (`screening_id`)
+  REFERENCES `biotrio`.`screenings` (`id`)
+  ON DELETE CASCADE;

@@ -30,14 +30,9 @@ public class ScreeningController {
   // For the employees
   @GetMapping("/manage/screenings")
   public String screenings(Model model) {
-    model.addAttribute("screenings", screeningRepo.findAllScreenings());
+    model.addAttribute("screenings", screeningRepo.findAllScreeningsAsMap());
+    model.addAttribute("pastScreenings", screeningRepo.findPastScreenings());
     return "screenings/screenings-view";
-  }
-
-  @GetMapping("/manage/ticketing")
-  public String screeningsForBookingOrSale(Model model){
-    model.addAttribute("screenings", screeningRepo.findAllScreenings());
-    return "ticketing/ticketing";
   }
 
   @GetMapping("/manage/screenings/add")
@@ -113,19 +108,21 @@ public class ScreeningController {
   //From "delete" button goes to "Are you sure to delete(...)?"
   @GetMapping("/manage/screenings/delete/{id}")
   public String deleteScreening(@PathVariable(name = "id") int id, Model m) {
-    Screening s = screeningRepo.findById(id);
-    boolean canDelete = screeningRepo.canDelete(s);
-    m.addAttribute("canDelete", canDelete);
-    m.addAttribute("screening", s);
+    Screening screening = screeningRepo.findById(id);
+    boolean canDelete = screeningRepo.canDelete(screening);
 
-    return "screenings/screenings-delete";
+    if (canDelete) {
+      screeningRepo.deleteScreening(id);
+      return "redirect:/manage/screenings";
+    } else {
+      m.addAttribute("movieTitle", screening.getMovie().getTitle());
+      return "screenings/screenings-delete";
+    }
   }
 
-  //Deletes Movie and lists all the Movies
-  @PostMapping("/manage/screenings/delete")
-  public String deleteScreening(int id) {
-    screeningRepo.deleteScreening(id);
-
+  @PostMapping("/manage/screenings/delete/past/screenings")
+  public String deletePastScreenings(){
+    screeningRepo.deletePastScreenings();
     return "redirect:/manage/screenings";
   }
 
