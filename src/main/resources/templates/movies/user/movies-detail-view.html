@@ -17,7 +17,7 @@
                 <div class="row">
                     <h3 class="display-4" th:text="${movie.getTitle()}"></h3>
                 </div>
-                <div class="row trailerContainer" th:if="${movie.getTrailerLink()}">
+                <div class="embed-responsive embed-responsive-16by9" th:if="${movie.getTrailerLink()}">
                     <iframe id="ytplayer" type="text/html" allowfullscreen class="trailerPlayer"
                             th:src="'https://www.youtube.com/embed/' + ${movie.getTrailerLink()} +
                             '?autoplay=1&origin=http://example.com'"
@@ -74,9 +74,7 @@
                              th:alt="'Poster for ' + ${movie.getTitle()}" class="img-fluid">
                     </div>
                 </div>
-                <div class="row">
-<!--                    TODO: The screenings will go in here-->
-                </div>
+                <hr>
                 <!--upcoming screenings for this particular movie-->
                 <!-- Navigation pills -->
                 <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">

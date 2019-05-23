@@ -15,6 +15,7 @@
         <div class="container">
             <div class="jumbotron">
                 <h1 class="display-4">Choose your seats:</h1>
+                <div style="overflow-x: auto">
                 <form action="/booking/save" method="post" name="seats">
                     <input type="hidden" name="screeningId" th:value="${screening.getId()}">
                     <div class="form-group">
@@ -47,6 +48,7 @@
                     </table>
                     <button type="submit" class="btn btn-primary">Book seats</button>
                 </form>
+                </div>
             </div>
         </div>
     </main>
