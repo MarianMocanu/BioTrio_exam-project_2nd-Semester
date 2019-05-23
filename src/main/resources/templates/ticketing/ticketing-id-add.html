@@ -34,15 +34,19 @@
                                           th:text="${seat.getSeatNo()}"></span>
                                 </label>
                             </td>
-                            <th:block th:if="${seat.getSeatNo() == screening.getTheater().getSeatsPerRow()}">
+                            <th:block
+                                    th:if="${seat.getSeatNo() == screening.getTheater().getSeatsPerRow()}">
                                 </tr>
                             </th:block>
                         </th:block>
                     </table>
-                    <button type="submit" class="btn btn-primary">Sell tickets</button>
-                    <br>
-                    <br>
-                    <a class="btn btn-outline-danger" th:href="'/manage/screening/'+${screening.getId()}+'/ticketing/void'">Void tickets</a>
+                    <div class="btn-toolbar justify-content-between" role="toolbar">
+                        <button class="btn btn-primary" type="submit">Sell tickets</button>
+                        <button class="btn btn-outline-danger"
+                                th:href="'/manage/screening/'+${screening.getId()}+'/ticketing/void'">
+                            Void tickets
+                        </button>
+                    </div>
                 </form>
             </div>
         </div>

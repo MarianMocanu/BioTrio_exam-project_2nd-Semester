@@ -62,7 +62,7 @@ public class TicketController {
     data.setSubmittedData(new ArrayList<>());
     model.addAttribute("data", data);
     model.addAttribute("screening", screeningRepo.findById(id));
-    return "ticketing-void";
+    return "ticketing/ticketing-void";
   }
 
   @PostMapping("/manage/screening/{screeningId}/ticketing/void")
