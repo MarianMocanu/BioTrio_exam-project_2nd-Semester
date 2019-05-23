@@ -24,8 +24,10 @@
                         <div class="MultiCarousel-inner">
                             <div class="item" th:each="movie:${nowPlaying}">
                                 <div class="pad15 text-center">
-                                    <img class="img-fluid"
-                                         th:src="${movie.getPoster()}" th:alt="${movie.getTitle()}">
+                                    <a th:href="'/movie/' + ${movie.getId()}">
+                                        <img th:href="'/movie/' + ${movie.getId()}"
+                                             class="img-fluid" th:src="${movie.getPoster()}">
+                                    </a>
                                     <a th:href="'/movie/' + ${movie.getId()}"
                                        th:text="${movie.getTitle()}"></a>
                                 </div>
@@ -43,8 +45,10 @@
                         <div class="MultiCarousel-inner">
                             <div class="item" th:each="movie:${upcomingMovies}">
                                 <div class="pad15 text-center">
-                                    <img class="img-fluid"
-                                         th:src="${movie.getPoster()}" th:alt="${movie.getTitle()}">
+                                    <a th:href="'/movie/' + ${movie.getId()}">
+                                        <img th:href="'/movie/' + ${movie.getId()}"
+                                             class="img-fluid" th:src="${movie.getPoster()}">
+                                    </a>
                                     <a th:href="'/movie/' + ${movie.getId()}"
                                        th:text="${movie.getTitle()}"></a>
                                 </div>

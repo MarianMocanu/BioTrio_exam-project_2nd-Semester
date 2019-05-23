@@ -29,13 +29,6 @@ public class BookingController {
     SeatData data = new SeatData();
     data.setSeats(seatRepo.getSeatStatusForScreening(screeningId));
     data.setSubmittedData(new ArrayList<>());
-//    for (Seat seat : data.getSeats()) {
-//      if (seat.isAvailable()) {
-//        data.getSubmittedData().add("");
-//      } else {
-//        data.getSubmittedData().add("" + seat.getRowNo() + "_" + seat.getSeatNo());
-//      }
-//    }
 
     model.addAttribute("maxSeatsPerBooking", AppSettings.MAX_NUMBER_OF_SEATS_PER_BOOKING);
     model.addAttribute("screening", screeningRepo.findById(screeningId));
@@ -115,14 +108,14 @@ public class BookingController {
     model.addAttribute("screeningId", id);
     switch (bookingList.size()) {
       case 0:
-        return "booking-none";
+        return "ticketing/booking-none";
       case 1:
         SeatData bookingData = new SeatData();
         bookingData.setSeats(bookingList.get(0).getSeats());
         bookingData.setSubmittedData(new ArrayList<>());
         model.addAttribute("bookedSeats", bookingData);
         model.addAttribute("bookingId", bookingList.get(0).getId());
-        return "booking-redeem-seats";
+        return "ticketing/booking-redeem-seats";
       default:
         model.addAttribute("bookingList", bookingList);
         return "ticketing/list-of-bookings";
@@ -140,7 +133,7 @@ public class BookingController {
     model.addAttribute("screeningID", screeningId);
     model.addAttribute("bookedSeats", bookingData);
     model.addAttribute("bookingId", bookingId);
-    return "booking-redeem-seats";
+    return "ticketing/booking-redeem-seats";
   }
 
   @PostMapping("/manage/screening/{screeningId}/booking/redeem/{bookingId}")
