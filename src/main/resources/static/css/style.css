@@ -8320,3 +8320,7 @@ td.seatChkBox input[type="checkbox"]:disabled:checked + label {
     width: 100%;
     height: 100%;
 }
+
+hr {
+    border-color: #6C20D9;
+}
