@@ -38,7 +38,40 @@
                             </th:block>
                         </th:block>
                     </table>
-                    <button type="submit" class="btn btn-primary">Void tickets</button>
+                    <!-- Button trigger modal -->
+                    <a type="button" class="btn btn-primary" data-toggle="modal"
+                       data-target="#deleteTickets">
+                        Cancel tickets
+                    </a>
+                    <!-- Modal for deleting past screenings-->
+                    <div class="modal fade" id="deleteTickets" tabindex="-1" role="dialog"
+                         aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">
+                                        Warning!!!The selected tickets will be permanently deleted from the
+                                        database!
+                                    </h5>
+                                    <button type="button" class="close" data-dismiss="modal"
+                                            aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                   <p>Are you sure you want to delete?</p>
+                                </div>
+                                <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                                data-dismiss="modal">Close
+                                        </button>
+                                        <button type="submit" class="btn btn-danger">
+                                            Delete
+                                        </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>
