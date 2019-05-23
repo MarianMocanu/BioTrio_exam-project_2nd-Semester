@@ -8,13 +8,13 @@
     <link rel="stylesheet" th:href="@{'/css/style.css'}"/>
 </head>
 <body>
-<div class="bg-dark d-flex flex-column sticky-footer-wrapper">
+<div class="d-flex flex-column sticky-footer-wrapper">
     <div th:replace="fragments :: navbar"></div>
 
     <main class="flex-fill">
         <div class="container">
             <div class="jumbotron">
-                <h1 class="display-4">Here you have all movies!</h1>
+                <h1 class="display-4">Upcoming movies</h1>
 
                 <table class="table table-dark table-hover">
                     <thead>
@@ -35,7 +35,7 @@
                     </tr>
                     </tbody>
                 </table>
-                <a class="btn btn-secondary" th:href="'/manage/upcoming/add'">Add movie to list</a>
+                <a class="btn btn-primary" th:href="'/manage/upcoming/add'">Add movie to list</a>
             </div>
         </div>
     </main>

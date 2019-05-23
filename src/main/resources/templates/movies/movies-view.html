@@ -8,31 +8,21 @@
     <link rel="stylesheet" th:href="@{'/css/style.css'}"/>
 </head>
 <body>
-<div class="bg-dark d-flex flex-column sticky-footer-wrapper">
+<div class="d-flex flex-column sticky-footer-wrapper">
     <div th:replace="fragments :: navbar"></div>
 
     <main class="flex-fill">
         <div class="container">
             <div class="jumbotron">
-                <h1 class="display-4">Here you have all movies!</h1>
+                <h1 class="display-4">Movies</h1>
 
                 <table class="table table-dark table-hover">
                     <thead>
                     <tr>
-                        <!--<th scope="col">ID</th>-->
                         <th scope="col">Title</th>
                         <th scope="col">Runtime</th>
                         <th scope="col">Synopsis</th>
                         <th scope="col">Genre</th>
-                        <!--<th scope="col">Language</th>-->
-                        <!--<th scope="col">Subtitles</th>-->
-                        <!--<th scope="col">Projection Type</th>-->
-                        <!--<th scope="col">Trailer Link</th>-->
-                        <!--<th scope="col">Release Date</th>-->
-                        <!--<th scope="col">Cast</th>-->
-                        <!--<th scope="col">Director</th>-->
-                        <!--<th scope="col">Age Restriction</th>-->
-                        <!--<th scope="col">Poster</th>-->
                         <th scope="col"></th>
                         <th scope="col"></th>
 
@@ -40,22 +30,12 @@
                     </thead>
                     <tbody>
                     <tr th:each="movie:${movies}">
-                        <!--<td th:text="${movie.id}"></td>-->
                         <td th:text="${movie.title}"></td>
                         <td th:text="${movie.runtime}"></td>
                         <td th:text="${movie.synopsis}"></td>
                         <td th:text="${movie.genre}"></td>
-                        <!--<td th:text="${movie.language}"></td>-->
-                        <!--<td th:text="${movie.subtitles}"></td>-->
-                        <!--<td th:text="${movie.projectionType}"></td>-->
-                        <!--<td th:text="${movie.trailerLink}"></td>-->
-                        <!--<td><span th:if="${movie.releaseDate}" th:text="${movie.releaseDate}"></span></td>-->
-                        <!--<td th:text="${movie.cast}"></td>-->
-                        <!--<td th:text="${movie.director}"></td>-->
-                        <!--<td th:text="${movie.ageRestriction}"></td>-->
-                        <!--<td th:text="${movie.poster}"></td>-->
                         <td>
-                            <a class="btn btn-secondary" th:href="'/manage/movies/edit/' + ${movie.id}">
+                            <a class="btn btn-primary" th:href="'/manage/movies/edit/' + ${movie.id}">
                                 Edit
                             </a>
                         </td>
@@ -67,7 +47,7 @@
                     </tr>
                     </tbody>
                 </table>
-                <a class="btn btn-secondary" th:href="'/manage/movies/add'">Add new movie</a>
+                <a class="btn btn-primary" th:href="'/manage/movies/add'">Add new movie</a>
             </div>
         </div>
     </main>

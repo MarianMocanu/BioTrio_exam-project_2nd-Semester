@@ -8,7 +8,7 @@
     <link rel="stylesheet" th:href="@{'/css/style.css'}"/>
 </head>
 <body>
-<div class="bg-dark d-flex flex-column sticky-footer-wrapper">
+<div class="d-flex flex-column sticky-footer-wrapper">
     <div th:replace="fragments :: navbar"></div>
 
     <main class="flex-fill">
@@ -19,6 +19,7 @@
                 <div th:if="${error}" class="alert alert-danger">
                     <span th:if="${error.equals('start_time')}">Error parsing the starting time. Required format is YYYY-MM-DD HH:MM. Try again.</span>
                     <span th:if="${error.equals('conflict')}">There is a scheduling conflict with another screening. Try again.</span>
+                    <span th:if="${error.equals('tech')}">The selected theater doesn't support all technologies that the selected movie requires.</span>
                 </div>
 
                 <form action="/manage/screenings/save" th:object="${screeningForm}" method="post">
@@ -44,7 +45,7 @@
                                th:field="${screeningForm.startTime}"
                                id="start_time" name="start_time" placeholder="YYYY-MM-DD HH:MM">
                     </div>
-                    <button type="submit" class="btn btn-secondary">Create screening</button>
+                    <button type="submit" class="btn btn-primary">Create screening</button>
                     <a href="/manage/screenings" class="btn btn-outline-danger">Cancel</a>
                 </form>
             </div>

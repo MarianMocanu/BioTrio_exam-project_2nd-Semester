@@ -8,14 +8,15 @@
     <link rel="stylesheet" th:href="@{'/css/style.css'}"/>
 </head>
 <body>
-<div class="bg-dark d-flex flex-column sticky-footer-wrapper">
+<div class="d-flex flex-column sticky-footer-wrapper">
     <div th:replace="fragments :: navbar"></div>
 
     <main class="flex-fill">
         <div class="container">
             <div class="jumbotron">
                 <h1 class="display-4">Choose your seats:</h1>
-                <form action="/booking/save" method="post">
+                <div style="overflow-x: auto">
+                <form action="/booking/save" method="post" name="seats">
                     <input type="hidden" name="screeningId" th:value="${screening.getId()}">
                     <div class="form-group">
                         <label for="phone_no">Phone No: </label>
@@ -25,26 +26,29 @@
                     <table class="table table-dark table-hover">
                         <tbody>
                         <th:block th:each="seat: ${seatData.getSeats()}">
-                        <th:block th:if="${seat.getSeatNo() == 1}">
-                            <tr><td th:text="'Row ' + ${seat.getRowNo()}"></td>
-                        </th:block>
-                                <td class="seatChkBox2">
-                                    <input type="checkbox"
-                                           th:id="${seat.getRowNo()} + '_' + ${seat.getSeatNo()}"
-                                           th:value="${seat.getRowNo()} + '_' + ${seat.getSeatNo()}"
-                                           th:disabled="${!seat.isAvailable()} or ${seat.isSold()}"
-                                           th:field="${seatData.submittedData}">
-                                    <label th:for="${seat.getRowNo()} + '_' + ${seat.getSeatNo()}"
-                                           th:text="${seat.getSeatNo()}"></label>
-                                </td>
-                        <th:block th:if="${seat.getSeatNo() == screening.theater.getSeatsPerRow()}">
-                            </tr>
-                        </th:block>
+                            <th:block th:if="${seat.getSeatNo() == 1}">
+                                <tr>
+                                    <td th:text="'Row ' + ${seat.getRowNo()}"></td>
+                            </th:block>
+                            <td class="seatChkBox customers">
+                                <input type="checkbox"
+                                       th:id="${seat.getRowNo()} + '_' + ${seat.getSeatNo()}"
+                                       th:value="${seat.getRowNo()} + '_' + ${seat.getSeatNo()}"
+                                       th:disabled="${!seat.isAvailable()}"
+                                       th:field="${seatData.submittedData}">
+                                <label th:for="${seat.getRowNo()} + '_' + ${seat.getSeatNo()}"
+                                       th:text="${seat.getSeatNo()}"></label>
+                            </td>
+                            <th:block
+                                    th:if="${seat.getSeatNo() == screening.theater.getSeatsPerRow()}">
+                                </tr>
+                            </th:block>
                         </th:block>
                         </tbody>
                     </table>
-                    <button type="submit" class="btn btn-secondary">Book seats</button>
+                    <button type="submit" class="btn btn-primary">Book seats</button>
                 </form>
+                </div>
             </div>
         </div>
     </main>
@@ -52,5 +56,23 @@
     <div th:replace="fragments :: footer"></div>
 </div>
 <div th:replace="fragments :: bootstrap_body"></div>
+<script th:inline="javascript">
+    function checkboxLimit(checkGroup, limit) {
+        for (var i = 0; i < checkGroup.length; i++) {
+            checkGroup[i].addEventListener('click', function () {
+                var checkedCount = 0;
+                for (var i = 0; i < checkGroup.length; i++) {
+                    checkedCount += (checkGroup[i].checked) ? 1 : 0;
+                    if (checkedCount > limit) {
+                        this.checked = false;
+                        break;
+                    }
+                }
+            });
+        }
+    }
+
+    checkboxLimit(document.forms.seats.submittedData, [[${maxSeatsPerBooking}]]);
+</script>
 </body>
 </html>

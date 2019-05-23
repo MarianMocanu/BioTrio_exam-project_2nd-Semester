@@ -7,18 +7,28 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class MovieController {
 
   @Autowired
   private MovieRepository movieRepo;
+  @Autowired
+  private ScreeningRepository screeningRepo;
+  @Autowired
+  private TechnologyRepository technologyRepo;
 
   // For the end-users
   @GetMapping("/movie/{id}")
   public String findMovies(@PathVariable(name = "id") int id, Model model) {
     model.addAttribute("movie", movieRepo.findMovieById(id));
+    model.addAttribute("upcomingMovieScreenings", screeningRepo.findUpcomingScreeningsForMovieById(id));
+    model.addAttribute("date", DateTimeFormatter.ofPattern("EEE dd MMM"));
+    model.addAttribute("time", DateTimeFormatter.ofPattern("HH:mm"));
     return "movies/user/movies-detail-view";
   }
 
@@ -31,24 +41,52 @@ public class MovieController {
 
   @GetMapping("/manage/movies/add")
   public String addMovie(Model model) {
+    model.addAttribute("technologies", technologyRepo.getAllTechnologies());
+    model.addAttribute("selectedTechnologies", new ArrayList<Integer>());
     model.addAttribute("movie", new Movie());
     return "movies/movies-add";
   }
 
   @PostMapping("/manage/movies/save")
-  public String saveMovie(@ModelAttribute Movie movie) {
+  public String saveMovie(@ModelAttribute Movie movie,
+                          @RequestParam String releaseDateString,
+                          @RequestParam(value = "selectedTechnologies", required = false)
+                                List<Integer> selectedTechnologies) {
+    LocalDate releaseDate;
+    try {
+      releaseDate = LocalDate.parse(releaseDateString, AppSettings.DateFormat);
+    } catch (DateTimeParseException e) {
+      releaseDate = null;
+    }
+    movie.setReleaseDate(releaseDate);
+    movie.setRequiredTechnologies(technologyRepo.convertFromIdList(selectedTechnologies));
     movieRepo.addMovie(movie);
     return "redirect:/manage/movies";
   }
 
   @GetMapping("/manage/movies/edit/{id}")
   public String editMovie(@PathVariable("id") int id, Model model) {
-    model.addAttribute("currentMovie", movieRepo.findMovieById(id));
+    Movie selectedMovie = movieRepo.findMovieById(id);
+    model.addAttribute("technologies", technologyRepo.getAllTechnologies());
+    model.addAttribute("currentMovie", selectedMovie);
+    model.addAttribute("selectedTechnologies", technologyRepo.
+        convertToIdList(selectedMovie.getRequiredTechnologies()));
     return "movies/movies-edit";
   }
 
   @PostMapping("/manage/movies/edit")
-  public String updateMovie(@ModelAttribute Movie movie) {
+  public String updateMovie(@ModelAttribute Movie movie,
+                            @RequestParam String releaseDateString,
+                            @RequestParam(value = "selectedTechnologies", required = false)
+                                  List<Integer> selectedTechnologies) {
+    LocalDate releaseDate;
+    try {
+      releaseDate = LocalDate.parse(releaseDateString, AppSettings.DateFormat);
+    } catch (DateTimeParseException e) {
+      releaseDate = null;
+    }
+    movie.setReleaseDate(releaseDate);
+    movie.setRequiredTechnologies(technologyRepo.convertFromIdList(selectedTechnologies));
     movieRepo.updateMovie(movie);
     return "redirect:/manage/movies";
   }
@@ -79,7 +117,7 @@ public class MovieController {
 
   @GetMapping("/manage/upcoming/add")
   public String addToUpcomingMovies(Model model,
-                                    @RequestParam(value="error", required = false) String error) {
+                                    @RequestParam(value = "error", required = false) String error) {
     if (error != null) {
       model.addAttribute("error", "date");
     }

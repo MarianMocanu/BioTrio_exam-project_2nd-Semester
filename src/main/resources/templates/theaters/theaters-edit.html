@@ -8,7 +8,7 @@
     <link rel="stylesheet" th:href="@{'/css/style.css'}"/>
 </head>
 <body>
-<div class="bg-dark d-flex flex-column sticky-footer-wrapper">
+<div class="d-flex flex-column sticky-footer-wrapper">
     <div th:replace="fragments :: navbar"></div>
 
     <main class="flex-fill">
@@ -34,7 +34,19 @@
                         <input type="text" class="form-control"
                                th:field="${theater.seatsPerRow}" id="seats_per_row">
                     </div>
-                    <button type="submit" class="btn btn-secondary">Submit changes</button>
+                    <div class="form-group">
+                        <label for="technologies">Projection type</label>
+                        <select class="form-control" multiple size="5" id="technologies"
+                                name="selectedTechnologies">
+                            <option th:each="technology:${technologies}"
+                                    th:value="${technology.getId()}"
+                                    th:text="${technology.getName()}"
+                                    th:selected="${selectedTechnologies == null ? false :
+                                       #lists.contains(selectedTechnologies, technology.getId())}">
+                            </option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit changes</button>
                     <a href="/manage/theaters" class="btn btn-outline-danger">Cancel</a>
                 </form>
 

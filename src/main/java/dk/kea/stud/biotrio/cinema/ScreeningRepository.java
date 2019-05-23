@@ -25,6 +25,12 @@ public class ScreeningRepository {
   @Autowired
   private TheaterRepository theaterRepo;
 
+  public List<Screening> findUpcomingScreeningsForMovieById(int movieId) {
+    String query = "SELECT * FROM screenings WHERE start_time >= CURDATE() AND movie_id = ? ORDER BY start_time";
+    SqlRowSet rs = jdbc.queryForRowSet(query, movieId);
+
+    return getScreeningsListFromRowSet(rs);
+  }
 
   public Screening findById(int id) {
     Screening result = null;
@@ -76,7 +82,7 @@ public class ScreeningRepository {
     return startTime.format(timeFormatter);
   }
 
-  public Map<String,List<Screening>> findUpcomingSreeningsAsMap() {
+  public Map<String,List<Screening>> findUpcomingScreeningsAsMap() {
     List<Screening> screeningList = findUpcomingScreenings();
     Map<String,List<Screening>> screenings = new LinkedHashMap<>();
     for(Screening screening:screeningList){
@@ -183,6 +189,8 @@ public class ScreeningRepository {
 
     return result;
   }
+
+  // Check if a screening has associated tickets and/or bookings
   public boolean canDelete(Screening s){
     String query = ("SELECT COUNT(*) FROM bookings INNER JOIN tickets ON " +
         "bookings.screening_id = tickets.screening_id WHERE bookings.screening_id= "+s.getId());

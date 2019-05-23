@@ -8,7 +8,7 @@
     <link rel="stylesheet" th:href="@{'/css/style.css'}"/>
 </head>
 <body>
-<div class="bg-dark d-flex flex-column sticky-footer-wrapper">
+<div class="d-flex flex-column sticky-footer-wrapper">
     <div th:replace="fragments :: navbar"></div>
 
     <main class="flex-fill">
@@ -31,7 +31,7 @@
                         <td th:text="${employee.firstName}"></td>
                         <td th:text="${employee.lastName}"></td>
                         <td>
-                            <a class="btn btn-secondary" th:href="'/manage/employees/edit/' + ${employee.id}">
+                            <a class="btn btn-primary" th:href="'/manage/employees/edit/' + ${employee.id}">
                                 Edit
                             </a>
                         </td>
@@ -45,7 +45,7 @@
 
                 </table>
                 <th scope="col">
-                    <a class="btn btn-secondary" th:href="'/manage/employees/add'">
+                    <a class="btn btn-primary" th:href="'/manage/employees/add'">
                         Add employee
                     </a>
                 </th>

@@ -12,7 +12,7 @@
 </head>
 <body>
 <nav th:fragment="navbar"
-     class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top"
+     class="navbar navbar-expand-lg bg-primary sticky-top"
      style="margin-bottom: 1rem;">
     <a class="navbar-brand" href="/">Bio Trio</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse"
@@ -27,16 +27,21 @@
             <li class="nav-item">
                 <a class="nav-link" href="/screenings">Screenings</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/manage">Manage</a>
+            </li>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Manage
+                <a class="nav-link dropdown-toggle dropdown-toggle-split pl-0" href="#"
+                   id="navbarDropdown" role="button" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">
+                    <span class="sr-only">Manage</span>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="/manage/ticketing">Ticketing</a>
                     <a class="dropdown-item" href="/manage/screenings">Screenings</a>
                     <a class="dropdown-item" href="/manage/movies">Movies</a>
                     <a class="dropdown-item" href="/manage/upcoming">Upcoming Movies</a>
+                    <a class="dropdown-item" href="/manage/technologies">Technologies</a>
                     <a class="dropdown-item" href="/manage/theaters">Theaters</a>
                     <a class="dropdown-item" href="/manage/employees">Employees</a>
                     <a class="dropdown-item" href="/manage/users">Users</a>

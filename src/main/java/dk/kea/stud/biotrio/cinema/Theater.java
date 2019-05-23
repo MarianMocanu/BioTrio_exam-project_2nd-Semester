@@ -1,10 +1,13 @@
 package dk.kea.stud.biotrio.cinema;
 
+import java.util.List;
+
 public class Theater {
   private int id;
   private String name;
   private int noOfRows;
   private int seatsPerRow;
+  private List<Technology> supportedTechnologies;
 
   public int getId() {
     return id;
@@ -36,6 +39,14 @@ public class Theater {
 
   public void setSeatsPerRow(int seatsPerRow) {
     this.seatsPerRow = seatsPerRow;
+  }
+
+  public List<Technology> getSupportedTechnologies() {
+    return supportedTechnologies;
+  }
+
+  public void setSupportedTechnologies(List<Technology> supportedTechnologies) {
+    this.supportedTechnologies = supportedTechnologies;
   }
 
   @Override

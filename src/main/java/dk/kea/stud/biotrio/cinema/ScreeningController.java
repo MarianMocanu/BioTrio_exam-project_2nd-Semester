@@ -23,7 +23,7 @@ public class ScreeningController {
   // For the end-users
   @GetMapping("/screenings")
   public String screeningsUsers(Model model) {
-    model.addAttribute("upcomingScreenings", screeningRepo.findUpcomingSreeningsAsMap());
+    model.addAttribute("upcomingScreenings", screeningRepo.findUpcomingScreeningsAsMap());
     return "screenings/user/screenings-view";
   }
 
@@ -44,11 +44,7 @@ public class ScreeningController {
   public String manageScreenings(@RequestParam(value = "error", required = false) String error,
                                  Model model) {
     if (error != null) {
-      if(error.equals("start_time")) {
-        model.addAttribute("error", "start_time");
-      } else if (error.equals("conflict")) {
-        model.addAttribute("error", "conflict");
-      }
+      model.addAttribute("error", error);
     }
     model.addAttribute("movies", movieRepo.findAllMovies());
     model.addAttribute("theaters", theaterRepo.findAllTheaters());
@@ -63,12 +59,16 @@ public class ScreeningController {
       return "redirect:/manage/screenings/add?error=start_time";
     }
 
-    Screening conflict = checkForSchedulingConflicts(screening);
-    if (conflict == null) {
-      screeningRepo.addScreening(screening);
-      return "redirect:/manage/screenings";
+    if (areTechnologicallyCompatible(screening.getMovie(), screening.getTheater())) {
+      Screening conflict = checkForSchedulingConflicts(screening);
+      if (conflict == null) {
+        screeningRepo.addScreening(screening);
+        return "redirect:/manage/screenings";
+      } else {
+        return "redirect:/manage/screenings/add?error=conflict";
+      }
     } else {
-      return "redirect:/manage/screenings/add?error=conflict";
+      return "redirect:/manage/screenings/add?error=tech";
     }
   }
 
@@ -76,11 +76,7 @@ public class ScreeningController {
   public String editScreening(@RequestParam(value = "error", required = false) String error,
       @PathVariable("id") int id, Model model) {
     if (error != null) {
-      if(error.equals("start_time")) {
-        model.addAttribute("error", "start_time");
-      } else if (error.equals("conflict")) {
-        model.addAttribute("error", "conflict");
-      }
+      model.addAttribute("error", error);
     }
     Screening screening = screeningRepo.findById(id);
     ScreeningForm formData = new ScreeningForm();
@@ -101,12 +97,16 @@ public class ScreeningController {
       return "redirect:/manage/screenings/edit/" + screeningForm.getId() + "?error=start_time";
     }
 
-    Screening conflict = checkForSchedulingConflicts(screening);
-    if (conflict == null) {
-      screeningRepo.updateScreening(screening);
-      return "redirect:/manage/screenings";
+    if (areTechnologicallyCompatible(screening.getMovie(), screening.getTheater())) {
+      Screening conflict = checkForSchedulingConflicts(screening);
+      if (conflict == null) {
+        screeningRepo.updateScreening(screening);
+        return "redirect:/manage/screenings";
+      } else {
+        return "redirect:/manage/screenings/edit/" + screeningForm.getId() + "?error=conflict";
+      }
     } else {
-      return "redirect:/manage/screenings/edit/" + screeningForm.getId() + "?error=conflict";
+      return "redirect:/manage/screenings/edit/" + screeningForm.getId() + "?error=tech";
     }
   }
 
@@ -134,10 +134,9 @@ public class ScreeningController {
     screening.setId(formData.getId());
     screening.setMovie(movieRepo.findMovieById(formData.getMovieId()));
     screening.setTheater(theaterRepo.findTheater(formData.getTheaterId()));
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
     LocalDateTime startTime;
     try {
-      startTime = LocalDateTime.parse(formData.getStartTime(), formatter);
+      startTime = LocalDateTime.parse(formData.getStartTime(), AppSettings.DTFormat);
     } catch (DateTimeParseException e) {
       return null;
     }
@@ -157,7 +156,8 @@ public class ScreeningController {
       for (Screening otherScreening: potentialConflictingScreenings) {
         int otherScreeningLength = otherScreening.getMovie().getRuntime();
 
-        if (screening.getStartTime().isAfter(otherScreening.getStartTime()
+        if (screening.getId() != otherScreening.getId() &&
+            screening.getStartTime().isAfter(otherScreening.getStartTime()
             .minusMinutes(screeningLength + AppSettings.TIME_BUFFER_MINUTES_BETWEEN_SCREENINGS))
             && screening.getStartTime().isBefore(otherScreening.getStartTime()
             .plusMinutes(otherScreeningLength
@@ -169,5 +169,44 @@ public class ScreeningController {
     }
 
     return null;
+  }
+
+  // Determine if a movie's technological requirements are compatible with
+  // a theater's supported technologies
+  private boolean areTechnologicallyCompatible(Movie movie, Theater theater) {
+
+    List<Technology> requiredTechnologies = movie.getRequiredTechnologies();
+    if (requiredTechnologies != null) {
+      // Iterate over the movie's required technologies
+      for (Technology requiredTechnology : requiredTechnologies) {
+        boolean found = false;
+
+        // For every required technology, iterate over the theater's supported technologies
+        List<Technology> supportedTechnologies = theater.getSupportedTechnologies();
+        if (supportedTechnologies != null) {
+          for (Technology supportedTechnology : theater.getSupportedTechnologies()) {
+
+            // Check if the required technology can be found among the supported ones
+            if (requiredTechnology.equals(supportedTechnology)) {
+
+              // If found, set the flag and break out of the loop
+              found = true;
+              break;
+            }
+          }
+        }
+
+        // If even a single required technology has not been found, it means
+        // that the movie and theater are incompatible
+        if (!found) {
+          return false;
+        }
+      }
+    }
+
+    // If execution reaches this point, it means that either there are none, or all
+    // the required technologies have been found among the supported technologies,
+    // thus the movie and the theater are compatible
+    return true;
   }
 }

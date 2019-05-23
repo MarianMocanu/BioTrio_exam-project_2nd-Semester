@@ -8,7 +8,7 @@
     <link rel="stylesheet" th:href="@{'/css/style.css'}"/>
 </head>
 <body>
-<div class="bg-dark d-flex flex-column sticky-footer-wrapper">
+<div class="d-flex flex-column sticky-footer-wrapper">
     <div th:replace="fragments :: navbar"></div>
 
     <main class="flex-fill">
@@ -28,7 +28,7 @@
                         <tr th:each="seat: ${bookedSeats.getSeats()}">
                             <td th:text="${seat.getRowNo()}"></td>
                             <td th:text="${seat.getSeatNo()}"></td>
-                            <td class="seatChkBox2">
+                            <td class="seatChkBox">
                                 <input type="checkbox"
                                        th:id="${seat.getRowNo()} + '_' + ${seat.getSeatNo()}"
                                        th:value="${seat.getRowNo()} + '_' + ${seat.getSeatNo()}"
@@ -38,7 +38,7 @@
                         </tr>
                         </tbody>
                     </table>
-                    <button type="submit" class="btn btn-secondary">Sell tickets</button>
+                    <button type="submit" class="btn btn-primary">Sell tickets</button>
                 </form>
             </div>
         </div>

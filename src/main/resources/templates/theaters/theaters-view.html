@@ -8,45 +8,52 @@
     <link rel="stylesheet" th:href="@{'/css/style.css'}"/>
 </head>
 <body>
-<div class="bg-dark d-flex flex-column sticky-footer-wrapper">
+<div class="d-flex flex-column sticky-footer-wrapper">
     <div th:replace="fragments :: navbar"></div>
 
     <main class="flex-fill">
         <div class="container">
             <div class="jumbotron">
                 <h1 class="display-4">Theaters</h1>
-                <table class="table table-dark table-hover">
-                    <thead>
-                    <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Number of seats</th>
-                        <th scope="col"></th>
-                        <th scope="col"></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="theater:${theaterlist}">
-                        <th scope="row" th:text="${theater.id}">1</th>
-                        <td th:text="${theater.name}"></td>
-                        <td th:text="${theater.seatsPerRow} * ${theater.noOfRows}"></td>
-                        <td>
-                            <a class="btn btn-secondary"
-                               th:href="'/manage/theaters/edit/' + ${theater.id}">
-                                Edit
-                            </a>
-                        </td>
-                        <td>
-                            <a class="btn btn-outline-danger"
-                               th:href="'/manage/theaters/delete/' + ${theater.id}">
-                                Delete
-                            </a>
-                        </td>
-                    </tr>
-                    </tbody>
-
-                </table>
-                <a class="btn btn-secondary" th:href="'/manage/theaters/add'">Add theater</a>
+                <div class="table-responsive">
+                    <table class="table table-dark table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Number of seats</th>
+                                <th scope="col">Technologies</th>
+                                <th scope="col"></th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="theater:${theaterlist}">
+                                <td th:text="${theater.id}"></td>
+                                <td th:text="${theater.name}"></td>
+                                <td th:text="${theater.seatsPerRow} * ${theater.noOfRows}"></td>
+                                <td>
+                                    <span th:each="technology, iter:${theater.getSupportedTechnologies()}"
+                                          th:text="${technology.getName()} + (${iter.last} ? '' : ', ')">
+                                    </span>
+                                </td>
+                                <td>
+                                    <a class="btn btn-primary"
+                                       th:href="'/manage/theaters/edit/' + ${theater.id}">
+                                        Edit
+                                    </a>
+                                </td>
+                                <td>
+                                    <a class="btn btn-outline-danger"
+                                       th:href="'/manage/theaters/delete/' + ${theater.id}">
+                                        Delete
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <a class="btn btn-primary" th:href="'/manage/theaters/add'">Add theater</a>
             </div>
         </div>
     </main>
