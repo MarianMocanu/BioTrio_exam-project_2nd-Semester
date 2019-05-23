@@ -156,7 +156,8 @@ public class ScreeningController {
       for (Screening otherScreening: potentialConflictingScreenings) {
         int otherScreeningLength = otherScreening.getMovie().getRuntime();
 
-        if (screening.getStartTime().isAfter(otherScreening.getStartTime()
+        if (screening.getId() != otherScreening.getId() &&
+            screening.getStartTime().isAfter(otherScreening.getStartTime()
             .minusMinutes(screeningLength + AppSettings.TIME_BUFFER_MINUTES_BETWEEN_SCREENINGS))
             && screening.getStartTime().isBefore(otherScreening.getStartTime()
             .plusMinutes(otherScreeningLength
