@@ -178,4 +178,16 @@ public class MovieRepository {
 
         return result;
     }
+
+    public List<Movie> getMoviesCurrentlyPlaying() {
+        SqlRowSet rs = jdbc.queryForRowSet("SELECT * FROM movies WHERE id IN " +
+            "(SELECT DISTINCT movie_id FROM screenings WHERE start_time >= CURDATE());");
+
+        List<Movie> result = rs.isBeforeFirst() ? new ArrayList<>() : null;
+        while (rs.next()) {
+            result.add(extractNextMovieFromRowSet(rs));
+        }
+
+        return result;
+    }
 }

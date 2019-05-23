@@ -75,6 +75,8 @@
                     </div>
                 </div>
                 <hr>
+                <th:block th:if="${upcomingMovieScreenings}">
+                <h2>Available screenings:</h2>
                 <!--upcoming screenings for this particular movie-->
                 <!-- Navigation pills -->
                 <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
@@ -117,6 +119,7 @@
                         </table>
                     </div>
                 </div>
+                </th:block>
             </div>
         </div>
     </main>

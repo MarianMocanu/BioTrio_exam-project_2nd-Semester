@@ -29,10 +29,12 @@ public class TechnologyController {
 
     // Check if the input technology name already exists
     boolean found = false;
-    for (Technology technology: technologies) {
-      if (technology.getName().toLowerCase().equals(techName.toLowerCase())) {
-        found = true;
-        break;
+    if (technologies != null) {
+      for (Technology technology : technologies) {
+        if (technology.getName().toLowerCase().equals(techName.toLowerCase())) {
+          found = true;
+          break;
+        }
       }
     }
 
