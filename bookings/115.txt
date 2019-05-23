@@ -1,0 +1,6 @@
+You booked seats for
+The Matrix
+10 June 2019
+ at 19:30
+Theater:Blue theaterNumber of booked seats:4
+Thank you for choosing BioTrio!

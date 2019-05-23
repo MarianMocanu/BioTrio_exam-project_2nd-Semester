@@ -64,7 +64,7 @@ public class BookingController {
     booking.setPhoneNo(phoneNo);
     bookingRepo.addBooking(booking);
     model.addAttribute("booking", booking);
-
+    Helper.printBooking(booking);
     return "bookings/user/booking-confirmed";
   }
 

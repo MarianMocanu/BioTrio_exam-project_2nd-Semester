@@ -49,6 +49,7 @@ public class TicketController {
       ticket.setScreening(screeningRepo.findById(id));
       ticket.setSeat(seat);
       ticketRepo.addTicket(ticket);
+      Helper.printTicket(ticket);
       //TODO SomeClass.print(ticketRepo.addTicket(soldTicket));
     }
     return "redirect:/manage/screening/" + id + "/ticketing";
