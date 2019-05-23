@@ -49,7 +49,7 @@ public class MovieController {
   public String saveMovie(@ModelAttribute Movie movie,
                           @RequestParam String releaseDateString,
                           @RequestParam(value = "selectedTechnologies", required = false)
-                                List<Integer> selectedTechnologies) {
+                              List<Integer> selectedTechnologies) {
     LocalDate releaseDate;
     try {
       releaseDate = LocalDate.parse(releaseDateString, AppSettings.DateFormat);
@@ -76,7 +76,7 @@ public class MovieController {
   public String updateMovie(@ModelAttribute Movie movie,
                             @RequestParam String releaseDateString,
                             @RequestParam(value = "selectedTechnologies", required = false)
-                                  List<Integer> selectedTechnologies) {
+                                List<Integer> selectedTechnologies) {
     LocalDate releaseDate;
     try {
       releaseDate = LocalDate.parse(releaseDateString, AppSettings.DateFormat);
@@ -93,18 +93,13 @@ public class MovieController {
   @GetMapping("/manage/movies/delete/{id}")
   public String deleteMovie(@PathVariable(name = "id") int id, Model m) {
     Movie movie = movieRepo.findMovieById(id);
-    boolean canDelete = movieRepo.canDelete(movie);
-    m.addAttribute("canDelete", canDelete);
-    m.addAttribute("movie", movie);
-    return "movies/movies-delete";
-  }
-
-  //Deletes Movie and lists all the Movies
-  @PostMapping("/manage/movies/delete")
-  public String deleteMovie(int id) {
-    movieRepo.deleteMovie(id);
-
-    return "redirect:/manage/movies";
+    if (movieRepo.canDelete(movie)) {
+      movieRepo.deleteMovie(id);
+      return "redirect:/manage/movies";
+    } else {
+      m.addAttribute("movieTitle", movieRepo.findMovieById(id).getTitle());
+      return "movies/movies-delete";
+    }
   }
 
   @GetMapping("/manage/upcoming")

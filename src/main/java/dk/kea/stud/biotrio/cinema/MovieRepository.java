@@ -137,8 +137,8 @@ public class MovieRepository {
     }
 
     public boolean canDelete(Movie m){
-        String query = ("SELECT COUNT(*) FROM screenings WHERE movie_id= "+m.getId());
-        SqlRowSet rs = jdbc.queryForRowSet(query);
+        String query = ("SELECT COUNT(*) FROM screenings WHERE movie_id = ?;");
+        SqlRowSet rs = jdbc.queryForRowSet(query, m.getId());
         rs.first();
         int noScreenings = rs.getInt(1);
 
