@@ -54,14 +54,9 @@ public class TechnologyController {
   }
 
   @PostMapping("/manage/technologies/delete")
-  public String confirmDelete(@RequestParam int techId, Model model) {
-    model.addAttribute("tech", technologyRepo.getTechnologyById(techId));
-    return "theaters/technologies-delete";
-  }
-
-  @PostMapping("/manage/technologies/delete/confirmed")
-  public String deleteTechnology(@RequestParam int techId) {
+  public String confirmDelete(@RequestParam int techId) {
     technologyRepo.deleteTechnology(techId);
     return "redirect:/manage/technologies";
   }
+
 }

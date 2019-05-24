@@ -33,7 +33,8 @@
                                        th:for="${seat.getRowNo()} + '_' + ${seat.getSeatNo()}"
                                        th:text="${seat.getSeatNo()}"></label>
                             </td>
-                            <th:block th:if="${seat.getSeatNo() == screening.getTheater().getSeatsPerRow()}">
+                            <th:block
+                                    th:if="${seat.getSeatNo() == screening.getTheater().getSeatsPerRow()}">
                                 </tr>
                             </th:block>
                         </th:block>
@@ -50,8 +51,7 @@
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title">
-                                        Warning!!!The action will be permanently deleted data from the
-                                        database!
+                                        Warning!!!
                                     </h5>
                                     <button type="button" class="close" data-dismiss="modal"
                                             aria-label="Close">
@@ -59,15 +59,17 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                   <p>Are you sure you want to delete the selected ticket/s?</p>
+                                    <p>This action will permanently delete data about the selected
+                                        ticket/s from database!</p>
                                 </div>
                                 <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary"
-                                                data-dismiss="modal">Close
-                                        </button>
-                                        <button type="submit" class="btn btn-danger">
-                                            Delete
-                                        </button>
+                                    <p>Are you sure you want to delete?</p>
+                                    <button type="button" class="btn btn-secondary"
+                                            data-dismiss="modal">Close
+                                    </button>
+                                    <button type="submit" class="btn btn-danger">
+                                        Delete
+                                    </button>
                                 </div>
                             </div>
                         </div>

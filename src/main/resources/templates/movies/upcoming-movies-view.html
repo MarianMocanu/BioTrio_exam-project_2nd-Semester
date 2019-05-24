@@ -40,8 +40,7 @@
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h5 class="modal-title">
-                                                Warning!!!The folowing upcoming movie will be permanently deleted from the
-                                                database! Are you sure you want to delete it?
+                                                Warning!!!
                                             </h5>
                                             <button type="button" class="close" data-dismiss="modal"
                                                     aria-label="Close">
@@ -49,9 +48,10 @@
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                                            <p th:text="${movie.getTitle()}"></p>
+                                            <p th:text="${movie.getTitle()}+' will be permanently deleted from upcoming movies database!'"></p>
                                         </div>
                                         <div class="modal-footer">
+                                            <p>Are you sure you want to delete?</p>
                                             <form action="/manage/upcoming/remove" method="post">
                                                 <input type="hidden" name="movieId" id="movieId" th:value="${movie.id}">
                                                 <button type="button" class="btn btn-secondary"
