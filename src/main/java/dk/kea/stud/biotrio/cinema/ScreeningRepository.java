@@ -243,7 +243,6 @@ public class ScreeningRepository {
     SqlRowSet rs = jdbc.queryForRowSet(query, s.getId(), s.getId());
     rs.first();
     int noSeats = rs.getInt(1);
-    System.out.println("number seats" + noSeats);
     return noSeats == 0;
   }
 }

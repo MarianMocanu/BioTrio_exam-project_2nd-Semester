@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Theaters</title>
 
-    <div th:replace="fragments :: bootstrap_head"></div>
+    <link th:replace="fragments :: bootstrap_head">
     <link rel="stylesheet" th:href="@{'/css/style.css'}"/>
 </head>
 <body>
@@ -15,6 +15,7 @@
         <div class="container">
             <div class="jumbotron">
                 <h1 class="display-4">Theaters</h1>
+                <hr>
                 <div class="table-responsive">
                     <table class="table table-dark table-hover">
                         <thead>

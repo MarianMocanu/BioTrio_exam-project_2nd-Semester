@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Screenings</title>
 
-    <div th:replace="fragments :: bootstrap_head"></div>
+    <link th:replace="fragments :: bootstrap_head">
     <link rel="stylesheet" th:href="@{'/css/style.css'}"/>
 </head>
 <body>
@@ -15,7 +15,7 @@
         <div class="container">
             <div class="jumbotron">
                 <h1 class="display-4">Upcoming Screenings</h1>
-
+                <hr>
                 <!-- Navigation pills -->
                 <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                     <li class="nav-item" th:each="key,iter:${upcomingScreenings.keySet()}">

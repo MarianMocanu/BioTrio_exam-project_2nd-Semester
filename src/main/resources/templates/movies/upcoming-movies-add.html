@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Add movie to upcoming list</title>
 
-    <div th:replace="fragments :: bootstrap_head"></div>
+    <link th:replace="fragments :: bootstrap_head">
     <link rel="stylesheet" th:href="@{'/css/style.css'}"/>
 </head>
 <body>
@@ -15,16 +15,21 @@
         <div class="container">
             <div class="jumbotron">
                 <h1 class="display-4">Add a movie</h1>
+                <hr>
                 <span>Add a movie to the upcoming movies list</span>
 
                 <div class="alert alert-danger" th:if="${error}">
-                    <span th:if="${error.equals('date')}">Error parsing date. Must be in format YYYY-MM-DD. Try again.</span>
+                    <span th:if="${error.equals('date')}">Error parsing date.
+                        Must be in format YYYY-MM-DD. Try again.</span>
                 </div>
 
                 <form action="/manage/upcoming/add" method="post">
                     <div class="form-group">
                         <label for="selected-movie">Select movie</label>
-                        <select class="form-control" id="selected-movie" name="selectedMovie">
+                        <select class="form-control" id="selected-movie" name="selectedMovie"
+                                th:disabled="${movies} == null" required
+                                th:size="${movies} == null ? 1 : (${movies.size()} >= 5 ?
+                                 5 : ${movies.size()})">
                             <option th:each="movie:${movies}" th:value="${movie.getId()}"
                                     th:text="${movie.getTitle()}"></option>
                         </select>
@@ -33,9 +38,11 @@
                         <label for="est-date">
                             Estimated Screening Date:
                         </label>
-                        <input type="text" class="form-control" name="estDate" id="est-date">
+                        <input type="text" class="form-control"
+                               name="estDate" id="est-date" required>
                     </div>
-                    <button type="submit" class="btn btn-primary">Add Movie</button>
+                    <button type="submit" class="btn btn-primary" th:disabled="${movies} == null">
+                        Add Movie</button>
                     <a href="/manage/upcoming" class="btn btn-outline-danger">Cancel</a>
                 </form>
             </div>

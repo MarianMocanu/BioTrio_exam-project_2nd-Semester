@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Add screening</title>
 
-    <div th:replace="fragments :: bootstrap_head"></div>
+    <link th:replace="fragments :: bootstrap_head">
     <link rel="stylesheet" th:href="@{'/css/style.css'}"/>
 </head>
 <body>
@@ -14,8 +14,8 @@
     <main class="flex-fill">
         <div class="container">
             <div class="jumbotron">
-                <h1 class="display-4">Add a new screening!</h1>
-
+                <h1 class="display-4">Add a screening</h1>
+                <hr>
                 <div th:if="${error}" class="alert alert-danger">
                     <span th:if="${error.equals('start_time')}">Error parsing the starting time. Required format is YYYY-MM-DD HH:MM. Try again.</span>
                     <span th:if="${error.equals('conflict')}">There is a scheduling conflict with another screening. Try again.</span>
@@ -26,7 +26,9 @@
                     <div class="form-group">
                         <label for="movie">Movie</label>
                         <select class="form-control" th:field="${screeningForm.movieId}"
-                                id="movie" name="movie">
+                                id="movie" name="movie" th:disabled="${movies} == null"
+                                th:size="${movies == null} ? 1 :
+                                 (${movies.size()} >= 5 ? 5 : ${movies.size()})" required>
                             <option th:each="movie:${movies}" th:text="${movie.getTitle()}"
                                     th:value="${movie.getId()}"></option>
                         </select>
@@ -34,18 +36,20 @@
                     <div class="form-group">
                         <label for="theater">Theater</label>
                         <select class="form-control" th:field="${screeningForm.theaterId}"
-                                id="theater" name="theater">
+                                id="theater" name="theater" required>
                             <option th:each="theater:${theaters}" th:text="${theater.getName()}"
                                     th:value="${theater.getId()}"></option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="start_time">Date & Time</label>
-                        <input type="text" class="form-control"
+                        <input type="text" class="form-control" required
                                th:field="${screeningForm.startTime}"
                                id="start_time" name="start_time" placeholder="YYYY-MM-DD HH:MM">
                     </div>
-                    <button type="submit" class="btn btn-primary">Create screening</button>
+                    <button type="submit" class="btn btn-primary" th:disabled="${movies} == null">
+                        Create screening
+                    </button>
                     <a href="/manage/screenings" class="btn btn-outline-danger">Cancel</a>
                 </form>
             </div>

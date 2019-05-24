@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Delete screening</title>
 
-    <div th:replace="fragments :: bootstrap_head"></div>
+    <link th:replace="fragments :: bootstrap_head">
     <link rel="stylesheet" th:href="@{'/css/style.css'}"/>
 </head>
 <body>
@@ -14,8 +14,8 @@
     <main class="flex-fill">
         <div class="container">
             <div class="jumbotron">
-
                 <h1 class="display-4">Delete a screening</h1>
+                <hr>
                 <p th:text=" 'This screening of ' + ${movieTitle} + ' can not be deleted, because tickets were booked or sold for it'">
                     Error
                 </p>

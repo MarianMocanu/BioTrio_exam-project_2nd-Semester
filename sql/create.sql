@@ -95,7 +95,7 @@ CREATE TABLE upcoming_movies
     movie_id       INT UNIQUE NOT NULL,
     estimated_date DATE NULL,
     PRIMARY KEY (movie_id),
-    FOREIGN KEY (movie_id) REFERENCES movies (id)
+    FOREIGN KEY (movie_id) REFERENCES movies (id) ON DELETE CASCADE
 );
 
 CREATE TABLE technologies

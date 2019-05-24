@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Edit user</title>
 
-    <div th:replace="fragments :: bootstrap_head"></div>
+    <link th:replace="fragments :: bootstrap_head">
     <link rel="stylesheet" th:href="@{'/css/style.css'}"/>
 </head>
 <body>
@@ -15,6 +15,7 @@
         <div class="container">
             <div class="jumbotron">
                 <h1 class="display-4">Edit user <span th:text="${userData.getUsername()}"></span></h1>
+                <hr>
                 <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
 
                 <form th:action="'/manage/users/edit/' + ${userData.getId()}" method="post"

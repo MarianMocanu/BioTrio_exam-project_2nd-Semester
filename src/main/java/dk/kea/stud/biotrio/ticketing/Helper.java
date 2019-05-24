@@ -21,7 +21,6 @@ public class Helper {
       folder.mkdir();
       String absoluteFilePath = "tickets" + fileSeparator + ticket.getScreening().getId()+ ticket.getId() + ".txt";
       File logFile = new File(absoluteFilePath);
-      System.out.println("File created! path:" + logFile.exists() + " " + absoluteFilePath);
       writer = new BufferedWriter(new FileWriter(logFile));
       writer.write("Bio Trio presents");
       writer.newLine();

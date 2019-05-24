@@ -110,8 +110,6 @@ public class ScreeningController {
   public String deleteScreening(@RequestParam(name = "screeningId") int id, Model m) {
     Screening screening = screeningRepo.findById(id);
     boolean canDelete = screeningRepo.canDelete(screening);
-    System.out.println(id);
-    System.out.println(canDelete);
     if (canDelete) {
       screeningRepo.deleteScreening(id);
       return "redirect:/manage/screenings";

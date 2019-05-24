@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Edit screening</title>
 
-    <div th:replace="fragments :: bootstrap_head"></div>
+    <link th:replace="fragments :: bootstrap_head">
     <link rel="stylesheet" th:href="@{'/css/style.css'}"/>
 </head>
 <body>
@@ -15,32 +15,54 @@
         <div class="container">
             <div class="jumbotron">
                 <h1 class="display-4">Edit screening!</h1>
-
+                <hr>
                 <div th:if="${error}" class="alert alert-danger">
-                    <span th:if="${error.equals('start_time')}">Error parsing the starting time. Required format is YYYY-MM-DD HH:MM. Try again.</span>
-                    <span th:if="${error.equals('conflict')}">There is a scheduling conflict with another screening. Try again.</span>
-                    <span th:if="${error.equals('tech')}">The selected theater doesn't support all technologies that the selected movie requires.</span>
+                    <span th:if="${error.equals('start_time')}">Error parsing the starting time.
+                        Required format is YYYY-MM-DD HH:MM. Try again.</span>
+                    <span th:if="${error.equals('conflict')}">There is a scheduling conflict with
+                        another screening. Try again.</span>
+                    <span th:if="${error.equals('tech')}">The selected theater doesn't support all
+                        technologies that the selected movie requires.</span>
                 </div>
 
                 <form action="/manage/screenings/edit" th:object="${selectedScreening}" method="post">
                     <input type="hidden" name="id" th:value="${selectedScreening.getId()}">
                     <div class="form-group">
                         <label for="movie">Movie</label>
-                        <select class="form-control" th:field="${selectedScreening.movieId}" id="movie" name="movie">
-                            <option th:each="movie:${movies}" th:text="${movie.getTitle()}" th:value="${movie.getId()}" th:selected="${selectedScreening.getMovieId()} == ${movie.getId()}"></option>
+                        <select class="form-control" th:field="${selectedScreening.movieId}"
+                                id="movie" name="movie"
+                                th:disabled="${movies} == null"
+                                th:size="${movies == null} ? 1 :
+                                        (${movies.size()} >= 5 ? 5 : ${movies.size()})">
+                            <option th:each="movie:${movies}" th:text="${movie.getTitle()}"
+                                    th:value="${movie.getId()}"
+                                    th:selected="${selectedScreening.getMovieId()} == ${movie.getId()}">
+                            </option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="theater">Theater</label>
-                        <select class="form-control" th:field="${selectedScreening.theaterId}" id="theater" name="theater">
-                            <option th:each="theater:${theaters}" th:text="${theater.getName()}" th:value="${theater.getId()}" th:selected="${selectedScreening.getTheaterId()} == ${theater.getId()}"></option>
+                        <select class="form-control" th:field="${selectedScreening.theaterId}"
+                                id="theater" name="theater" required
+                                th:disabled="${theaters} == null">
+                            <option th:each="theater:${theaters}"
+                                    th:text="${theater.getName()}"
+                                    th:value="${theater.getId()}"
+                                    th:selected="${selectedScreening.getTheaterId()} == ${theater.getId()}">
+
+                            </option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="start_time">Date & Time</label>
-                        <input type="text" class="form-control" th:field="${selectedScreening.startTime}" id="start_time" name="start_time">
+                        <input type="text" class="form-control"
+                               th:field="${selectedScreening.startTime}"
+                               id="start_time" name="start_time" required>
                     </div>
-                    <button type="submit" class="btn btn-primary">Submit changes</button>
+                    <button type="submit" class="btn btn-primary"
+                            th:disabled="${movies} == null OR ${theaters} == null">
+                        Submit changes
+                    </button>
                     <a href="/manage/screenings" class="btn btn-outline-danger">Cancel</a>
                 </form>
             </div>

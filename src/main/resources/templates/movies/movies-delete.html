@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Delete movie</title>
 
-    <div th:replace="fragments :: bootstrap_head"></div>
+    <link th:replace="fragments :: bootstrap_head">
     <link rel="stylesheet" th:href="@{'/css/style.css'}"/>
 </head>
 <body>
@@ -15,6 +15,7 @@
         <div class="container">
             <div class="jumbotron">
                 <h1 class="display-4">Delete movie</h1>
+                <hr>
                 <div th:text=" 'Movie ' + ${movieTitle} + ' can not be deleted, because it has screenings scheduled. '">
                 </div>
             </div>

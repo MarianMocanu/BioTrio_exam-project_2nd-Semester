@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Cancel a booking</title>
 
-    <div th:replace="fragments :: bootstrap_head"></div>
+    <link th:replace="fragments :: bootstrap_head">
     <link rel="stylesheet" th:href="@{'/css/style.css'}"/>
 </head>
 <body>
@@ -15,6 +15,7 @@
         <div class="container">
             <div class="jumbotron">
                 <h1 class="display-4">Cancel booking</h1>
+                <hr>
                 <h3><b>WARNING!</b> This action cannot be undone.</h3>
                 <form action="/booking/cancel" method="post">
                     <div class="form-group">

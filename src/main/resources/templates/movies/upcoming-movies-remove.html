@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Remove movie from upcoming list</title>
 
-    <div th:replace="fragments :: bootstrap_head"></div>
+    <link th:replace="fragments :: bootstrap_head">
     <link rel="stylesheet" th:href="@{'/css/style.css'}"/>
 </head>
 <body>
@@ -14,7 +14,8 @@
     <main class="flex-fill">
         <div class="container">
             <div class="jumbotron">
-                <h1 class="display-4">Remove a movie</h1>
+                <h1 class="display-4">Remove movie</h1>
+                <hr>
                 <span>Are you sure you wish to remove <span th:text="${movie.getTitle()}"></span> from the upcoming movies list?</span>
 
                 <form action="/manage/upcoming/remove" method="post">

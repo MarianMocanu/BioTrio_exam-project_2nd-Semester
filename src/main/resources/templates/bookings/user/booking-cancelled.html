@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Booking cancelled</title>
 
-    <div th:replace="fragments :: bootstrap_head"></div>
+    <link th:replace="fragments :: bootstrap_head">
     <link rel="stylesheet" th:href="@{'/css/style.css'}"/>
 </head>
 <body>
@@ -15,12 +15,14 @@
         <div class="container">
             <div class="jumbotron">
                 <th:block th:if="${success}">
-                <h1 class="display-4">Your booking has been cancelled!</h1>
-                <p>You are at any time welcome create a new one. Have a nice day!</p>
+                    <h1 class="display-4">Your booking has been cancelled!</h1>
+                    <hr>
+                    <p>You are at any time welcome create a new one. Have a nice day!</p>
                 </th:block>
                 <th:block th:unless="${success}">
-                <h1 class="display-4">Booking not found</h1>
-                <p>No booking was found with such a code. Check your spelling.</p>
+                    <h1 class="display-4">Booking not found</h1>
+                    <hr>
+                    <p>No booking was found with such a code. Check your spelling.</p>
                 </th:block>
             </div>
         </div>

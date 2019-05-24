@@ -67,9 +67,7 @@ public class UserController {
   public String editUser(@PathVariable("id") int id, Model model) {
     User userData = userRepo.findById(id);
     List<Employee> employeeData = employeeRepo.findAllEmployeesWithoutAccount();
-    System.out.println(userData.getEmployee());
     if (userData.getEmployee() != null) {
-      System.out.println("inserting employee id: " + userData.getEmployee().getId());
       employeeData.add(0, userData.getEmployee());
     }
     model.addAttribute("employeeData", employeeData);

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Screenings</title>
 
-    <div th:replace="fragments :: bootstrap_head"></div>
+    <link th:replace="fragments :: bootstrap_head">
     <link rel="stylesheet" th:href="@{'/css/style.css'}"/>
 </head>
 <body>
@@ -15,7 +15,7 @@
         <div class="container">
             <div class="jumbotron">
                 <h1 class="display-4">Screenings</h1>
-
+                <hr>
                 <!-- Navigation pills -->
                 <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                     <li class="nav-item" th:each="key,iter:${screenings.keySet()}">
@@ -62,49 +62,6 @@
                                        th:data-target="'#deleteScreening'+${screening.getId()}">
                                         Delete
                                     </a>
-                                    <!-- Modal for deleting screening-->
-                                    <div class="modal fade"
-                                         th:id="'deleteScreening'+${screening.getId()}"
-                                         tabindex="-1" role="dialog" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title">
-                                                        Warning!!!
-                                                    </h5>
-                                                    <button type="button" class="close"
-                                                            data-dismiss="modal"
-                                                            aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <p>The following screening will be permanently
-                                                        deleted from database.</p>
-                                                    <a th:text="${screening.getStartTime().toLocalDate().toString()}"></a>
-                                                    <a th:text="${screening.getStartTime().toLocalTime().toString()}"></a>
-                                                    <a th:text="${screening.getMovie().getTitle()}"></a>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <p>Are you sure you want do delete?</p>
-                                                    <form action="/manage/screenings/delete"
-                                                          method="post">
-                                                        <input type="hidden" name="screeningId"
-                                                               id="screeningId"
-                                                               th:value="${screening.getId()}">
-                                                        <button type="button"
-                                                                class="btn btn-secondary"
-                                                                data-dismiss="modal">Close
-                                                        </button>
-                                                        <button type="submit"
-                                                                class="btn btn-danger">
-                                                            Delete
-                                                        </button>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </td>
                             </tr>
                             </tbody>
@@ -123,12 +80,52 @@
 
             </div>
 
-            <a class="btn btn-secondary" href="/manage/screenings/add">Create new screening</a>
-            <!-- Button trigger modal -->
-            <a type="button" class="btn btn-primary" data-toggle="modal"
-               data-target="#deletePastScreenings">
-                Delete past screenings
-            </a>
+            <!-- Modal for deleting screening-->
+            <th:block th:each="screeningEntries:${screenings}">
+            <div class="modal fade"
+                 th:each="screening:${screeningEntries.getValue()}"
+                 th:id="'deleteScreening'+${screening.getId()}"
+                 tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">
+                                Warning!
+                            </h5>
+                            <button type="button" class="close"
+                                    data-dismiss="modal"
+                                    aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>The following screening will be permanently deleted.</p>
+                            <a th:text="${screening.getStartTime().toLocalDate().toString()}"></a>
+                            <a th:text="${screening.getStartTime().toLocalTime().toString()}"></a>
+                            <a th:text="${screening.getMovie().getTitle()}"></a>
+                        </div>
+                        <div class="modal-footer">
+                            <p>Are you sure you want do delete?</p>
+                            <form action="/manage/screenings/delete"
+                                  method="post">
+                                <input type="hidden" name="screeningId"
+                                       id="screeningId"
+                                       th:value="${screening.getId()}">
+                                <button type="button"
+                                        class="btn btn-secondary"
+                                        data-dismiss="modal">Close
+                                </button>
+                                <button type="submit"
+                                        class="btn btn-danger">
+                                    Delete
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </th:block>
+
             <!-- Modal for deleting past screenings-->
             <div class="modal fade" id="deletePastScreenings" tabindex="-1" role="dialog"
                  aria-hidden="true">

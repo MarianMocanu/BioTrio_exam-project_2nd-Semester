@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Add theater</title>
 
-    <div th:replace="fragments :: bootstrap_head"></div>
+    <link th:replace="fragments :: bootstrap_head">
     <link rel="stylesheet" th:href="@{'/css/style.css'}"/>
 </head>
 <body>
@@ -14,8 +14,8 @@
     <main class="flex-fill">
         <div class="container">
             <div class="jumbotron">
-                <h1 class="display-4">Add a new theater</h1>
-
+                <h1 class="display-4">Add a theater</h1>
+                <hr>
                 <form action="/manage/theaters/add" method="post" th:object="${theaterform}">
                     <div class="form-group">
                         <label for="name">Theater name:</label>

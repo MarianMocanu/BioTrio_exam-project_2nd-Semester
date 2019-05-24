@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Booking successful</title>
 
-    <div th:replace="fragments :: bootstrap_head"></div>
+    <link th:replace="fragments :: bootstrap_head">
     <link rel="stylesheet" th:href="@{'/css/style.css'}"/>
 </head>
 <body>
@@ -15,6 +15,7 @@
         <div class="container">
             <div class="jumbotron">
                 <h1 class="display-4">Your booking has been created!</h1>
+                <hr>
                 <p>A confirmation SMS has been sent to <span th:text="${booking.getPhoneNo()}">
                 </span></p>
                 <p>Your unique booking code is <b th:text="${booking.getCode()}"></b>. Save it
