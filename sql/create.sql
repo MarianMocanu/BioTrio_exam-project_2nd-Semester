@@ -77,7 +77,7 @@ CREATE TABLE users
     employee_id INT,
     PRIMARY KEY (id),
     FOREIGN KEY (role) REFERENCES roles (id),
-    FOREIGN KEY (employee_id) REFERENCES employees (id)
+    FOREIGN KEY (employee_id) REFERENCES employees (id) ON DELETE SET NULL
 );
 
 CREATE TABLE tickets

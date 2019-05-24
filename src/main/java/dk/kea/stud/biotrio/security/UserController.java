@@ -1,14 +1,20 @@
 package dk.kea.stud.biotrio.security;
 
+import dk.kea.stud.biotrio.administration.Employee;
+import dk.kea.stud.biotrio.administration.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 public class UserController {
   @Autowired
   private UserRepository userRepo;
+  @Autowired
+  private EmployeeRepository employeeRepo;
 
   @GetMapping("/manage/users")
   public String viewUsers(Model model) {
@@ -18,6 +24,7 @@ public class UserController {
 
   @GetMapping("/manage/users/add")
   public String addUser(Model model) {
+    model.addAttribute("employees", employeeRepo.findAllEmployeesWithoutAccount());
     model.addAttribute("roles", userRepo.getAllRoles());
     model.addAttribute("userData", new User());
     return "security/users-add";
@@ -26,6 +33,7 @@ public class UserController {
   @PostMapping("/manage/users/add")
   public String addUserResult(@ModelAttribute User userData,
                               @RequestParam String confPassword,
+                              @RequestParam(value = "employee_id") int employee,
                               Model model) {
     String message = null;
     boolean success = false;
@@ -34,6 +42,11 @@ public class UserController {
     } else if (!confPassword.equals(userData.getPassword())) {
       message = "Passwords don't match. Try again.";
     } else {
+      if (employee == 0) {
+        userData.setEmployee(null);
+      } else {
+        userData.setEmployee(employeeRepo.findEmployee(employee));
+      }
       userRepo.addUser(userData);
       message = "User successfully added.";
       success = true;
@@ -52,17 +65,25 @@ public class UserController {
 
   @GetMapping("/manage/users/edit/{id}")
   public String editUser(@PathVariable("id") int id, Model model) {
-    model.addAttribute("userData", userRepo.findById(id));
+    User userData = userRepo.findById(id);
+    List<Employee> employeeData = employeeRepo.findAllEmployeesWithoutAccount();
+    System.out.println(userData.getEmployee());
+    if (userData.getEmployee() != null) {
+      System.out.println("inserting employee id: " + userData.getEmployee().getId());
+      employeeData.add(0, userData.getEmployee());
+    }
+    model.addAttribute("employeeData", employeeData);
+    model.addAttribute("userData", userData);
     model.addAttribute("roles", userRepo.getAllRoles());
 
     return "security/users-edit";
   }
 
-  // TODO this shit doesn't work as it should; needs to be rewritten.
   @PostMapping("/manage/users/edit/{id}")
   public String doEditUser(@PathVariable("id") int id,
                            @ModelAttribute User userData,
                            @RequestParam String confPassword,
+                           @RequestParam(value = "employee_id") int employee,
                            Model model) {
 
     String message = null;
@@ -88,7 +109,11 @@ public class UserController {
     } else {
       userData.setPassword(null);
     }
-
+    if (employee == 0) {
+      userData.setEmployee(null);
+    } else {
+      userData.setEmployee(employeeRepo.findEmployee(employee));
+    }
     userRepo.editUser(userData);
     return "redirect:/manage/users";
   }

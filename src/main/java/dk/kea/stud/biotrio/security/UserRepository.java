@@ -1,5 +1,6 @@
 package dk.kea.stud.biotrio.security;
 
+import dk.kea.stud.biotrio.administration.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
@@ -12,6 +13,8 @@ import java.util.List;
 public class UserRepository {
   @Autowired
   private JdbcTemplate jdbc;
+  @Autowired
+  private EmployeeRepository employeeRepo;
 
   public User findByUsername(String name) {
     User result = null;
@@ -27,7 +30,7 @@ public class UserRepository {
       result.setUsername(rs.getString("username"));
       result.setPassword(rs.getString("password"));
       result.setRole(rs.getString("role"));
-      result.setEmployee(null);
+      result.setEmployee(employeeRepo.findEmployee(rs.getInt("employee_id")));
     }
 
     return result;
@@ -44,7 +47,7 @@ public class UserRepository {
       user.setId(rs.getInt("id"));
       user.setUsername(rs.getString("username"));
       user.setRole(rs.getString("role"));
-      user.setEmployee(null);
+      user.setEmployee(employeeRepo.findEmployee(rs.getInt("employee_id")));
       user.setPassword(null);
       result.add(user);
     }
@@ -89,7 +92,7 @@ public class UserRepository {
       result.setId(rs.getInt("id"));
       result.setUsername(rs.getString("username"));
       result.setRole(rs.getString("role"));
-      result.setEmployee(null);
+      result.setEmployee(employeeRepo.findEmployee(rs.getInt("employee_id")));
       result.setPassword(null);
     }
 
@@ -109,8 +112,8 @@ public class UserRepository {
 
   public void addUser(User userData) {
     int roleId = getRoleId(userData.getRole());
-    String query = "INSERT INTO users (username, password, role) VALUES (?, ?, ?);";
-    jdbc.update(query, userData.getUsername(), userData.getPassword(), roleId);
+    String query = "INSERT INTO users (username, password, role, employee_id) VALUES (?, ?, ?, ?);";
+    jdbc.update(query, userData.getUsername(), userData.getPassword(), roleId, userData.getEmployee().getId());
   }
 
   public void deleteUser(int id) {
@@ -121,11 +124,13 @@ public class UserRepository {
   public void editUser(User user) {
     int roleId = getRoleId(user.getRole());
     if (user.getPassword() == null) {
-      jdbc.update("UPDATE users SET username = ?, role = ? WHERE id = ?",
-          user.getUsername(), roleId, user.getId());
+      jdbc.update("UPDATE users SET username = ?, role = ?, employee_id = ? WHERE id = ?",
+          user.getUsername(), roleId, user.getEmployee() == null ?
+              null : user.getEmployee().getId(), user.getId());
     } else {
-      jdbc.update("UPDATE users SET username = ?, password = ?, role = ? WHERE id = ?",
-          user.getUsername(), user.getPassword(), roleId, user.getId());
+      jdbc.update("UPDATE users SET username = ?, password = ?, role = ?, employee_id = ? WHERE id = ?",
+          user.getUsername(), user.getPassword(), roleId, user.getEmployee() == null ?
+              null : user.getEmployee().getId(), user.getId());
     }
   }
 }

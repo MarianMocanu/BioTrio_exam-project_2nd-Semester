@@ -61,7 +61,7 @@
                                         </div>
                                         <div class="modal-body">
                                             <span th:if="${user.employee}"
-                                                  th:text="${user.employee.firstName} + ' ' + ${user.employee.lastName} + ''s '"></span>
+                                                  th:text="${user.employee.firstName} + ' ' + ${user.employee.lastName} + '\'s '"></span>
                                             <span th:unless="${user.employee}">The account </span>
                                             <span th:text="${user.username} + ' will be permanently deleted from the users database'"></span>
                                         </div>

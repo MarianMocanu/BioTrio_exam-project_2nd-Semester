@@ -16,18 +16,16 @@ public class EmployeeRepository {
   // Find employee by ID
   public Employee findEmployee(int id) {
     SqlRowSet rs = jdbc.queryForRowSet("SELECT * FROM employees WHERE id = ?", id);
-    Employee employee = new Employee();
+    Employee employee = null;
     //while (rs.next()) - reads all the results and then picks the one with the unique id.
     //since the id is unique we know that we get only one result
     // so we use conditioning to read the first (and only row)
     if (rs.first()) {
-      employee.setId(rs.getInt("id"));
-      employee.setFirstName(rs.getString("first_name"));
-      employee.setLastName(rs.getString("last_name"));
+      employee = extractNextEmployeeFromRowSet(rs);
     }
     return employee;
   }
-  //List all employees
+  //Get all employees
   public List<Employee> findAllEmployees() {
     List<Employee> employees = new ArrayList();
 
@@ -35,15 +33,31 @@ public class EmployeeRepository {
     SqlRowSet rs = jdbc.queryForRowSet(query);
 
     while (rs.next()) {
-      Employee employee = new Employee();
-      employee.setId(rs.getInt("id"));
-      employee.setFirstName(rs.getString("first_name"));
-      employee.setLastName(rs.getString("last_name"));
-
-      employees.add(employee);
+      employees.add(extractNextEmployeeFromRowSet(rs));
     }
     return employees;
   }
+  //Get all employees that have no user accounts
+  public List<Employee> findAllEmployeesWithoutAccount() {
+    List<Employee> employees = new ArrayList();
+
+    String query = "SELECT * FROM employees WHERE id NOT IN (SELECT employee_id FROM users WHERE employee_id IS NOT NULL);";
+    SqlRowSet rs = jdbc.queryForRowSet(query);
+
+    while (rs.next()) {
+      employees.add(extractNextEmployeeFromRowSet(rs));
+    }
+    return employees;
+  }
+
+  private Employee extractNextEmployeeFromRowSet(SqlRowSet rs) {
+    Employee result = new Employee();
+    result.setId(rs.getInt("id"));
+    result.setFirstName(rs.getString("first_name"));
+    result.setLastName(rs.getString("last_name"));
+    return result;
+  }
+
   //Insert a new employee
   public void insert(Employee employee) {
     //this works like prepared statement
