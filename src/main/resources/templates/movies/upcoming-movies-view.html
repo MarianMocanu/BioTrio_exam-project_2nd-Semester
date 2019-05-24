@@ -30,11 +30,11 @@
                         <td>
                             <!-- Button trigger modal -->
                             <button type="button" class="btn btn-outline-danger" data-toggle="modal"
-                                    data-target="#deleteUpcomingMovie">
+                                    th:data-target="'#deleteUpcomingMovie'+${movie.id}">
                                 Delete
                             </button>
                             <!-- Modal for deleting past screenings-->
-                            <div class="modal fade" id="deleteUpcomingMovie" tabindex="-1" role="dialog"
+                            <div class="modal fade" th:id="'deleteUpcomingMovie'+${movie.id}" tabindex="-1" role="dialog"
                                  aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
@@ -52,8 +52,8 @@
                                         </div>
                                         <div class="modal-footer">
                                             <p>Are you sure you want to delete?</p>
-                                            <form action="/manage/upcoming/remove" method="post">
-                                                <input type="hidden" name="movieId" id="movieId" th:value="${movie.id}">
+                                            <form action="/manage/upcoming/delete" method="post">
+                                                <input type="hidden" name="movieId" th:value="${movie.id}">
                                                 <button type="button" class="btn btn-secondary"
                                                         data-dismiss="modal">Close
                                                 </button>

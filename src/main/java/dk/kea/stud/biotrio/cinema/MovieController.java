@@ -90,8 +90,8 @@ public class MovieController {
   }
 
   //From "delete" button goes to "Are you sure to delete(...)?" or "Theater can't be deleted"
-  @GetMapping("/manage/movies/delete/{id}")
-  public String deleteMovie(@PathVariable(name = "id") int id, Model m) {
+  @PostMapping("/manage/movies/delete")
+  public String deleteMovie(@RequestParam(name = "movieId") int id, Model m) {
     Movie movie = movieRepo.findMovieById(id);
     if (movieRepo.canDelete(movie)) {
       movieRepo.deleteMovie(id);
@@ -130,7 +130,7 @@ public class MovieController {
     }
   }
 
-  @PostMapping("/manage/upcoming/remove")
+  @PostMapping("/manage/upcoming/delete")
   public String removeMovieFromList(@RequestParam (name = "movieId") int id) {
     movieRepo.removeMovieFromUpcomingList(id);
     return "redirect:/manage/upcoming";

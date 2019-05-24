@@ -33,11 +33,11 @@
                         <td>
                             <!-- Button trigger modal -->
                             <button type="button" class="btn btn-outline-danger" data-toggle="modal"
-                                    data-target="#deleteTechnology">
+                                    th:data-target="'#deleteTechnology'+${tech.id}">
                                 Delete
                             </button>
                             <!-- Modal for deleting technology-->
-                            <div class="modal fade" id="deleteTechnology" tabindex="-1"
+                            <div class="modal fade" th:id="'deleteTechnology'+${tech.id}" tabindex="-1"
                                  role="dialog"
                                  aria-hidden="true">
                                 <div class="modal-dialog" role="document">

@@ -36,7 +36,7 @@ public class TheaterController {
   //Saves Theater and lists all the Theaters
   @PostMapping("/manage/theaters/add")
   public String saveTheater(@ModelAttribute Theater t,
-                            @RequestParam(value="selectedTechnologies", required = false)
+                            @RequestParam(value = "selectedTechnologies", required = false)
                                 List<Integer> selectedTechnologies) {
     t.setSupportedTechnologies(technologyRepo.convertFromIdList(selectedTechnologies));
     theaterRepo.insert(t);
@@ -60,29 +60,26 @@ public class TheaterController {
   //Saves edited Theater and lists all the Theaters
   @PostMapping("/manage/theaters/edit")
   public String update(@ModelAttribute Theater t,
-                       @RequestParam(value="selectedTechnologies", required = false)
+                       @RequestParam(value = "selectedTechnologies", required = false)
                            List<Integer> selectedTechnologies) {
     t.setSupportedTechnologies(technologyRepo.convertFromIdList(selectedTechnologies));
     theaterRepo.update(t);
     return "redirect:/manage/theaters/";
   }
 
-  //From "delete" button goes to "Are you sure to delete(...)?" or "Theater can't be deleted"
-  @GetMapping("/manage/theaters/delete/{id}")
-  public String deleteTheater(@PathVariable(name = "id") int id, Model m) {
-    Theater t = theaterRepo.findTheater(id);
-    boolean canDelete = theaterRepo.canDelete(t);
-    m.addAttribute("canDelete", canDelete);
-    m.addAttribute("theater", t);
-    return "theaters/theaters-delete";
-  }
-
   //Deletes Theater and lists all the Theaters
   @PostMapping("/manage/theaters/delete")
-  public String deleteTheater(int id) {
-    theaterRepo.deleteTheater(id);
+  public String deleteTheater(@RequestParam(name = "theaterId") int id, Model model) {
+    Theater theater = theaterRepo.findTheater(id);
+    boolean canDelete = theaterRepo.canDelete(theater);
 
-    return "redirect:/manage/theaters";
+    if (canDelete) {
+      theaterRepo.deleteTheater(id);
+      return "redirect:/manage/theaters";
+    } else {
+      model.addAttribute("theaterName", theater.getName());
+      return "theaters/theaters-delete";
+    }
   }
 }
 

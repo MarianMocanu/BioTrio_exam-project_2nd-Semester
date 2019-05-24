@@ -28,27 +28,27 @@
 
                     </tr>
                     </thead>
-                    <tbody>
-                    <tr th:each="movie:${movies}">
+                    <tbody th:each="movie:${movies}">
+                    <tr >
                         <td th:text="${movie.title}"></td>
                         <td th:text="${movie.runtime}"></td>
                         <td th:text="${movie.synopsis}"></td>
                         <td th:text="${movie.genre}"></td>
                         <td>
-                            <a class="btn btn-primary"
+                            <button class="btn btn-primary"
                                th:href="'/manage/movies/edit/' + ${movie.id}">
                                 Edit
-                            </a>
+                            </button>
                         </td>
                         <td>
                             <!-- Button trigger modal -->
                             <button type="button" class="btn btn-outline-danger" data-toggle="modal"
-                                    data-target="#deleteMovie">
+                                    th:data-target="'#deleteMovie'+${movie.id}">
                                 Delete
                             </button>
 
                             <!-- Modal for deleting past screenings-->
-                            <div class="modal fade" id="deleteMovie" tabindex="-1" role="dialog"
+                            <div class="modal fade" th:id="'deleteMovie'+${movie.id}" tabindex="-1" role="dialog"
                                  aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
@@ -66,8 +66,8 @@
                                         </div>
                                         <div class="modal-footer">
                                             <p>Are you sure you want to delete?</p>
-                                            <form th:action="'/manage/movies/delete/' + ${movie.id}"
-                                                  method="get">
+                                            <form action="/manage/movies/delete" method="post">
+                                                <input type="hidden" th:value="${movie.id}" name="movieId">
                                                 <button type="button" class="btn btn-secondary"
                                                         data-dismiss="modal">Close
                                                 </button>
