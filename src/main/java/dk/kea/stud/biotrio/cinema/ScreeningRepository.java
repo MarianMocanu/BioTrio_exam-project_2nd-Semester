@@ -235,12 +235,15 @@ public class ScreeningRepository {
     if (s.getStartTime().isBefore(LocalDateTime.now())) {
       return true;
     }
-    String query = ("SELECT COUNT(*) FROM bookings INNER JOIN tickets ON " +
-        "bookings.screening_id = tickets.screening_id WHERE bookings.screening_id = ? ");
-    SqlRowSet rs = jdbc.queryForRowSet(query, s.getId());
+    String query = ("SELECT COUNT(*) FROM (SELECT id FROM bookings " +
+        "WHERE screening_id = ? " +
+        "UNION " +
+        "SELECT id FROM tickets " +
+        "WHERE screening_id = ?) AS x");
+    SqlRowSet rs = jdbc.queryForRowSet(query, s.getId(), s.getId());
     rs.first();
-    int noScreenings = rs.getInt(1);
-
-    return noScreenings == 0;
+    int noSeats = rs.getInt(1);
+    System.out.println("number seats" + noSeats);
+    return noSeats == 0;
   }
 }
