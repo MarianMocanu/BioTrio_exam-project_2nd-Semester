@@ -69,7 +69,7 @@ public class ScreeningController {
 
   @GetMapping("/manage/screenings/edit/{id}")
   public String editScreening(@RequestParam(value = "error", required = false) String error,
-      @PathVariable("id") int id, Model model) {
+                              @PathVariable("id") int id, Model model) {
     if (error != null) {
       model.addAttribute("error", error);
     }
@@ -106,11 +106,12 @@ public class ScreeningController {
   }
 
   //From "delete" button goes to "Are you sure to delete(...)?"
-  @GetMapping("/manage/screenings/delete/{id}")
-  public String deleteScreening(@PathVariable(name = "id") int id, Model m) {
+  @PostMapping("/manage/screenings/delete")
+  public String deleteScreening(@RequestParam(name = "screeningId") int id, Model m) {
     Screening screening = screeningRepo.findById(id);
     boolean canDelete = screeningRepo.canDelete(screening);
-
+    System.out.println(id);
+    System.out.println(canDelete);
     if (canDelete) {
       screeningRepo.deleteScreening(id);
       return "redirect:/manage/screenings";
@@ -121,7 +122,7 @@ public class ScreeningController {
   }
 
   @PostMapping("/manage/screenings/delete/past/screenings")
-  public String deletePastScreenings(){
+  public String deletePastScreenings() {
     screeningRepo.deletePastScreenings();
     return "redirect:/manage/screenings";
   }
@@ -150,12 +151,12 @@ public class ScreeningController {
     if (potentialConflictingScreenings != null) {
       int screeningLength = screening.getMovie().getRuntime();
 
-      for (Screening otherScreening: potentialConflictingScreenings) {
+      for (Screening otherScreening : potentialConflictingScreenings) {
         int otherScreeningLength = otherScreening.getMovie().getRuntime();
 
         if (screening.getId() != otherScreening.getId() &&
             screening.getStartTime().isAfter(otherScreening.getStartTime()
-            .minusMinutes(screeningLength + AppSettings.TIME_BUFFER_MINUTES_BETWEEN_SCREENINGS))
+                .minusMinutes(screeningLength + AppSettings.TIME_BUFFER_MINUTES_BETWEEN_SCREENINGS))
             && screening.getStartTime().isBefore(otherScreening.getStartTime()
             .plusMinutes(otherScreeningLength
                 + AppSettings.TIME_BUFFER_MINUTES_BETWEEN_SCREENINGS))) {
