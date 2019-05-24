@@ -130,15 +130,10 @@ public class MovieController {
     }
   }
 
-  @GetMapping("/manage/upcoming/remove/{id}")
-  public String removeMovieFromList(@PathVariable("id") int movieId, Model model) {
-    model.addAttribute("movie", movieRepo.findMovieById(movieId));
-    return "movies/upcoming-movies-remove";
-  }
-
   @PostMapping("/manage/upcoming/remove")
-  public String doRemoveFromList(@ModelAttribute("movieId") int movieId) {
-    movieRepo.removeMovieFromUpcomingList(movieId);
+  public String removeMovieFromList(@RequestParam (name = "movieId") int id) {
+    movieRepo.removeMovieFromUpcomingList(id);
     return "redirect:/manage/upcoming";
   }
+
 }

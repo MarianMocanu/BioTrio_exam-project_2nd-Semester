@@ -28,9 +28,43 @@
                     <tr th:each="movie:${upcomingMovies}">
                         <td th:text="${movie.title}"></td>
                         <td>
-                            <a class="btn btn-outline-danger" th:href="'/manage/upcoming/remove/' + ${movie.id}">
-                                Remove
-                            </a>
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-outline-danger" data-toggle="modal"
+                                    data-target="#deleteUpcomingMovie">
+                                Delete
+                            </button>
+                            <!-- Modal for deleting past screenings-->
+                            <div class="modal fade" id="deleteUpcomingMovie" tabindex="-1" role="dialog"
+                                 aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">
+                                                Warning!!!The folowing upcoming movie will be permanently deleted from the
+                                                database! Are you sure you want to delete it?
+                                            </h5>
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p th:text="${movie.getTitle()}"></p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <form action="/manage/upcoming/remove" method="post">
+                                                <input type="hidden" name="movieId" id="movieId" th:value="${movie.id}">
+                                                <button type="button" class="btn btn-secondary"
+                                                        data-dismiss="modal">Close
+                                                </button>
+                                                <button type="submit" class="btn btn-danger">
+                                                    Delete
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </td>
                     </tr>
                     </tbody>
