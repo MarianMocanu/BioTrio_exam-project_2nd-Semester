@@ -22,14 +22,14 @@
                 </div>
 
                 <form action="/manage/upcoming/add" method="post">
-                    <div class="input-group">
+                    <div class="form-group">
                         <label for="selected-movie">Select movie</label>
                         <select class="form-control" id="selected-movie" name="selectedMovie">
                             <option th:each="movie:${movies}" th:value="${movie.getId()}"
                                     th:text="${movie.getTitle()}"></option>
                         </select>
                     </div>
-                    <div class="input-group">
+                    <div class="form-group">
                         <label for="est-date">
                             Estimated Screening Date:
                         </label>

@@ -133,7 +133,7 @@ public class MovieRepository {
 
     public void deleteMovie(int id) {
         technologyRepo.setRequiredTechnologies(id, null);
-        jdbc.update("DELETE FROM movies WHERE id = ?", id);
+        jdbc.update("DELETE FROM movies WHERE id = ?;", id);
     }
 
     public boolean canDelete(Movie m){
