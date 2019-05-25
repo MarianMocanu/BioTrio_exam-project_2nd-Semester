@@ -68,7 +68,7 @@ public class EmployeeRepository {
   }
 
   /**
-   * Helper function that returns the {@link Employee}
+   * Helper method that returns the {@link Employee}
    * object that the RowSet is currently pointing to
    *
    * @param rs The {@link SqlRowSet} containing the data
@@ -83,7 +83,7 @@ public class EmployeeRepository {
   }
 
   /**
-   * Saves the data of an {@link Employee} object in the database
+   * Saves the data of an {@link Employee} object to the database as a new entry
    *
    * @param employee The {@link Employee} object to save in the database
    */

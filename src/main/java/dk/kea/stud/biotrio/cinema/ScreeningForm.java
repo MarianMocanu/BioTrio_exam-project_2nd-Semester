@@ -37,14 +37,4 @@ public class ScreeningForm {
   public void setStartTime(String startTime) {
     this.startTime = startTime;
   }
-
-  @Override
-  public String toString() {
-    return "ScreeningForm{" +
-        "id=" + id +
-        ", movieId=" + movieId +
-        ", theaterId=" + theaterId +
-        ", startTime=" + startTime +
-        '}';
-  }
 }

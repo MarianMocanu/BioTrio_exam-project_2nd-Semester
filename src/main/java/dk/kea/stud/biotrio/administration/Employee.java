@@ -18,42 +18,42 @@ public class Employee {
   private String lastName;
 
   /**
-   * {@link Employee#id}
+   * @return An integer representation of the {@link Employee}'s id
    */
   public int getId() {
     return id;
   }
 
   /**
-   * {@link Employee#id}
+   * @param id An integer to set the {@link Employee}'s id to
    */
   public void setId(int id) {
     this.id = id;
   }
 
   /**
-   * {@link Employee#firstName}
+   * @return A {@link String} representation of the {@link Employee}'s first name
    */
   public String getFirstName() {
     return firstName;
   }
 
   /**
-   * {@link Employee#firstName}
+   * @param firstName A {@link String} to set the {@link Employee}'s first name to
    */
   public void setFirstName(String firstName) {
     this.firstName = firstName;
   }
 
   /**
-   * {@link Employee#lastName}
+   * @return A {@link String} representation of the {@link Employee}'s last name
    */
   public String getLastName() {
     return lastName;
   }
 
   /**
-   * {@link Employee#lastName}
+   * @param lastName A {@link String} to set the {@link Employee}'s last name to
    */
   public void setLastName(String lastName) {
     this.lastName = lastName;

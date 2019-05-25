@@ -48,14 +48,4 @@ public class Screening {
   public void setNoAvailableSeats(int noAvailableSeats) {
     this.noAvailableSeats = noAvailableSeats;
   }
-
-  @Override
-  public String toString() {
-    return "Screening{" +
-        "id=" + id +
-        ", movie=" + movie +
-        ", theater=" + theater +
-        ", startTime=" + startTime +
-        '}';
-  }
 }

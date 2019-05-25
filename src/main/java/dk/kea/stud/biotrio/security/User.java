@@ -29,70 +29,71 @@ public class User {
   private Employee employee;
 
   /**
-   * @return {@link User#id}
+   * @return An integer representation of the {@link User}'s id within the database
    */
   public int getId() {
     return id;
   }
 
   /**
-   * @param id {@link User#id}
+   * @param id An integer to set the {@link User}'s id to
    */
   public void setId(int id) {
     this.id = id;
   }
 
   /**
-   * @return {@link User#username}
+   * @return A {@link String} representation of the {@link User}'s username
    */
   public String getUsername() {
     return username;
   }
 
   /**
-   * @param username {@link User#username}
+   * @param username A {@link String} to set the {@link User}'s password to
    */
   public void setUsername(String username) {
     this.username = username;
   }
 
   /**
-   * @return {@link User#password}
+   * @return A {@link String} representation of the {@link User}'s password
    */
   public String getPassword() {
     return password;
   }
 
   /**
-   * @param password {@link User#password}
+   * @param password A {@link String} to set the {@link User}'s password to
    */
   public void setPassword(String password) {
     this.password = password;
   }
 
   /**
-   * @return {@link User#role}
+   * @return A {@link String} representation of the {@link User}'s role
    */
   public String getRole() {
     return role;
   }
 
   /**
-   * @param role {@link User#role}
+   * @param role A {@link String} to set the {@link User}'s role to
    */
   public void setRole(String role) {
     this.role = role;
   }
 
   /**
-   * @return {@link User#employee}
+   * @return A {@link Employee} object representing the {@link User}'s associated employee data
    */
   public Employee getEmployee() {
     return employee;
   }
 
   /**
-   * @param employee {@link User#employee}
+   * @param employee A {@link Employee} object to set the {@link User}'s
+   *                 associated employee data to
    */
   public void setEmployee(Employee employee) {
     this.employee = employee;

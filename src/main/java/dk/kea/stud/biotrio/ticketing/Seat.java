@@ -41,14 +41,4 @@ public class Seat {
   public void setSeatNo(int seatNo) {
     this.seatNo = seatNo;
   }
-
-  @Override
-  public String toString() {
-    return "Seat{" +
-        "rowNo=" + rowNo +
-        ", seatNo=" + seatNo +
-        ", isAvailable=" + isAvailable +
-        ", isSold=" + isSold +
-        '}';
-  }
 }

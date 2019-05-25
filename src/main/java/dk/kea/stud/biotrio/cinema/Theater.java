@@ -48,12 +48,4 @@ public class Theater {
   public void setSupportedTechnologies(List<Technology> supportedTechnologies) {
     this.supportedTechnologies = supportedTechnologies;
   }
-
-  @Override
-  public String toString() {
-    return "Theater{" +
-        "id=" + id +
-        ", name='" + name + '\'' +
-        '}';
-  }
 }

@@ -23,7 +23,7 @@ public class AppGlobals {
    */
   public static final int MAX_NUMBER_OF_SEATS_PER_BOOKING = 4;
   /**
-   * The default format for inputting / outputting date & time data
+   * The default format for inputting / outputting date and time data
    */
   public static final DateTimeFormatter DTFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
   /**
