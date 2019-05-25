@@ -1,5 +1,6 @@
 package dk.kea.stud.biotrio.ticketing;
 
+import dk.kea.stud.biotrio.AppGlobals;
 import dk.kea.stud.biotrio.cinema.ScreeningRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -50,7 +51,7 @@ public class TicketController {
       ticket.setScreening(screeningRepo.findById(id));
       ticket.setSeat(seat);
       ticketRepo.addTicket(ticket);
-      Helper.printTicket(ticket);
+      AppGlobals.printTicket(ticket);
       //TODO SomeClass.print(ticketRepo.addTicket(soldTicket));
     }
     return "redirect:/manage/screening/" + id + "/ticketing";

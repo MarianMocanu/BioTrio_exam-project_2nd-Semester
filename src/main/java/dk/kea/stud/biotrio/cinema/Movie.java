@@ -1,6 +1,6 @@
 package dk.kea.stud.biotrio.cinema;
 
-import dk.kea.stud.biotrio.AppSettings;
+import dk.kea.stud.biotrio.AppGlobals;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -98,7 +98,7 @@ public class Movie {
   }
 
   public String getFormattedReleaseDate() {
-    return releaseDate == null ? null : releaseDate.format(AppSettings.DateFormat);
+    return releaseDate == null ? null : releaseDate.format(AppGlobals.DateFormat);
   }
 
   public void setReleaseDate(LocalDate releaseDate) {

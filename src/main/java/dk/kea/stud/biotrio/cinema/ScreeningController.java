@@ -1,13 +1,12 @@
 package dk.kea.stud.biotrio.cinema;
 
-import dk.kea.stud.biotrio.AppSettings;
+import dk.kea.stud.biotrio.AppGlobals;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 
@@ -78,7 +77,7 @@ public class ScreeningController {
     formData.setId(id);
     formData.setMovieId(screening.getMovie().getId());
     formData.setTheaterId(screening.getTheater().getId());
-    formData.setStartTime(screening.getStartTime().format(AppSettings.DTFormat));
+    formData.setStartTime(screening.getStartTime().format(AppGlobals.DTFormat));
     model.addAttribute("selectedScreening", formData);
     model.addAttribute("movies", movieRepo.findAllMovies());
     model.addAttribute("theaters", theaterRepo.findAllTheaters());
@@ -132,7 +131,7 @@ public class ScreeningController {
     screening.setTheater(theaterRepo.findTheater(formData.getTheaterId()));
     LocalDateTime startTime;
     try {
-      startTime = LocalDateTime.parse(formData.getStartTime(), AppSettings.DTFormat);
+      startTime = LocalDateTime.parse(formData.getStartTime(), AppGlobals.DTFormat);
     } catch (DateTimeParseException e) {
       return null;
     }
@@ -154,10 +153,10 @@ public class ScreeningController {
 
         if (screening.getId() != otherScreening.getId() &&
             screening.getStartTime().isAfter(otherScreening.getStartTime()
-                .minusMinutes(screeningLength + AppSettings.TIME_BUFFER_MINUTES_BETWEEN_SCREENINGS))
+                .minusMinutes(screeningLength + AppGlobals.TIME_BUFFER_MINUTES_BETWEEN_SCREENINGS))
             && screening.getStartTime().isBefore(otherScreening.getStartTime()
             .plusMinutes(otherScreeningLength
-                + AppSettings.TIME_BUFFER_MINUTES_BETWEEN_SCREENINGS))) {
+                + AppGlobals.TIME_BUFFER_MINUTES_BETWEEN_SCREENINGS))) {
 
           return otherScreening;
         }

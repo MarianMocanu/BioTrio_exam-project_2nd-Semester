@@ -1,13 +1,12 @@
 package dk.kea.stud.biotrio.cinema;
 
-import dk.kea.stud.biotrio.AppSettings;
+import dk.kea.stud.biotrio.AppGlobals;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +51,7 @@ public class MovieController {
                               List<Integer> selectedTechnologies) {
     LocalDate releaseDate;
     try {
-      releaseDate = LocalDate.parse(releaseDateString, AppSettings.DateFormat);
+      releaseDate = LocalDate.parse(releaseDateString, AppGlobals.DateFormat);
     } catch (DateTimeParseException e) {
       releaseDate = null;
     }
@@ -79,7 +78,7 @@ public class MovieController {
                                 List<Integer> selectedTechnologies) {
     LocalDate releaseDate;
     try {
-      releaseDate = LocalDate.parse(releaseDateString, AppSettings.DateFormat);
+      releaseDate = LocalDate.parse(releaseDateString, AppGlobals.DateFormat);
     } catch (DateTimeParseException e) {
       releaseDate = null;
     }
@@ -122,7 +121,7 @@ public class MovieController {
   public String saveInUpcomingList(@ModelAttribute("selectedMovie") int movieId,
                                    @ModelAttribute("estDate") String estDate) {
     try {
-      LocalDate estimatedDate = LocalDate.parse(estDate, AppSettings.DateFormat);
+      LocalDate estimatedDate = LocalDate.parse(estDate, AppGlobals.DateFormat);
       movieRepo.addMovieToUpcomingList(movieRepo.findMovieById(movieId), estimatedDate);
       return "redirect:/manage/upcoming";
     } catch (DateTimeParseException e) {
