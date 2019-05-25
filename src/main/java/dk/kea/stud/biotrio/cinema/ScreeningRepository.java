@@ -17,6 +17,9 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
+/**
+ * Repository class that is responsible with managing {@link Screening} data within the database
+ */
 @Repository
 public class ScreeningRepository {
   @Autowired
@@ -42,8 +45,12 @@ public class ScreeningRepository {
 
   public Map<String,List<Screening>> findUpcomingScreeningsForMovieAsMap(int movieId) {
     List<Screening> screeningList = findUpcomingScreeningsForMovieById(movieId);
+    return convertScreeningsListToMap(screeningList);
+  }
+
+  private Map<String, List<Screening>> convertScreeningsListToMap(List<Screening> screeningsList) {
     Map<String,List<Screening>> screenings = new LinkedHashMap<>();
-    for(Screening screening:screeningList){
+    for(Screening screening:screeningsList){
       String screeningDate = convertToStringLabel(screening.getStartTime());
       if(!screenings.containsKey(screeningDate)) {
         screenings.put(screeningDate, new ArrayList<>());
@@ -105,40 +112,16 @@ public class ScreeningRepository {
 
   public Map<String,List<Screening>> findUpcomingScreeningsAsMap() {
     List<Screening> screeningsList = findUpcomingScreenings();
-    Map<String,List<Screening>> screeningsMap = new LinkedHashMap<>();
-    for(Screening screening:screeningsList){
-      String screeningDate = convertToStringLabel(screening.getStartTime());
-      if(!screeningsMap.containsKey(screeningDate)) {
-        screeningsMap.put(screeningDate, new ArrayList<>());
-      }
-      screeningsMap.get(screeningDate).add(screening);
-    }
-    return screeningsMap;
+    return convertScreeningsListToMap(screeningsList);
   }
 
   public Map<String, List<Screening>> findAllScreeningsAsMap(){
     List<Screening> screeningsList = findAllScreenings();
-    Map<String, List<Screening>> screeningsMap = new LinkedHashMap<>();
-    for (Screening screening : screeningsList) {
-      String screeningDate = convertToStringLabel(screening.getStartTime());
-      if (!screeningsMap.containsKey(screeningDate)) {
-        screeningsMap.put(screeningDate, new ArrayList<>());
-      }
-      screeningsMap.get(screeningDate).add(screening);
-    }
-    return screeningsMap;
+    return convertScreeningsListToMap(screeningsList);
   }
 
   public List<Screening> findAllScreenings() {
     String query = "SELECT * FROM screenings ORDER BY start_time;";
-    SqlRowSet rs = jdbc.queryForRowSet(query);
-
-    return getScreeningsListFromRowSet(rs);
-  }
-
-  // TODO: remove later if not needed
-  public List<Screening> findTodaysScreenings() {
-    String query = "SELECT * FROM screenings WHERE DATE(start_time) = CURDATE() ORDER BY start_time";
     SqlRowSet rs = jdbc.queryForRowSet(query);
 
     return getScreeningsListFromRowSet(rs);
