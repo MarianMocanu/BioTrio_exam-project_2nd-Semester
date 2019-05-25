@@ -9,12 +9,33 @@ import java.io.FileWriter;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Static class that holds ceretain application-wide settings and helper methods
+ */
 public class AppGlobals {
+  /**
+   * A minimum time buffer between two consecutive screenings, allowing
+   * enough time for the employees to clean the theater
+   */
   public static final int TIME_BUFFER_MINUTES_BETWEEN_SCREENINGS = 15;
+  /**
+   * The maximum number of seats a customer can select per booking
+   */
   public static final int MAX_NUMBER_OF_SEATS_PER_BOOKING = 4;
+  /**
+   * The default format for inputting / outputting date & time data
+   */
   public static final DateTimeFormatter DTFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+  /**
+   * The default format for inputting / outputting date data
+   */
   public static final DateTimeFormatter DateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
+  /**
+   * Prints ticket data to a text file
+   *
+   * @param ticket the ticket data to print
+   */
   public static void printTicket(Ticket ticket) {
     BufferedWriter writer = null;
     LocalDateTime movieTime = ticket.getScreening().getStartTime();
@@ -52,6 +73,11 @@ public class AppGlobals {
     }
   }
 
+  /**
+   * Prints booking data to a text file
+   *
+   * @param booking the booking data to print
+   */
   public static void printBooking(Booking booking) {
     BufferedWriter writer = null;
     LocalDateTime movieTime = booking.getScreening().getStartTime();

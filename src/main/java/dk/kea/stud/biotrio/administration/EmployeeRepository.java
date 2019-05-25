@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The EmployeeRepository class is responsible with managing employee data within the database
+ * Repository class that is responsible with managing {@link Employee} data within the database
  */
 @Repository
 public class EmployeeRepository {

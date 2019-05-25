@@ -20,21 +20,21 @@
                     <div class="form-group">
                         <label for="username">Username</label>
                         <input type="text" class="form-control" th:field="${userData.username}"
-                               id="username">
+                               id="username" required>
                     </div>
                     <div class="form-group">
                         <label for="password">Password</label>
                         <input type="password" class="form-control" th:field="${userData.password}"
-                               id="password">
+                               id="password" required>
                     </div>
                     <div class="form-group">
                         <label for="confPassword">Confirm password</label>
                         <input type="password" class="form-control"
-                               id="confPassword" name="confPassword">
+                               id="confPassword" name="confPassword" required>
                     </div>
                     <div class="form-group">
                         <label for="role">Role</label>
-                        <select class="form-control" th:field="${userData.role}" id="role">
+                        <select class="form-control" th:field="${userData.role}" id="role" required>
                             <option th:each="role:${roles}" th:value="${role}"
                                     th:text="${role}"></option>
                         </select>

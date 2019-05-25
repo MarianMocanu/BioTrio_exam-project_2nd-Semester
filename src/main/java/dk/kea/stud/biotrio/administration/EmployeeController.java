@@ -7,6 +7,9 @@ import org.springframework.ui.Model;
 
 import java.util.List;
 
+/**
+ * Defines the routes related to {@link Employee} management
+ */
 @Controller
 public class EmployeeController {
 

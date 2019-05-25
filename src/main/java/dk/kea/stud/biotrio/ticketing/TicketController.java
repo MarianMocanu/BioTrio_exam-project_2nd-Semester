@@ -52,7 +52,6 @@ public class TicketController {
       ticket.setSeat(seat);
       ticketRepo.addTicket(ticket);
       AppGlobals.printTicket(ticket);
-      //TODO SomeClass.print(ticketRepo.addTicket(soldTicket));
     }
     return "redirect:/manage/screening/" + id + "/ticketing";
   }
