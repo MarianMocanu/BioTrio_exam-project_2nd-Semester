@@ -46,7 +46,7 @@ public class TicketController {
   @PostMapping("/manage/screening/{screeningId}/ticketing")
   public String screeningTicketing(@PathVariable(name = "screeningId") int id,
                                    @ModelAttribute SeatData data) {
-    for (Seat seat:seatRepo.getSeatsInfo(data.getSubmittedData())) {
+    for (Seat seat:seatRepo.convertStringSeatData(data.getSubmittedData())) {
       Ticket ticket = new Ticket();
       ticket.setScreening(screeningRepo.findById(id));
       ticket.setSeat(seat);
@@ -69,7 +69,7 @@ public class TicketController {
   @PostMapping("/manage/screening/{screeningId}/ticketing/void")
   public String deleteTicket(@PathVariable(name = "screeningId") int id,
                              @ModelAttribute SeatData data) {
-    for (Seat seat : seatRepo.getSeatsInfo(data.getSubmittedData())) {
+    for (Seat seat : seatRepo.convertStringSeatData(data.getSubmittedData())) {
       Ticket ticket = new Ticket();
       ticket.setScreening(screeningRepo.findById(id));
       ticket.setSeat(seat);

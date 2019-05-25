@@ -141,7 +141,7 @@ public class BookingController {
                                 @ModelAttribute SeatData data,
                                 @PathVariable(name = "bookingId") int bookingId) {
     List<Ticket> ticketsList = new ArrayList<>();
-    for (Seat seat : seatRepo.getSeatsInfo(data.getSubmittedData())) {
+    for (Seat seat : seatRepo.convertStringSeatData(data.getSubmittedData())) {
       Ticket ticket = new Ticket();
       ticket.setScreening(screeningRepo.findById(screeningId));
       ticket.setSeat(seat);
