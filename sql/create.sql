@@ -7,7 +7,6 @@ CREATE TABLE movies
     genre           VARCHAR(255),
     language        VARCHAR(255),
     subtitles       VARCHAR(255),
-    projection_type VARCHAR(255),
     trailer_link    VARCHAR(255),
     release_date    DATE,
     cast            VARCHAR(255),
@@ -123,10 +122,6 @@ CREATE TABLE technologies_to_theaters
     FOREIGN KEY (technology_id) REFERENCES technologies(id),
     FOREIGN KEY (theater_id) REFERENCES theaters(id)
 );
-
-INSERT INTO roles (name) VALUES ('User'), ('Manager'), ('Admin');
-
-INSERT INTO technologies (name) VALUES ('3D'), ('Dolby Atmos');
 
 -- update table tickets for cascade deleting
 ALTER TABLE `biotrio`.`tickets`

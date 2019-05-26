@@ -17,13 +17,13 @@
                 <div class="row">
                     <h3 class="display-4" th:text="${movie.getTitle()}"></h3>
                 </div>
-                <div class="row trailerContainer" th:if="${movie.getTrailerLink()}">
+                <div class="embed-responsive embed-responsive-16by9" th:if="${movie.getTrailerLink()}">
                     <iframe id="ytplayer" type="text/html" allowfullscreen class="trailerPlayer"
                             th:src="'https://www.youtube.com/embed/' + ${movie.getTrailerLink()} +
                             '?autoplay=1&origin=http://example.com'"
                             frameborder="0"></iframe>
                 </div>
-                <hr style="border-color: #6C20D9">
+                <hr>
                 <div class="row">
                     <div class="col-md-8">
                         <p>
@@ -74,7 +74,9 @@
                              th:alt="'Poster for ' + ${movie.getTitle()}" class="img-fluid">
                     </div>
                 </div>
-                <!--<div class="row">-->
+                <hr>
+                <th:block th:if="${upcomingMovieScreenings}">
+                <h2>Available screenings:</h2>
                 <!--upcoming screenings for this particular movie-->
                 <!-- Navigation pills -->
                 <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
@@ -119,7 +121,7 @@
                         </table>
                     </div>
                 </div>
-                <!--</div>-->
+                </th:block>
             </div>
         </div>
     </main>

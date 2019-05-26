@@ -133,12 +133,12 @@ public class MovieRepository {
 
     public void deleteMovie(int id) {
         technologyRepo.setRequiredTechnologies(id, null);
-        jdbc.update("DELETE FROM movies WHERE id = ?", id);
+        jdbc.update("DELETE FROM movies WHERE id = ?;", id);
     }
 
     public boolean canDelete(Movie m){
-        String query = ("SELECT COUNT(*) FROM screenings WHERE movie_id= "+m.getId());
-        SqlRowSet rs = jdbc.queryForRowSet(query);
+        String query = ("SELECT COUNT(*) FROM screenings WHERE movie_id = ?;");
+        SqlRowSet rs = jdbc.queryForRowSet(query, m.getId());
         rs.first();
         int noScreenings = rs.getInt(1);
 
@@ -170,6 +170,18 @@ public class MovieRepository {
     public List<Movie> getMoviesThatArentUpcoming() {
         SqlRowSet rs = jdbc.queryForRowSet("SELECT * FROM movies " +
             "WHERE id NOT IN (SELECT movie_id FROM upcoming_movies);");
+
+        List<Movie> result = rs.isBeforeFirst() ? new ArrayList<>() : null;
+        while (rs.next()) {
+            result.add(extractNextMovieFromRowSet(rs));
+        }
+
+        return result;
+    }
+
+    public List<Movie> getMoviesCurrentlyPlaying() {
+        SqlRowSet rs = jdbc.queryForRowSet("SELECT * FROM movies WHERE id IN " +
+            "(SELECT DISTINCT movie_id FROM screenings WHERE start_time >= CURDATE());");
 
         List<Movie> result = rs.isBeforeFirst() ? new ArrayList<>() : null;
         while (rs.next()) {

@@ -30,13 +30,6 @@ public class BookingController {
     SeatData data = new SeatData();
     data.setSeats(seatRepo.getSeatStatusForScreening(screeningId));
     data.setSubmittedData(new ArrayList<>());
-//    for (Seat seat : data.getSeats()) {
-//      if (seat.isAvailable()) {
-//        data.getSubmittedData().add("");
-//      } else {
-//        data.getSubmittedData().add("" + seat.getRowNo() + "_" + seat.getSeatNo());
-//      }
-//    }
 
     model.addAttribute("maxSeatsPerBooking", AppSettings.MAX_NUMBER_OF_SEATS_PER_BOOKING);
     model.addAttribute("screening", screeningRepo.findById(screeningId));

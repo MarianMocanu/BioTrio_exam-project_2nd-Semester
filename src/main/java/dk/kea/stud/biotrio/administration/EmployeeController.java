@@ -2,11 +2,8 @@ package dk.kea.stud.biotrio.administration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 
@@ -51,16 +48,10 @@ public class EmployeeController {
 
     return "redirect:/manage/employees";
   }
-  //From "delete" button goes to "Are you sure to delete(...)?"
-  @GetMapping("/manage/employees/delete/{id}")
-  public String deleteEmployee(@PathVariable(name = "id") int id, Model m) {
-    m.addAttribute("employee", employeeRepo.findEmployee(id));
 
-    return "employees/employees-delete";
-  }
   //Deletes Employee and lists all the Employees
   @PostMapping("/manage/employees/delete")
-  public String deleteEmployee(int id) {
+  public String deleteEmployee(@RequestParam(name = "employeeId") int id) {
     employeeRepo.deleteEmployee(id);
 
     return "redirect:/manage/employees";
