@@ -1,0 +1,6 @@
+You booked seats for
+Django
+10 6 2019
+ at 20:30
+Theater:Orange	 Number of booked seats:2
+Thank you for choosing BioTrio!

@@ -65,6 +65,8 @@ public class ScreeningRepository {
     return result;
   }
 
+
+
   private int getAvailableSeatsForScreening(int id, int theater_id) {
     Theater currentTheater = theaterRepo.findTheater(theater_id);
     int totalSeats = currentTheater.getNoOfRows() * currentTheater.getSeatsPerRow();

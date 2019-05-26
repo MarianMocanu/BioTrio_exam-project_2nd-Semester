@@ -1,6 +1,7 @@
 package dk.kea.stud.biotrio.ticketing;
 
 import dk.kea.stud.biotrio.AppSettings;
+import dk.kea.stud.biotrio.cinema.Screening;
 import dk.kea.stud.biotrio.cinema.ScreeningRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -100,54 +101,55 @@ public class BookingController {
     return result.toString();
   }
 
-  @GetMapping("/manage/screening/{screeningId}/bookings")
-  public String getPhoneNo(@PathVariable(name = "screeningId") int id,
+  @GetMapping("/manage/bookings/")
+  public String listBookingsForPhoneNo(@RequestParam(name = "bookingPhoneNo") String phoneNo,
                            Model model) {
-    model.addAttribute("screeningId", id);
-    return "ticketing/get-phone-no";
-  }
-
-  @PostMapping("/manage/screening/{screeningId}/bookings")
-  public String showBooking(@RequestParam String bookingPhoneNo,
-                            @PathVariable(name = "screeningId") int id,
-                            Model model) {
-    List<Booking> bookingList = bookingRepo.findBookingByPhoneNo(bookingPhoneNo, id);
-    model.addAttribute("screeningId", id);
+    List<Booking> bookingList = bookingRepo.findBookingByPhoneNo(phoneNo);
+    model.addAttribute("bookingList", bookingList);
+    model.addAttribute("phoneNo", phoneNo);
     switch (bookingList.size()) {
       case 0:
-        return "booking-none";
+        return "ticketing/booking-none";
       case 1:
         SeatData bookingData = new SeatData();
         bookingData.setSeats(bookingList.get(0).getSeats());
         bookingData.setSubmittedData(new ArrayList<>());
         model.addAttribute("bookedSeats", bookingData);
         model.addAttribute("bookingId", bookingList.get(0).getId());
-        return "booking-redeem-seats";
+        return "ticketing/booking-redeem-seats";
       default:
         model.addAttribute("bookingList", bookingList);
         return "ticketing/list-of-bookings";
     }
   }
 
-  @GetMapping("/manage/screening/{screeningId}/bookings/{bookingId}")
-  public String sellBookedSeats(Model model,
-                                @PathVariable(name = "screeningId") int screeningId,
+//  @GetMapping("/manage/bookings/{bookingId}")
+//  public String showBooking(@PathVariable(name = "bookingId") int bookingId,
+//                            Model model) {
+//    List<Booking> bookingList = bookingRepo.findBookingByPhoneNo(phoneNo);
+//
+//    }
+//  }
+
+  @GetMapping("/manage/bookings/redeem/{bookingId}")
+  public String showBookedSeats(Model model,
                                 @PathVariable(name = "bookingId") int bookingId) {
     Booking booking = bookingRepo.findBookingById(bookingId);
     SeatData bookingData = new SeatData();
     bookingData.setSeats(booking.getSeats());
     bookingData.setSubmittedData(new ArrayList<>());
-    model.addAttribute("screeningID", screeningId);
     model.addAttribute("bookedSeats", bookingData);
     model.addAttribute("bookingId", bookingId);
-    return "booking-redeem-seats";
+    return "ticketing/booking-redeem-seats";
   }
 
-  @PostMapping("/manage/screening/{screeningId}/booking/redeem/{bookingId}")
-  public String sellBookedSeats(@PathVariable(name = "screeningId") int screeningId,
-                                @ModelAttribute SeatData data,
+  @PostMapping("/manage/bookings/redeem/{bookingId}")
+  public String showBookedSeats(@ModelAttribute SeatData data,
                                 @PathVariable(name = "bookingId") int bookingId) {
+
     List<Ticket> ticketsList = new ArrayList<>();
+    Screening screening = new Screening();
+    int screeningId = screening.getId();
     for (Seat seat : seatRepo.getSeatsInfo(data.getSubmittedData())) {
       Ticket ticket = new Ticket();
       ticket.setScreening(screeningRepo.findById(screeningId));
@@ -156,7 +158,7 @@ public class BookingController {
     }
     ticketRepo.addTickets(ticketsList);
     bookingRepo.deleteBookingById(bookingId);
-    return "redirect:/manage/screenings";
+    return "redirect:/manage/ticketing/";
   }
 
 }
