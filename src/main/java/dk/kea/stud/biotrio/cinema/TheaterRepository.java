@@ -73,9 +73,9 @@ public class TheaterRepository {
 
   // Checks whether a theater can be safely deleted. We want to disallow deleting theaters
   // that still have associated screenings within the database
-  public boolean canDelete(Theater t){
-    String query = ("SELECT COUNT(*) FROM screenings WHERE theater_id= "+t.getId());
-    SqlRowSet rs = jdbc.queryForRowSet(query);
+  public boolean canDelete(Theater theater){
+    String query = ("SELECT COUNT(*) FROM screenings WHERE theater_id = ?;");
+    SqlRowSet rs = jdbc.queryForRowSet(query, theater.getId());
     rs.first();
     int noScreenings = rs.getInt(1);
 
