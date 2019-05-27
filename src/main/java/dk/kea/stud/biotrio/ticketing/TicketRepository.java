@@ -15,6 +15,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Repository class that is responsible with managing {@link Ticket} data within the database
+ */
 @Repository
 public class TicketRepository {
 
@@ -23,6 +26,13 @@ public class TicketRepository {
   @Autowired
   private ScreeningRepository screeningRepo;
 
+  /**
+   * Gets all tickets for a particular screening from the database based on a screening's id
+   *
+   * @param id The integer id to look up in the database
+   * @return An {@link ArrayList} of {@link Ticket} objects if found,
+   * otherwise an {@link ArrayList} of null objects
+   */
   public List<Ticket> findTicketsForScreening(int id) {
     Ticket ticket = null;
     List<Ticket> screeningTickets = new ArrayList<>();
@@ -35,14 +45,14 @@ public class TicketRepository {
       ticket.setId(rs.getInt("id"));
       ticket.setScreening(screeningRepo.findById(rs.getInt("screening_id")));
 
-      //Ticket object has a Seat object
+      //Initializing Ticket's Seat object
       Seat seat = new Seat();
-      //setting Seat's attributes
+      //Setting Seat's attributes
       seat.setRowNo(rs.getInt("row_no"));
       seat.setSeatNo(rs.getInt("seat_no"));
       seat.setAvailable(false);
       seat.setSold(true);
-      //setting Seat object of a Ticket
+      //Setting Seat object of a Ticket
       ticket.setSeat(seat);
 
       screeningTickets.add(ticket);
@@ -50,6 +60,13 @@ public class TicketRepository {
     return screeningTickets;
   }
 
+  /**
+   * Saves the data of a {@link Ticket} object to the database as a new entry
+   *
+   * @param ticket The {@link Ticket} object containing the data
+   * @return The updated {@link Ticket} object also containing the id that
+   *         was just generated for the newly inserted entry
+   */
   public Ticket addTicket(Ticket ticket) {
     PreparedStatementCreator psc = new PreparedStatementCreator() {
       @Override
@@ -72,12 +89,22 @@ public class TicketRepository {
     return ticket;
   }
 
+  /**
+   * Saves the data of a {@link List} of {@link Ticket} objects to the database as new entries
+   *
+   * @param tickets The {@link List} of {@link Ticket} objects, each containing data
+   */
   public void addTickets(List<Ticket> tickets) {
-    for (Ticket ticket: tickets) {
+    for (Ticket ticket : tickets) {
       addTicket(ticket);
     }
   }
 
+  /**
+   * Updates an existing record in the database with the data of a {@link Ticket} object
+   *
+   * @param ticket A {@link Ticket} object containing data
+   */
   public void updateTicket(Ticket ticket) {
     String query = "UPDATE tickets SET " +
         "screening_id = ?, " +
@@ -91,16 +118,19 @@ public class TicketRepository {
         ticket.getId());
   }
 
+  /**
+   * Deletes a record from the database based on a {@link Ticket} object
+   *
+   * @param ticket A {@link Ticket} object containing data by which to
+   *               identify the record in the database
+   */
   public void deleteTicket(Ticket ticket) {
     jdbc.update("DELETE FROM tickets WHERE " +
-        "screening_id = ? AND " +
-        "row_no = ? AND " +
-        "seat_no = ?;",
+            "screening_id = ? AND " +
+            "row_no = ? AND " +
+            "seat_no = ?;",
         ticket.getScreening().getId(),
         ticket.getSeat().getRowNo(),
         ticket.getSeat().getSeatNo());
   }
-
-
-
 }

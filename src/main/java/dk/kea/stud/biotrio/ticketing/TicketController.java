@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 
+/**
+ * Defines the routes related to {@link Ticket} management
+ */
 @Controller
 public class TicketController {
   @Autowired
@@ -19,13 +22,18 @@ public class TicketController {
   private SeatRepository seatRepo;
 
 
-
+  /**
+   * Displays the upcoming screenings list view
+   */
   @GetMapping("/manage/ticketing")
   public String screeningsForBookingOrSale(Model model){
     model.addAttribute("upcomingScreenings", screeningRepo.findUpcomingScreeningsAsMap());
     return "ticketing/ticketing";
   }
 
+  /**
+   * Displays the add ticket view for selected screening
+   */
   @GetMapping("/manage/screening/{screeningId}/ticketing")
   public String screeningTicketing(@PathVariable(name = "screeningId") int id, Model model) {
     SeatData data = new SeatData();
@@ -43,6 +51,10 @@ public class TicketController {
     return "ticketing/ticketing-id-add";
   }
 
+  /**
+   * Converts the data received from the add ticket view and adds the tickets data
+   * to the database, then redirects the user to the add ticket view
+   */
   @PostMapping("/manage/screening/{screeningId}/ticketing")
   public String screeningTicketing(@PathVariable(name = "screeningId") int id,
                                    @ModelAttribute SeatData data) {
@@ -56,6 +68,9 @@ public class TicketController {
     return "redirect:/manage/screening/" + id + "/ticketing";
   }
 
+  /**
+   * Displays the void ticket view for selected screening
+   */
   @GetMapping("/manage/screening/{screeningId}/ticketing/void")
   public String deleteTicket(@PathVariable(name = "screeningId") int id, Model model) {
     SeatData data = new SeatData();
@@ -66,6 +81,10 @@ public class TicketController {
     return "ticketing/ticketing-void";
   }
 
+  /**
+   * Converts the data received from the void ticket view and deletes the tickets data
+   * from the database, then redirects the user the add ticket view
+   */
   @PostMapping("/manage/screening/{screeningId}/ticketing/void")
   public String deleteTicket(@PathVariable(name = "screeningId") int id,
                              @ModelAttribute SeatData data) {
