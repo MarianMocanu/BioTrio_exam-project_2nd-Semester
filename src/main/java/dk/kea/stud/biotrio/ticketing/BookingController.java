@@ -112,7 +112,7 @@ public class BookingController {
         return "ticketing/booking-redeem-seats";
       default:
         model.addAttribute("bookingList", bookingList);
-        return "ticketing/list-of-bookings";
+        return "ticketing/list-of-bookings-phoneNo";
     }
   }
 
@@ -124,8 +124,22 @@ public class BookingController {
 //    }
 //  }
 
+
+  @GetMapping("/manage/bookings/{screeningId}/list")
+    public String showBookings(@PathVariable(name = "screeningId") int screeningId, Model model) {
+    List<Booking> bookingList = bookingRepo.findBookingsForScreening(screeningId);
+    model.addAttribute("bookingList", bookingList);
+    switch (bookingList.size()) {
+      case 0:
+        return "ticketing/booking-none";
+        default:
+          model.addAttribute("bookingList", bookingList);
+          return "ticketing/list-of-bookings-screening";
+    }
+    }
+
   @GetMapping("/manage/bookings/redeem/{bookingId}")
-  public String showBookedSeats(Model model,
+  public String showBookedSeatsForBooking(Model model,
                                 @PathVariable(name = "bookingId") int bookingId) {
     Booking booking = bookingRepo.findBookingById(bookingId);
     SeatData bookingData = new SeatData();
@@ -141,8 +155,7 @@ public class BookingController {
                                 @PathVariable(name = "bookingId") int bookingId) {
 
     List<Ticket> ticketsList = new ArrayList<>();
-    Screening screening = new Screening();
-    int screeningId = screening.getId();
+    int screeningId = bookingRepo.findBookingById(bookingId).getScreening().getId();
     for (Seat seat : seatRepo.getSeatsInfo(data.getSubmittedData())) {
       Ticket ticket = new Ticket();
       ticket.setScreening(screeningRepo.findById(screeningId));
