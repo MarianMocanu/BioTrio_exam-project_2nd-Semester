@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 @Controller
@@ -33,9 +34,13 @@ public class TicketController {
     for (Seat seat : data.getSeats()) {
       if (seat.isSold()) {
         data.getSubmittedData().add("" + seat.getRowNo() + "_" + seat.getSeatNo());
-      } else {
-        data.getSubmittedData().add("");
+      } else
+        if (screeningRepo.findById(id).getStartTime().isBefore(LocalDateTime.now().plusMinutes(30))){
+          data.getSubmittedData().add("");
+          seat.setAvailable(true);
       }
+        else
+          data.getSubmittedData();
     }
     model.addAttribute("data", data);
     model.addAttribute("screening", screeningRepo.findById(id)); 
