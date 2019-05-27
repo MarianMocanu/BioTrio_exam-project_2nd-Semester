@@ -16,34 +16,36 @@
             <div class="jumbotron">
                 <h1 class="display-4">Select seats</h1>
                 <form th:action="'/manage/screening/'+${screening.getId()}+'/ticketing'"
-                      method="post" style="overflow: auto">
-                    <table class="table table-dark table-hover">
-                        <th:block th:each="seat:${data.getSeats()}">
-                            <th:block th:if="${seat.getSeatNo()} == 1">
-                                <tr>
-                                    <td th:text="'Row ' + ${seat.getRowNo()}"></td>
-                            </th:block>
-                            <td class="seatChkBox">
-                                <input type="checkbox"
-                                       th:id="${seat.getRowNo()} + '_' + ${seat.getSeatNo()}"
-                                       th:value="${seat.getRowNo()} + '_' + ${seat.getSeatNo()}"
-                                       th:disabled="${!seat.isAvailable()} or ${seat.isSold()}"
-                                       th:field="${data.submittedData}">
-                                <label th:for="${seat.getRowNo()} + '_' + ${seat.getSeatNo()}">
+                      method="post">
+                    <div style="overflow: auto">
+                        <table class="table table-dark table-hover">
+                            <th:block th:each="seat:${data.getSeats()}">
+                                <th:block th:if="${seat.getSeatNo()} == 1">
+                                    <tr>
+                                        <td th:text="'Row ' + ${seat.getRowNo()}"></td>
+                                </th:block>
+                                <td class="seatChkBox">
+                                    <input type="checkbox"
+                                           th:id="${seat.getRowNo()} + '_' + ${seat.getSeatNo()}"
+                                           th:value="${seat.getRowNo()} + '_' + ${seat.getSeatNo()}"
+                                           th:disabled="${!seat.isAvailable()} or ${seat.isSold()}"
+                                           th:field="${data.submittedData}">
+                                    <label th:for="${seat.getRowNo()} + '_' + ${seat.getSeatNo()}">
                                     <span style="vertical-align: middle;"
                                           th:text="${seat.getSeatNo()}"></span>
-                                </label>
-                            </td>
-                            <th:block
-                                    th:if="${seat.getSeatNo() == screening.getTheater().getSeatsPerRow()}">
-                                </tr>
+                                    </label>
+                                </td>
+                                <th:block
+                                        th:if="${seat.getSeatNo() == screening.getTheater().getSeatsPerRow()}">
+                                    </tr>
+                                </th:block>
                             </th:block>
-                        </th:block>
-                    </table>
+                        </table>
+                    </div><br>
                     <div class="btn-toolbar justify-content-between" role="toolbar">
                         <button class="btn btn-primary" type="submit">Sell tickets</button>
                         <a class="btn btn-outline-danger"
-                                th:href="'/manage/screening/'+${screening.getId()}+'/ticketing/void'">
+                           th:href="'/manage/screening/'+${screening.getId()}+'/ticketing/void'">
                             Void tickets
                         </a>
                     </div>
