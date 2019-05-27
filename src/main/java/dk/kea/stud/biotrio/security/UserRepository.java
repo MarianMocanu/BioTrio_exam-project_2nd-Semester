@@ -66,7 +66,7 @@ public class UserRepository {
    */
   public List<User> getAllUsers() {
     List<User> result = new ArrayList<>();
-    String query = "SELECT users.id, users.username, users.employee_id, roles.name as role " +
+    String query = "SELECT users.id, users.username, users.password, users.employee_id, roles.name as role " +
         "FROM users INNER JOIN roles ON users.role = roles.id";
     SqlRowSet rs = jdbc.queryForRowSet(query);
 
@@ -120,7 +120,7 @@ public class UserRepository {
    */
   public User findById(int id) {
     User result = null;
-    String query = "SELECT users.id, users.username, " +
+    String query = "SELECT users.id, users.username, users.password, " +
         "users.employee_id, roles.name as role " +
         "FROM users INNER JOIN roles ON users.role = roles.id " +
         "WHERE users.id = ?;";
@@ -142,7 +142,7 @@ public class UserRepository {
     int roleId = getRoleId(userData.getRole());
     String query = "INSERT INTO users (username, password, role, employee_id) VALUES (?, ?, ?, ?);";
     jdbc.update(query, userData.getUsername(), userData.getPassword(),
-        roleId, userData.getEmployee().getId());
+        roleId, userData.getEmployee() != null ? userData.getEmployee().getId() : null);
   }
 
   /**
