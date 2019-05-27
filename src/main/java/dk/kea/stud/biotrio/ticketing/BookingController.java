@@ -116,14 +116,6 @@ public class BookingController {
     }
   }
 
-//  @GetMapping("/manage/bookings/{bookingId}")
-//  public String showBooking(@PathVariable(name = "bookingId") int bookingId,
-//                            Model model) {
-//    List<Booking> bookingList = bookingRepo.findBookingByPhoneNo(phoneNo);
-//
-//    }
-//  }
-
 
   @GetMapping("/manage/bookings/{screeningId}/list")
     public String showBookings(@PathVariable(name = "screeningId") int screeningId, Model model) {
@@ -131,7 +123,7 @@ public class BookingController {
     model.addAttribute("bookingList", bookingList);
     switch (bookingList.size()) {
       case 0:
-        return "ticketing/booking-none";
+        return "ticketing/booking-none-screening";
         default:
           model.addAttribute("bookingList", bookingList);
           return "ticketing/list-of-bookings-screening";

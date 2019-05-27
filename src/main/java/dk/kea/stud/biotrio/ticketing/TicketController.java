@@ -17,6 +17,8 @@ public class TicketController {
   private ScreeningRepository screeningRepo;
   @Autowired
   private SeatRepository seatRepo;
+  @Autowired
+  private BookingRepository bookingRepo;
 
 
 
@@ -34,10 +36,10 @@ public class TicketController {
     for (Seat seat : data.getSeats()) {
       if (seat.isSold()) {
         data.getSubmittedData().add("" + seat.getRowNo() + "_" + seat.getSeatNo());
-      } else
-        if (screeningRepo.findById(id).getStartTime().isBefore(LocalDateTime.now().plusMinutes(30))){
+      } else if (screeningRepo.findById(id).getStartTime().isBefore(LocalDateTime.now().plusMinutes(30))){
           data.getSubmittedData().add("");
           seat.setAvailable(true);
+          bookingRepo.deleteBookingsForScreening(id);
       }
         else
           data.getSubmittedData();

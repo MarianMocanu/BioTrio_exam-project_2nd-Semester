@@ -27,8 +27,8 @@ public class BookingRepository {
   public Booking findBookingById(int id) {
     Booking booking = new Booking();
     String query = "SELECT * FROM bookings WHERE id = ?";
-    SqlRowSet rs = jdbc.queryForRowSet(query,id);
-    if(rs.first()) {
+    SqlRowSet rs = jdbc.queryForRowSet(query, id);
+    if (rs.first()) {
       booking.setId(rs.getInt("id"));
       booking.setScreening(screeningRepo.findById(rs.getInt("screening_id")));
       booking.setCode(rs.getString("code"));
@@ -99,7 +99,8 @@ public class BookingRepository {
     }
     return screeningBookings;
   }
-//
+
+  //
 //  public List<Booking> findBookingByPhoneNo(String phoneNo) {
 //    String query = "SELECT * FROM bookings WHERE phone_no = ?";
 //    SqlRowSet rs = jdbc.queryForRowSet(query, phoneNo);
@@ -247,6 +248,20 @@ public class BookingRepository {
 
   private void deleteBookedSeats(int bookingId) {
     jdbc.update("DELETE FROM booked_seats WHERE booking_id = ?;", bookingId);
+  }
+
+  public void deleteBookingsForScreening(int screeningId) {
+    deleteBookedSeatsforScreening(screeningId);
+    String query = "DELETE FROM bookings WHERE screening_id = ?;";
+    jdbc.update(query, screeningId);
+  }
+
+  private void deleteBookedSeatsforScreening(int screeningId) {
+    String query = "DELETE booked_seats " +
+        "FROM booked_seats INNER JOIN bookings " +
+        "ON booked_seats.booking_id = bookings.id " +
+        "WHERE bookings.screening_id = ?;";
+    jdbc.update(query,screeningId);
   }
 
 
