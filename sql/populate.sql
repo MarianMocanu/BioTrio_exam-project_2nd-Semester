@@ -4,7 +4,6 @@ INSERT INTO users(username, password, role, employee_id) VALUES
 INSERT INTO theaters (name, no_of_rows, seats_per_row) VALUES
 ('The Blue Theater', 14, 20),('The Red Theater', 8, 12),('The Orange Theater', 8, 6);
 
-
 INSERT INTO technologies (name) VALUES ('3D'), ('Dolby Atmos');
 
 INSERT INTO movies(title, runtime, synopsis, genre, language, subtitles, trailer_link, release_date, cast, director, age_restriction, poster) VALUES
@@ -47,7 +46,59 @@ INSERT INTO movies(title, runtime, synopsis, genre, language, subtitles, trailer
 ('The Dead Don\'t Die', 105, 'The peaceful town of Centerville finds itself battling a zombie horde as the dead start rising from their graves.', 'Comedy, Fantasy, Horror', 'English', 'Danish', 'bs5ZOcU6Bnw', DATE('2019-06-14'), 'Bill Murray, Adam Driver, Alyssa Maria App', 'Jim Jarmusch', 'R', 'https://m.media-amazon.com/images/M/MV5BMTk4NTM1OTY3Ml5BMl5BanBnXkFtZTgwNzc2NDg3NzM@._V1_SY1000_SX675_AL_.jpg'),
 ('Child\'s Play', 120, 'A mother gives her son a toy doll for his birthday, unaware of its more sinister nature.', 'Horror', 'English', 'Danish', 'PeHNLikDiVw', DATE('2019-06-21'), 'Aubrey Plaza, Mark Hamill, Tim Matheson', 'Lars Klevberg', 'R', 'https://m.media-amazon.com/images/M/MV5BNTNlNjIxNjktOWUyMS00YWY5LWEwZGItMjZmODJlZWNiZGM2XkEyXkFqcGdeQXVyNDg4NjY5OTQ@._V1_SY1000_CR0,0,674,1000_AL_.jpg'),
 ('The Lion King', null, 'After the murder of his father, a young lion prince flees his kingdom only to learn the true meaning of responsibility and bravery.', 'Animation, Adventure, Drama', 'English', 'Danish', '7TavVZMewpY', DATE('2019-07-19'), 'Seth Rogen, Donald Glover, Chiwetel Ejiofor', 'Jon Favreau', 'G', 'https://m.media-amazon.com/images/M/MV5BMjIwMjE1Nzc4NV5BMl5BanBnXkFtZTgwNDg4OTA1NzM@._V1_SY1000_CR0,0,674,1000_AL_.jpg'),
-('The Informer', 113, 'An ex-convict working undercover intentionally gets himself incarcerated again in order to infiltrate the mob at a maximum security prison.', 'Crime, Drama', 'English', 'Danish', 'r77067D5hb4', DATE('2019-08-16'), 'Ana de Armas, Rosamund Pike, Joel Kinnaman', 'Andrea Di Stefano', 'R', 'https://m.media-amazon.com/images/M/MV5BN2YyYTgxYmYtNjg3My00YzI4LWJlZWItYmZhZGEyYTYxNWY3XkEyXkFqcGdeQXVyMjAwNTYzNDg@._V1_SY1000_CR0,0,682,1000_AL_.jpg')
+('The Informer', 113, 'An ex-convict working undercover intentionally gets himself incarcerated again in order to infiltrate the mob at a maximum security prison.', 'Crime, Drama', 'English', 'Danish', 'r77067D5hb4', DATE('2019-08-16'), 'Ana de Armas, Rosamund Pike, Joel Kinnaman', 'Andrea Di Stefano', 'R', 'https://m.media-amazon.com/images/M/MV5BN2YyYTgxYmYtNjg3My00YzI4LWJlZWItYmZhZGEyYTYxNWY3XkEyXkFqcGdeQXVyMjAwNTYzNDg@._V1_SY1000_CR0,0,682,1000_AL_.jpg');
 
-#INSERT INTO screenings (movie_id, theater_id, start_time)
-#VALUES (1, 1, '2019-06-20 18:30'), (2, 2, '2019-06-20 19:00'),(3, 3, '2019-06-20 18:45');
+INSERT INTO upcoming_movies VALUES
+((SELECT id FROM movies WHERE title='Hellboy'), DATE('2019-07-12')),
+((SELECT id FROM movies WHERE title='Dark Phoenix'), DATE('2019-07-15')),
+((SELECT id FROM movies WHERE title='Shaft'), DATE('2019-07-20')),
+((SELECT id FROM movies WHERE title='The Dead Don\'t Die'), DATE('2019-07-26')),
+((SELECT id FROM movies WHERE title='Child\'s Play'), DATE('2019-08-03')),
+((SELECT id FROM movies WHERE title='The Lion King'), DATE('2019-08-15')),
+((SELECT id FROM movies WHERE title='The Informer'), DATE('2019-08-23'));
+
+INSERT INTO screenings (movie_id, theater_id, start_time) VALUES
+# Week 1: 24/6 - 30/6
+((SELECT id FROM movies WHERE title='The Matrix'), (SELECT id FROM theaters WHERE name='The Blue Theater'), TIMESTAMP('2019-06-24 17:30')),
+((SELECT id FROM movies WHERE title='Primer'), (SELECT id FROM theaters WHERE name='The Blue Theater'), TIMESTAMP('2019-06-24 20:30')),
+((SELECT id FROM movies WHERE title='Memento'), (SELECT id FROM theaters WHERE name='The Red Theater'), TIMESTAMP('2019-06-24 17:45')),
+((SELECT id FROM movies WHERE title='Snatch'), (SELECT id FROM theaters WHERE name='The Red Theater'), TIMESTAMP('2019-06-24 20:15')),
+((SELECT id FROM movies WHERE title='Fight Club'), (SELECT id FROM theaters WHERE name='The Blue Theater'), TIMESTAMP('2019-06-25 17:30')),
+((SELECT id FROM movies WHERE title='The Silence of the Lambs'), (SELECT id FROM theaters WHERE name='The Blue Theater'), TIMESTAMP('2019-06-25 20:15')),
+((SELECT id FROM movies WHERE title='Office Space'), (SELECT id FROM theaters WHERE name='The Orange Theater'), TIMESTAMP('2019-06-25 17:45')),
+((SELECT id FROM movies WHERE title='Donnie Darko'), (SELECT id FROM theaters WHERE name='The Orange Theater'), TIMESTAMP('2019-06-25 19:45')),
+((SELECT id FROM movies WHERE title='Se7en'), (SELECT id FROM theaters WHERE name='The Red Theater'), TIMESTAMP('2019-06-26 17:30')),
+((SELECT id FROM movies WHERE title='American History X'), (SELECT id FROM theaters WHERE name='The Red Theater'), TIMESTAMP('2019-06-26 20:00')),
+((SELECT id FROM movies WHERE title='Pulp Fiction'), (SELECT id FROM theaters WHERE name='The Orange Theater'), TIMESTAMP('2019-06-26 17:45')),
+((SELECT id FROM movies WHERE title='The Matrix'), (SELECT id FROM theaters WHERE name='The Orange Theater'), TIMESTAMP('2019-06-26 20:30')),
+((SELECT id FROM movies WHERE title='The Departed'), (SELECT id FROM theaters WHERE name='The Blue Theater'), TIMESTAMP('2019-06-27 17:30')),
+((SELECT id FROM movies WHERE title='Honogurai Mizu No Soko Kara'), (SELECT id FROM theaters WHERE name='The Blue Theater'), TIMESTAMP('2019-06-27 20:30')),
+((SELECT id FROM movies WHERE title='Fight Club'), (SELECT id FROM theaters WHERE name='The Red Theater'), TIMESTAMP('2019-06-27 17:45')),
+((SELECT id FROM movies WHERE title='The Usual Suspects'), (SELECT id FROM theaters WHERE name='The Red Theater'), TIMESTAMP('2019-06-27 20:45')),
+((SELECT id FROM movies WHERE title='Reservoir Dogs'), (SELECT id FROM theaters WHERE name='The Orange Theater'), TIMESTAMP('2019-06-27 18:00')),
+((SELECT id FROM movies WHERE title='The Shawshank Redemption'), (SELECT id FROM theaters WHERE name='The Orange Theater'), TIMESTAMP('2019-06-27 20:00')),
+((SELECT id FROM movies WHERE title='Monty Python and the Holy Grail'), (SELECT id FROM theaters WHERE name='The Blue Theater'), TIMESTAMP('2019-06-28 18:00')),
+((SELECT id FROM movies WHERE title='Requiem for a Dream'), (SELECT id FROM theaters WHERE name='The Blue Theater'), TIMESTAMP('2019-06-28 20:00')),
+((SELECT id FROM movies WHERE title='Office Space'), (SELECT id FROM theaters WHERE name='The Red Theater'), TIMESTAMP('2019-06-28 17:30')),
+((SELECT id FROM movies WHERE title='The Shining'), (SELECT id FROM theaters WHERE name='The Red Theater'), TIMESTAMP('2019-06-28 19:00')),
+((SELECT id FROM movies WHERE title='Avengers - Endgame'), (SELECT id FROM theaters WHERE name='The Orange Theater'), TIMESTAMP('2019-06-28 17:45')),
+((SELECT id FROM movies WHERE title='Primer'), (SELECT id FROM theaters WHERE name='The Orange Theater'), TIMESTAMP('2019-06-28 21:15')),
+((SELECT id FROM movies WHERE title='Men in Black - International'), (SELECT id FROM theaters WHERE name='The Blue Theater'), TIMESTAMP('2019-06-29 11:00')),
+((SELECT id FROM movies WHERE title='Snatch'), (SELECT id FROM theaters WHERE name='The Blue Theater'), TIMESTAMP('2019-06-29 17:00')),
+((SELECT id FROM movies WHERE title='The 25th Hour'), (SELECT id FROM theaters WHERE name='The Blue Theater'), TIMESTAMP('2019-06-29 19:00')),
+((SELECT id FROM movies WHERE title='Godzilla - King of the Monsters'), (SELECT id FROM theaters WHERE name='The Red Theater'), TIMESTAMP('2019-06-29 11:15')),
+((SELECT id FROM movies WHERE title='Memento'), (SELECT id FROM theaters WHERE name='The Red Theater'), TIMESTAMP('2019-06-29 17:15')),
+((SELECT id FROM movies WHERE title='The Dark Knight'), (SELECT id FROM theaters WHERE name='The Red Theater'), TIMESTAMP('2019-06-29 19:30')),
+((SELECT id FROM movies WHERE title='Toy Story 4'), (SELECT id FROM theaters WHERE name='The Orange Theater'), TIMESTAMP('2019-06-29 11:30')),
+((SELECT id FROM movies WHERE title='Fight Club'), (SELECT id FROM theaters WHERE name='The Orange Theater'), TIMESTAMP('2019-06-29 17:30')),
+((SELECT id FROM movies WHERE title='The Usual Suspects'), (SELECT id FROM theaters WHERE name='The Orange Theater'), TIMESTAMP('2019-06-29 20:15')),
+((SELECT id FROM movies WHERE title='The Great Dictator'), (SELECT id FROM theaters WHERE name='The Blue Theater'), TIMESTAMP('2019-06-30 11:30')),
+((SELECT id FROM movies WHERE title='Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb'), (SELECT id FROM theaters WHERE name='The Blue Theater'), TIMESTAMP('2019-06-30 17:30')),
+((SELECT id FROM movies WHERE title='The Matrix'), (SELECT id FROM theaters WHERE name='The Blue Theater'), TIMESTAMP('2019-06-30 19:30')),
+((SELECT id FROM movies WHERE title='John Wick - Parabellum'), (SELECT id FROM theaters WHERE name='The Red Theater'), TIMESTAMP('2019-06-30 11:00')),
+((SELECT id FROM movies WHERE title='Guardians of the Galaxy'), (SELECT id FROM theaters WHERE name='The Red Theater'), TIMESTAMP('2019-06-30 17:00')),
+((SELECT id FROM movies WHERE title='Honogurai Mizu No Soko Kara'), (SELECT id FROM theaters WHERE name='The Red Theater'), TIMESTAMP('2019-06-30 19:45')),
+((SELECT id FROM movies WHERE title='A Dog\'s Journey'), (SELECT id FROM theaters WHERE name='The Orange Theater'), TIMESTAMP('2019-06-30 11:15')),
+((SELECT id FROM movies WHERE title='Reservoir Dogs'), (SELECT id FROM theaters WHERE name='The Orange Theater'), TIMESTAMP('2019-06-30 17:15')),
+((SELECT id FROM movies WHERE title='Avengers - Endgame'), (SELECT id FROM theaters WHERE name='The Orange Theater'), TIMESTAMP('2019-06-30 19:15'));
+# Week 2
