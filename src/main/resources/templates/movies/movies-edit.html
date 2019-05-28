@@ -35,8 +35,8 @@
                     </div>
                     <div class="form-group">
                         <label for="runtime">Runtime</label>
-                        <input type="text" class="form-control" th:field="${currentMovie.runtime}"
-                               id="runtime">
+                        <input type="number" class="form-control" th:field="${currentMovie.runtime}"
+                               id="runtime" step="1" min="1" required>
                     </div>
                     <div class="form-group">
                         <label for="genre">Genre</label>
