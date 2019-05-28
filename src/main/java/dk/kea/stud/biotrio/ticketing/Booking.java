@@ -5,8 +5,8 @@ import dk.kea.stud.biotrio.cinema.Screening;
 import java.util.List;
 
 /**
- * The representation of a booking (an arrangement made by the customer
- * to have some particular seats for a particular screening)
+ * The representation of a booking (a reservation of one or more
+ * seats for a particular screening)
  */
 
 public class Booking {
@@ -24,11 +24,11 @@ public class Booking {
    */
   private String code;
   /**
-   * A {@link Screening} object representing  the screening for which the booking is made
+   * A {@link Screening} object representing the screening for which the booking is made
    */
   private Screening screening;
   /**
-   * A  list of {@link Seat}  objects representing the booked seats for this particular booking
+   * A list of {@link Seat} objects representing the booked seats for this particular booking
    */
   private List<Seat> seats;
 

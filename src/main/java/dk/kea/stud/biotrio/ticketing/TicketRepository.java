@@ -31,17 +31,16 @@ public class TicketRepository {
    *
    * @param id The integer id to look up in the database
    * @return An {@link ArrayList} of {@link Ticket} objects if found,
-   * otherwise an {@link ArrayList} of null objects
+   * otherwise null
    */
   public List<Ticket> findTicketsForScreening(int id) {
-    Ticket ticket = null;
-    List<Ticket> screeningTickets = new ArrayList<>();
 
     String query = "SELECT * FROM tickets WHERE screening_id = ?";
     SqlRowSet rs = jdbc.queryForRowSet(query, id);
 
+    List<Ticket> screeningTickets = rs.isBeforeFirst() ? new ArrayList<>() : null;
     while (rs.next()) {
-      ticket = new Ticket();
+      Ticket ticket = new Ticket();
       ticket.setId(rs.getInt("id"));
       ticket.setScreening(screeningRepo.findById(rs.getInt("screening_id")));
 
@@ -57,6 +56,7 @@ public class TicketRepository {
 
       screeningTickets.add(ticket);
     }
+
     return screeningTickets;
   }
 
@@ -92,30 +92,12 @@ public class TicketRepository {
   /**
    * Saves the data of a {@link List} of {@link Ticket} objects to the database as new entries
    *
-   * @param tickets The {@link List} of {@link Ticket} objects, each containing data
+   * @param tickets The {@link List} of {@link Ticket} objects to be saved
    */
   public void addTickets(List<Ticket> tickets) {
     for (Ticket ticket : tickets) {
       addTicket(ticket);
     }
-  }
-
-  /**
-   * Updates an existing record in the database with the data of a {@link Ticket} object
-   *
-   * @param ticket A {@link Ticket} object containing data
-   */
-  public void updateTicket(Ticket ticket) {
-    String query = "UPDATE tickets SET " +
-        "screening_id = ?, " +
-        "row_no = ?, " +
-        "seat_no = ? " +
-        "WHERE id = ?;";
-    jdbc.update(query,
-        ticket.getScreening().getId(),
-        ticket.getSeat().getRowNo(),
-        ticket.getSeat().getSeatNo(),
-        ticket.getId());
   }
 
   /**

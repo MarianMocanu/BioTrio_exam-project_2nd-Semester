@@ -190,9 +190,11 @@ public class BookingRepository {
   }
 
   /**
-   * Verifies if thee is any booking with a particular code
-   * @param code A {@link String} object representing the auto-generated code of a particular booking
-   * @return A boolean value that is true if the booking is found, otherwise false if it is not found
+   * Verifies if there is any booking with a particular code
+   *
+   * @param code A {@link String} object representing the auto-generated
+   *             code of a particular booking
+   * @return A boolean value that is true if the booking is found, otherwise false
    */
   public boolean isCodeTaken(String code) {
     String query = "SELECT * FROM bookings WHERE code = ?";
@@ -204,6 +206,7 @@ public class BookingRepository {
 
   /**
    * Saves the data of a {@link Booking} object to the database as a new entry
+   *
    * @param booking The {@link Booking} object containing the data
    * @return The updates {@link Booking} object also containing id that was just
    *         generated for the newly inserted entry
@@ -232,7 +235,9 @@ public class BookingRepository {
   }
 
   /**
-   * Saves the data of a {@link Booking}'s list of {@link Seat} objects to the database os new entries
+   * Saves the data of a {@link Booking}'s list of {@link Seat} objects
+   * to the database os new entries
+   *
    * @param booking The {@link Booking} object containing the data
    */
   private void addBookedSeats(Booking booking) {
@@ -243,25 +248,8 @@ public class BookingRepository {
   }
 
   /**
-   * Updates a existing record in the database with the data of a {@link Booking} object
-   * @param booking A {@link Booking} object to update the database with
-   */
-  public void updateBooking(Booking booking) {
-    String query = "UPDATE bookings SET " +
-        "phone_no = ?, " +
-        "code = ?, " +
-        "screening_id = ? " +
-        "WHERE id = ?;";
-    jdbc.update(query,
-        booking.getPhoneNo(),
-        booking.getCode(),
-        booking.getScreening().getId(),
-        booking.getId());
-  }
-
-  /**
-   * Deletes a record from the database based on a {@link String} object
-   * represented by the auto-genetarated {@link String} object
+   * Deletes a record from the database based on the auto-generated code
+   *
    * @param code A {@link String} object containing the data by which to identify the record
    *             in the database
    * @return true if the record is found and deleted, false otherwise
@@ -272,7 +260,7 @@ public class BookingRepository {
 
     if (rs.first()) {
       id = rs.getInt("id");
-      deleteBookedSeats(id);
+      //deleteBookedSeats(id);
       jdbc.update("DELETE FROM bookings WHERE id = ?;", id);
       return true;
     }
@@ -281,18 +269,20 @@ public class BookingRepository {
   }
 
   /**
-   * Deletes a record from the database based on the booking id
+   * Deletes a booking record from the database based on the booking id
+   *
    * @param id An integer representing the id by which to
    *           identify the record within the database
    */
   public void deleteBookingById(int id) {
-    deleteBookedSeats(id);
+    //deleteBookedSeats(id);
     String query = "DELETE FROM bookings WHERE id = ?;";
     jdbc.update(query, id);
   }
 
-  /**
-   * Deletes records from the database base on the booking id
+  /** TODO test and remove
+   * Deletes booked seats records from the database base on the booking id
+   *
    * @param bookingId An integer representing the id by which to
    *                  identify the records within the database
    */
@@ -301,12 +291,13 @@ public class BookingRepository {
   }
 
   public void deleteBookingsForScreening(int screeningId) {
-    deleteBookedSeatsforScreening(screeningId);
+    //deleteBookedSeatsForScreening(screeningId); TODO test if cascade works here
     String query = "DELETE FROM bookings WHERE screening_id = ?;";
     jdbc.update(query, screeningId);
   }
 
-  private void deleteBookedSeatsforScreening(int screeningId) {
+  // TODO if cascade deletion works out, remove this
+  private void deleteBookedSeatsForScreening(int screeningId) {
     String query = "DELETE booked_seats " +
         "FROM booked_seats INNER JOIN bookings " +
         "ON booked_seats.booking_id = bookings.id " +

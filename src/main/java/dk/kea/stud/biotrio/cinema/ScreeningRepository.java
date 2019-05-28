@@ -1,5 +1,6 @@
 package dk.kea.stud.biotrio.cinema;
 
+import dk.kea.stud.biotrio.AppGlobals;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -12,9 +13,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 /**
@@ -29,29 +28,61 @@ public class ScreeningRepository {
   @Autowired
   private TheaterRepository theaterRepo;
 
+  /**
+   * Gets a list of {@link Screening} objects which have their start time
+   * in the past. Used for easy removal by the Delete Past Screenings use case
+   *
+   * @return The list of {@link Screening} objects
+   */
   public List<Screening> findPastScreenings(){
     String query = "SELECT * FROM screenings WHERE start_time < CURDATE() ORDER BY start_time";
     SqlRowSet rs = jdbc.queryForRowSet(query);
 
-    return getScreeningsListFromRowSet(rs);
+    return extractScreeningsListFromRowSet(rs);
   }
 
+  /**
+   * Gets a list of {@link Screening} objects for a particular movie id, which have
+   * their respective starting times in the future
+   *
+   * @param movieId An integer movie id by which to filter the screenings
+   * @return The list of {@link Screening} objects
+   */
   public List<Screening> findUpcomingScreeningsForMovieById(int movieId) {
-    String query = "SELECT * FROM screenings WHERE start_time >= CURDATE() AND movie_id = ? ORDER BY start_time";
+    String query = "SELECT * FROM screenings WHERE start_time >= CURDATE()" +
+        " AND movie_id = ? ORDER BY start_time";
     SqlRowSet rs = jdbc.queryForRowSet(query, movieId);
 
-    return getScreeningsListFromRowSet(rs);
+    return extractScreeningsListFromRowSet(rs);
   }
 
+  /**
+   * Gets a {@link Map} of upcoming screenings for a particular movie, where the
+   * key is a {@link String} representing a particular date, and the value is a
+   * {@link List} of all {@link Screening} objects whose start time fall on that day
+   *
+   * @param movieId An integer movie id by which to filter the screenings
+   * @return The map of {@link Screening} objects
+   */
   public Map<String,List<Screening>> findUpcomingScreeningsForMovieAsMap(int movieId) {
     List<Screening> screeningList = findUpcomingScreeningsForMovieById(movieId);
     return convertScreeningsListToMap(screeningList);
   }
 
+  /**
+   * Helper function that converts a {@link List} of {@link Screening} objects into
+   * a {@link Map} where the key is a {@link String} that represents a particular date,
+   * and the value is a {@link List} of all the {@link Screening} objects whose start time
+   * falls on that day
+   *
+   * @param screeningsList The {@link List} of {@link Screening} objects to convert
+   * @return The map of {@link Screening} objects
+   */
   private Map<String, List<Screening>> convertScreeningsListToMap(List<Screening> screeningsList) {
     Map<String,List<Screening>> screenings = new LinkedHashMap<>();
     for(Screening screening:screeningsList){
-      String screeningDate = convertToStringLabel(screening.getStartTime());
+
+      String screeningDate = screening.getStartTime().format(AppGlobals.TAB_LABEL_FORMAT);
       if(!screenings.containsKey(screeningDate)) {
         screenings.put(screeningDate, new ArrayList<>());
       }
@@ -60,6 +91,12 @@ public class ScreeningRepository {
     return screenings;
   }
 
+  /**
+   * Finds a particular {@link Screening} record in the database by a given id
+   *
+   * @param id An integer that represents the {@link Screening}'s id
+   * @return A {@link Screening} object if the record is found, null otherwise
+   */
   public Screening findById(int id) {
     Screening result = null;
     String query = "SELECT * FROM screenings WHERE id = ?";
@@ -72,14 +109,19 @@ public class ScreeningRepository {
     return result;
   }
 
-
-
+  /**
+   * Helper method to get the count of available seats for a particular screening
+   *
+   * @param id An integer that represents the {@link Screening}'s id
+   * @param theater_id An integer that represents the {@link Theater}'s id
+   * @return An integer representing the number of available seats for the screening
+   */
   private int getAvailableSeatsForScreening(int id, int theater_id) {
     Theater currentTheater = theaterRepo.findTheater(theater_id);
     int totalSeats = currentTheater.getNoOfRows() * currentTheater.getSeatsPerRow();
     int occupiedSeats;
 
-    //  calculating the number of booked seats based on 2 tables from the database
+    // Count the number of booked seats for the screening
     int bookedSeats = 0;
     String query = "SELECT COUNT(*) FROM bookings INNER JOIN booked_seats ON " +
         "booked_seats.booking_id = bookings.id WHERE bookings.screening_id = ?";
@@ -88,7 +130,7 @@ public class ScreeningRepository {
       bookedSeats = rs.getInt(1);
     }
 
-    //  calculating the number of sold seats based on 1 table from the database
+    // Count the number of tickets for the screening
     int soldSeats = 0;
     query = "SELECT COUNT(*) FROM tickets WHERE screening_id = ?";
     rs = jdbc.queryForRowSet(query, id);
@@ -100,36 +142,57 @@ public class ScreeningRepository {
     return (totalSeats - occupiedSeats);
   }
 
+  /**
+   * Gets a {@link List} of screenings that have their start time in the future
+   *
+   * @return The {@link List} of {@link Screening} objects
+   */
   public List<Screening> findUpcomingScreenings() {
     String query = "SELECT * FROM screenings WHERE start_time >= CURDATE() ORDER BY start_time";
     SqlRowSet rs = jdbc.queryForRowSet(query);
 
-    return getScreeningsListFromRowSet(rs);
+    return extractScreeningsListFromRowSet(rs);
   }
 
-  private String convertToStringLabel(LocalDateTime startTime){
-    DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("EEE dd MMM");
-    return startTime.format(timeFormatter);
-  }
-
+  /**
+   * Gets a map of upcoming screenings grouped by date
+   *
+   * @return The {@link Map} of {@link Screening} objects
+   */
   public Map<String,List<Screening>> findUpcomingScreeningsAsMap() {
     List<Screening> screeningsList = findUpcomingScreenings();
     return convertScreeningsListToMap(screeningsList);
   }
 
+  /**
+   * Gets a map of all screenings grouped by date
+   *
+   * @return The {@link Map} of {@link Screening} objects
+   */
   public Map<String, List<Screening>> findAllScreeningsAsMap(){
     List<Screening> screeningsList = findAllScreenings();
     return convertScreeningsListToMap(screeningsList);
   }
 
+  /**
+   * Gets a list of all the screenings in the database
+   *
+   * @return The {@link List} of {@link Screening} objects
+   */
   public List<Screening> findAllScreenings() {
     String query = "SELECT * FROM screenings ORDER BY start_time;";
     SqlRowSet rs = jdbc.queryForRowSet(query);
 
-    return getScreeningsListFromRowSet(rs);
+    return extractScreeningsListFromRowSet(rs);
   }
 
-  private List<Screening> getScreeningsListFromRowSet(SqlRowSet rowSet) {
+  /**
+   * Helper method that extracts all screenings from a rowset
+   *
+   * @param rowSet The {@link SqlRowSet} object that contains the data
+   * @return A {@link List} of {@link Screening} objects
+   */
+  private List<Screening> extractScreeningsListFromRowSet(SqlRowSet rowSet) {
     List<Screening> result = new ArrayList<>();
 
     while (rowSet.next()) {
@@ -139,6 +202,13 @@ public class ScreeningRepository {
     return result;
   }
 
+  /**
+   * Helper method which extracts the screening from a rowset,
+   * which it is currently pointing to
+   *
+   * @param rowSet The {@link SqlRowSet} object containing the data
+   * @return A {@link Screening} object
+   */
   private Screening extractNextScreeningFromRowSet(SqlRowSet rowSet) {
     Screening result = new Screening();
     result.setId(rowSet.getInt("id"));
@@ -150,6 +220,14 @@ public class ScreeningRepository {
     return result;
   }
 
+  /**
+   * Saves the data of a screening to the database as a new entry, and then
+   * returns the updated object
+   *
+   * @param screening The {@link Screening} object which contains the data
+   * @return The updated {@link Screening} which now also contains the correct
+   * id, of the newly added entry to the database
+   */
   public Screening addScreening(Screening screening) {
     PreparedStatementCreator psc = new PreparedStatementCreator() {
       @Override
@@ -171,6 +249,11 @@ public class ScreeningRepository {
     return screening;
   }
 
+  /**
+   * Updates an entry in the database based on the data of a screening object
+   *
+   * @param screening The {@link Screening} object to update
+   */
   public void updateScreening(Screening screening) {
     String query = "UPDATE screenings SET " +
         "movie_id = ?, " +
@@ -184,16 +267,31 @@ public class ScreeningRepository {
         screening.getId());
   }
 
+  /**
+   * Deletes a particular {@link Screening} based on a given id
+   *
+   * @param id An integer by which to find the screening to be deleted
+   */
   public void deleteScreening(int id) {
     jdbc.update("DELETE FROM screenings WHERE id = ?;", id);
   }
 
+  /**
+   * Finds all past screenings and deletes them from the database
+   */
   public void deletePastScreenings(){
     for (Screening screening : findPastScreenings()) {
       deleteScreening(screening.getId());
     }
   }
 
+  /**
+   * Gets all screenings that are scheduled in the same theater 12 hours before
+   * and after a given screening.
+   *
+   * @param screening A {@link Screening} object by which to look up other screenings
+   * @return A {@link List} of {@link Screening} objects that match the criteria
+   */
   public List<Screening> findScreeningsThatMightConflict(Screening screening) {
     String query = "SELECT * FROM screenings " +
         "WHERE start_time > ? - INTERVAL 12 HOUR " +
@@ -215,7 +313,13 @@ public class ScreeningRepository {
     return result;
   }
 
-  // Check if a screening has associated tickets and/or bookings
+  /**
+   * Checks if a particular screening can be safely deleted, meaning
+   * that it has no associated bookings and/or tickets
+   *
+   * @param s The {@link Screening} to check
+   * @return A true if the screening can be safely deleted, false otherwise
+   */
   public boolean canDelete(Screening s){
     if (s.getStartTime().isBefore(LocalDateTime.now())) {
       return true;
