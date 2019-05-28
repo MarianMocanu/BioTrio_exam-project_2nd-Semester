@@ -16,6 +16,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Repository class that is responsible with managing {@link Booking} data within the database
+ */
 @Repository
 public class BookingRepository {
 
@@ -24,6 +27,13 @@ public class BookingRepository {
   @Autowired
   private ScreeningRepository screeningRepo;
 
+
+  /**
+   * Finds a particular {@link Booking} in the database based on the booking id
+   *
+   * @param id An integer representing the id to look up in the database
+   * @return A {@link Booking} object on success, otherwise null if nothing is found
+   */
   public Booking findBookingById(int id) {
     Booking booking = new Booking();
     String query = "SELECT * FROM bookings WHERE id = ?";
@@ -57,6 +67,11 @@ public class BookingRepository {
     return booking;
   }
 
+  /**
+   * Gets the full list of bookings for a particular screening
+   * @param id An integer representing the screening id to look up in the database
+   * @return A {@link List} of {@link Booking} objects of a particular screening
+   */
   public List<Booking> findBookingsForScreening(int id) {
     Booking booking = null;
     List<Booking> screeningBookings = new ArrayList<>();
@@ -100,6 +115,7 @@ public class BookingRepository {
     return screeningBookings;
   }
 
+
   public List<Booking> findBookingByPhoneNo(String phoneNo, int screeningId) {
     String query = "SELECT * FROM bookings WHERE phone_no = ? AND screening_id = ?";
     SqlRowSet rs = jdbc.queryForRowSet(query, phoneNo, screeningId);
@@ -135,6 +151,11 @@ public class BookingRepository {
     return result;
   }
 
+  /**
+   * Verifies if thee is any booking with a particular code
+   * @param code A {@link String} object representing the auto-generated code of a particular booking
+   * @return A boolean value that is true if the booking is found, otherwise false if it is not found
+   */
   public boolean isCodeTaken(String code) {
     String query = "SELECT * FROM bookings WHERE code = ?";
     SqlRowSet rs = jdbc.queryForRowSet(query, code);
@@ -143,7 +164,12 @@ public class BookingRepository {
     return rs.first();
   }
 
-
+  /**
+   * Saves the data of a {@link Booking} object to the database as a new entry
+   * @param booking The {@link Booking} object containing the data
+   * @return The updates {@link Booking} object also containing id that was just
+   *         generated for the newly inserted entry
+   */
   public Booking addBooking(Booking booking) {
     PreparedStatementCreator psc = new PreparedStatementCreator() {
       @Override
@@ -167,6 +193,10 @@ public class BookingRepository {
     return booking;
   }
 
+  /**
+   * Saves the data of a {@link Booking}'s list of {@link Seat} objects to the database os new entries
+   * @param booking The {@link Booking} object containing the data
+   */
   private void addBookedSeats(Booking booking) {
     String query = "INSERT INTO booked_seats VALUES (?, ?, ?);";
     for (Seat seat : booking.getSeats()) {
@@ -174,6 +204,10 @@ public class BookingRepository {
     }
   }
 
+  /**
+   * Updates a existing record in the database with the data of a {@link Booking} object
+   * @param booking A {@link Booking} object to update the database with
+   */
   public void updateBooking(Booking booking) {
     String query = "UPDATE bookings SET " +
         "phone_no = ?, " +
@@ -187,6 +221,13 @@ public class BookingRepository {
         booking.getId());
   }
 
+  /**
+   * Deletes a record from the database based on a {@link String} object
+   * represented by the auto-genetarated {@link String} object
+   * @param code A {@link String} object containing the data by which to identify the record
+   *             in the database
+   * @return true if the record is found and deleted, false otherwise
+   */
   public boolean deleteBookingByCode(String code) {
     SqlRowSet rs = jdbc.queryForRowSet("SELECT id FROM bookings WHERE code = ?;", code);
     int id;
@@ -201,12 +242,22 @@ public class BookingRepository {
     return false;
   }
 
+  /**
+   * Deletes a record from the database based on the booking id
+   * @param id An integer representing the id by which to
+   *           identify the record within the database
+   */
   public void deleteBookingById(int id) {
     deleteBookedSeats(id);
     String query = "DELETE FROM bookings WHERE id = ?;";
     jdbc.update(query, id);
   }
 
+  /**
+   * Deletes records from the database base on the booking id
+   * @param bookingId An integer representing the id by which to
+   *                  identify the records within the database
+   */
   private void deleteBookedSeats(int bookingId) {
     jdbc.update("DELETE FROM booked_seats WHERE booking_id = ?;", bookingId);
   }

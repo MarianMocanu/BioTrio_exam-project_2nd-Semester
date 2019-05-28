@@ -12,6 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Defines the routes relaed to {@link Booking} management
+ */
 @Controller
 public class BookingController {
   @Autowired
@@ -23,6 +26,10 @@ public class BookingController {
   @Autowired
   private SeatRepository seatRepo;
 
+
+  /**
+   *Displays the make-booking view for selected screening
+   */
   @GetMapping("/booking/{id}")
   public String showBookingsView(@PathVariable("id") int screeningId,
                                  Model model) {
@@ -36,6 +43,10 @@ public class BookingController {
     return "bookings/user/make-booking";
   }
 
+  /**
+   *Converts the data received from the make-booking view and adds the booking data
+   * to the database, then diplays the booking-confirmed view
+   */
   @PostMapping("/booking/save")
   public String saveBooking(@ModelAttribute SeatData seatData,
                             @RequestParam int screeningId,
@@ -61,11 +72,17 @@ public class BookingController {
     return "bookings/user/booking-confirmed";
   }
 
+  /**
+   * Displays the view for cancelling a booking
+   */
   @GetMapping("/booking/cancel")
   public String cancelBooking() {
     return "bookings/user/booking-cancel";
   }
 
+  /**
+   *Deletes the booking from the database and displays the confirmation view
+   */
   @PostMapping("/booking/cancel")
   public String bookingCancelled(@RequestParam String bookingCode,
                                  Model model) {
@@ -74,6 +91,11 @@ public class BookingController {
     return "bookings/user/booking-cancelled";
   }
 
+  /**
+   * Generates an unique code to be used when saving a booking object
+   * as a new entry to the database
+   * @return
+   */
   private String generateUniqueCode() {
     Random random = new SecureRandom();
     String characters = "abcdefghijklmnopqrstuvwxyz0123456789";
@@ -92,6 +114,7 @@ public class BookingController {
 
     return result.toString();
   }
+
 
   @GetMapping("/manage/screening/{screeningId}/bookings")
   public String getPhoneNo(@PathVariable(name = "screeningId") int id,
@@ -121,6 +144,7 @@ public class BookingController {
         return "ticketing/list-of-bookings";
     }
   }
+
 
   @GetMapping("/manage/screening/{screeningId}/bookings/{bookingId}")
   public String sellBookedSeats(Model model,
