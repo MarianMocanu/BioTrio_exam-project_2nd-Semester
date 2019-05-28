@@ -1,6 +1,7 @@
 package dk.kea.stud.biotrio.ticketing;
 
 import dk.kea.stud.biotrio.AppGlobals;
+import dk.kea.stud.biotrio.cinema.Screening;
 import dk.kea.stud.biotrio.cinema.ScreeningRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -115,20 +116,12 @@ public class BookingController {
     return result.toString();
   }
 
-
-  @GetMapping("/manage/screening/{screeningId}/bookings")
-  public String getPhoneNo(@PathVariable(name = "screeningId") int id,
+  @GetMapping("/manage/bookings/")
+  public String listBookingsForPhoneNo(@RequestParam(name = "bookingPhoneNo") String phoneNo,
                            Model model) {
-    model.addAttribute("screeningId", id);
-    return "ticketing/get-phone-no";
-  }
-
-  @PostMapping("/manage/screening/{screeningId}/bookings")
-  public String showBooking(@RequestParam String bookingPhoneNo,
-                            @PathVariable(name = "screeningId") int id,
-                            Model model) {
-    List<Booking> bookingList = bookingRepo.findBookingByPhoneNo(bookingPhoneNo, id);
-    model.addAttribute("screeningId", id);
+    List<Booking> bookingList = bookingRepo.findBookingByPhoneNo(phoneNo);
+    model.addAttribute("bookingList", bookingList);
+    model.addAttribute("phoneNo", phoneNo);
     switch (bookingList.size()) {
       case 0:
         return "ticketing/booking-none";
@@ -141,31 +134,43 @@ public class BookingController {
         return "ticketing/booking-redeem-seats";
       default:
         model.addAttribute("bookingList", bookingList);
-        return "ticketing/list-of-bookings";
+        return "ticketing/list-of-bookings-phoneNo";
     }
   }
 
 
-  @GetMapping("/manage/screening/{screeningId}/bookings/{bookingId}")
-  public String sellBookedSeats(Model model,
-                                @PathVariable(name = "screeningId") int screeningId,
+  @GetMapping("/manage/bookings/{screeningId}/list")
+    public String showBookings(@PathVariable(name = "screeningId") int screeningId, Model model) {
+    List<Booking> bookingList = bookingRepo.findBookingsForScreening(screeningId);
+    model.addAttribute("bookingList", bookingList);
+    switch (bookingList.size()) {
+      case 0:
+        return "ticketing/booking-none-screening";
+        default:
+          model.addAttribute("bookingList", bookingList);
+          return "ticketing/list-of-bookings-screening";
+    }
+    }
+
+  @GetMapping("/manage/bookings/redeem/{bookingId}")
+  public String showBookedSeatsForBooking(Model model,
                                 @PathVariable(name = "bookingId") int bookingId) {
     Booking booking = bookingRepo.findBookingById(bookingId);
     SeatData bookingData = new SeatData();
     bookingData.setSeats(booking.getSeats());
     bookingData.setSubmittedData(new ArrayList<>());
-    model.addAttribute("screeningID", screeningId);
     model.addAttribute("bookedSeats", bookingData);
     model.addAttribute("bookingId", bookingId);
     return "ticketing/booking-redeem-seats";
   }
 
-  @PostMapping("/manage/screening/{screeningId}/booking/redeem/{bookingId}")
-  public String sellBookedSeats(@PathVariable(name = "screeningId") int screeningId,
-                                @ModelAttribute SeatData data,
+  @PostMapping("/manage/bookings/redeem/{bookingId}")
+  public String showBookedSeats(@ModelAttribute SeatData data,
                                 @PathVariable(name = "bookingId") int bookingId) {
+
     List<Ticket> ticketsList = new ArrayList<>();
-    for (Seat seat : seatRepo.convertStringSeatData(data.getSubmittedData())) {
+    int screeningId = bookingRepo.findBookingById(bookingId).getScreening().getId();
+    for (Seat seat : seatRepo.getSeatsInfo(data.getSubmittedData())) {
       Ticket ticket = new Ticket();
       ticket.setScreening(screeningRepo.findById(screeningId));
       ticket.setSeat(seat);
@@ -173,7 +178,7 @@ public class BookingController {
     }
     ticketRepo.addTickets(ticketsList);
     bookingRepo.deleteBookingById(bookingId);
-    return "redirect:/manage/screenings";
+    return "redirect:/manage/ticketing/";
   }
 
 }

@@ -17,8 +17,8 @@
                 <h1 class="display-4">Select booking</h1>
                 <hr>
                 <ul th:each= "booking:${bookingList}">
-                    <li><a th:href="'/manage/screening/'+${booking.getScreening().getId()}+'/bookings/' +${booking.getId()}"
-                        th:text="'Booking number ' +${booking.getId()}">
+                    <li><a th:href="'/manage/bookings/redeem/' +${booking.getId()}"
+                        th:text="'Booking number ' +${booking.getId()} +' for: '+${booking.getScreening().getMovie().getTitle()}">
                     </a>
                     </li>
                 </ul>
