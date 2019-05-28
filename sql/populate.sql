@@ -1,13 +1,9 @@
-INSERT INTO roles(name) VALUES ('Admin'), ('Projections'), ('Employee');
-
 INSERT INTO users(username, password, role, employee_id) VALUES
-('admin', '1234', 1, NULL);
+('Admin', '1234', 1, NULL);
 
 INSERT INTO theaters (name, no_of_rows, seats_per_row) VALUES
-('Theater 1', 14, 20),('Theater 2', 8, 12),('Theater 3', 8, 6);
+('The Blue Theater', 14, 20),('The Red Theater', 8, 12),('The Orange Theater', 8, 6);
 
-INSERT INTO screenings (movie_id, theater_id, start_time)
-VALUES (1, 1, '2019-06-20 18:30'), (2, 2, '2019-06-20 19:00'),(3, 3, '2019-06-20 18:45');
 
 INSERT INTO technologies (name) VALUES ('3D'), ('Dolby Atmos');
 
@@ -52,3 +48,6 @@ INSERT INTO movies(title, runtime, synopsis, genre, language, subtitles, trailer
 ('Child\'s Play', 120, 'A mother gives her son a toy doll for his birthday, unaware of its more sinister nature.', 'Horror', 'English', 'Danish', 'PeHNLikDiVw', DATE('2019-06-21'), 'Aubrey Plaza, Mark Hamill, Tim Matheson', 'Lars Klevberg', 'R', 'https://m.media-amazon.com/images/M/MV5BNTNlNjIxNjktOWUyMS00YWY5LWEwZGItMjZmODJlZWNiZGM2XkEyXkFqcGdeQXVyNDg4NjY5OTQ@._V1_SY1000_CR0,0,674,1000_AL_.jpg'),
 ('The Lion King', null, 'After the murder of his father, a young lion prince flees his kingdom only to learn the true meaning of responsibility and bravery.', 'Animation, Adventure, Drama', 'English', 'Danish', '7TavVZMewpY', DATE('2019-07-19'), 'Seth Rogen, Donald Glover, Chiwetel Ejiofor', 'Jon Favreau', 'G', 'https://m.media-amazon.com/images/M/MV5BMjIwMjE1Nzc4NV5BMl5BanBnXkFtZTgwNDg4OTA1NzM@._V1_SY1000_CR0,0,674,1000_AL_.jpg'),
 ('The Informer', 113, 'An ex-convict working undercover intentionally gets himself incarcerated again in order to infiltrate the mob at a maximum security prison.', 'Crime, Drama', 'English', 'Danish', 'r77067D5hb4', DATE('2019-08-16'), 'Ana de Armas, Rosamund Pike, Joel Kinnaman', 'Andrea Di Stefano', 'R', 'https://m.media-amazon.com/images/M/MV5BN2YyYTgxYmYtNjg3My00YzI4LWJlZWItYmZhZGEyYTYxNWY3XkEyXkFqcGdeQXVyMjAwNTYzNDg@._V1_SY1000_CR0,0,682,1000_AL_.jpg')
+
+#INSERT INTO screenings (movie_id, theater_id, start_time)
+#VALUES (1, 1, '2019-06-20 18:30'), (2, 2, '2019-06-20 19:00'),(3, 3, '2019-06-20 18:45');

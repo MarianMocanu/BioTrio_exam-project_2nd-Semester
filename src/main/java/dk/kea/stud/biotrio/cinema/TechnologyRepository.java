@@ -153,9 +153,9 @@ public class TechnologyRepository {
    *
    * @param id The integer id by which to look up the technology entry
    */
-  public void deleteTechnology(int id) {
-    jdbc.update("DELETE FROM technologies_to_movies WHERE technology_id = ?;", id);
-    jdbc.update("DELETE FROM technologies_to_theaters WHERE technology_id = ?;", id);
+  public void deleteTechnology(int id) { //TODO test cascading behaviour
+    //jdbc.update("DELETE FROM technologies_to_movies WHERE technology_id = ?;", id);
+    //jdbc.update("DELETE FROM technologies_to_theaters WHERE technology_id = ?;", id);
     jdbc.update("DELETE FROM technologies WHERE id = ?;", id);
   }
 
