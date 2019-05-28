@@ -17,7 +17,7 @@
                 <h1 class="display-4">Add a movie</h1>
                 <hr>
                 <span>Add a movie to the upcoming movies list</span>
-
+                <br>
                 <div class="alert alert-danger" th:if="${error}">
                     <span th:if="${error.equals('date')}">Error parsing date.
                         Must be in format YYYY-MM-DD. Try again.</span>

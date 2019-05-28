@@ -5,8 +5,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+/**
+ * Defines the Spring Security related routes
+ */
 @Controller
 public class SecurityController {
+  /**
+   * Displays the custom login view
+   */
   @GetMapping(value = "/login")
   public String showLogin(@RequestParam(value = "error", required = false) String error, String logout, Model model) {
 
@@ -19,10 +25,5 @@ public class SecurityController {
     }
 
     return "security/login";
-  }
-
-  @GetMapping("/error")
-  public String showError() {
-    return "security/error";
   }
 }

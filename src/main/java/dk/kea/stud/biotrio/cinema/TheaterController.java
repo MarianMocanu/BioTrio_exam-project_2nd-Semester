@@ -7,6 +7,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Defintes the routes related to {@link Theater} management
+ */
 @Controller
 public class TheaterController {
 
@@ -15,7 +18,9 @@ public class TheaterController {
   @Autowired
   private TechnologyRepository technologyRepo;
 
-  //Lists all Theaters, "add", "edit", "delete" button available
+  /**
+   * Displays the theater list view
+   */
   @GetMapping("/manage/theaters")
   public String theaters(Model m) {
     List<Theater> theaterList = theaterRepo.findAllTheaters();
@@ -24,7 +29,10 @@ public class TheaterController {
     return "theaters/theaters-view";
   }
 
-  //Presents form to add Theater
+
+  /**
+   * Displays the add theater view
+   */
   @GetMapping("/manage/theaters/add")
   public String create(Model m) {
     m.addAttribute("technologies", technologyRepo.getAllTechnologies());
@@ -33,19 +41,22 @@ public class TheaterController {
     return "theaters/theaters-add";
   }
 
-  //Saves Theater and lists all the Theaters
+  /**
+   * Adds the theater data received from the add theater view to the database
+   * then redirects the user to the theater list view
+   */
   @PostMapping("/manage/theaters/add")
   public String saveTheater(@ModelAttribute Theater t,
                             @RequestParam(value = "selectedTechnologies", required = false)
                                 List<Integer> selectedTechnologies) {
     t.setSupportedTechnologies(technologyRepo.convertFromIdList(selectedTechnologies));
     theaterRepo.insert(t);
-    // TODO discuss this: why "redirect:" and not just theaters:
-    // because after posting we need @GetMapping to be able to read what's on /theaters
     return "redirect:/manage/theaters";
   }
 
-  //Presents form to edit Theater
+  /**
+   * Displays the edit theater view
+   */
   @GetMapping("/manage/theaters/edit/{id}")
   public String update(@PathVariable(name = "id") int id, Model m) {
     Theater currentTheater = theaterRepo.findTheater(id);
@@ -57,7 +68,10 @@ public class TheaterController {
     return "theaters/theaters-edit";
   }
 
-  //Saves edited Theater and lists all the Theaters
+  /**
+   * Updates the theater record in the database with the data received from
+   * the edit theater view, then redirects the user back to the theater list view
+   */
   @PostMapping("/manage/theaters/edit")
   public String update(@ModelAttribute Theater t,
                        @RequestParam(value = "selectedTechnologies", required = false)
@@ -67,7 +81,10 @@ public class TheaterController {
     return "redirect:/manage/theaters/";
   }
 
-  //Deletes Theater and lists all the Theaters
+  /**
+   * Deletes a theater record from the database if it has no associated screenings and
+   * redirects the user to the theater
+   */
   @PostMapping("/manage/theaters/delete")
   public String deleteTheater(@RequestParam(name = "theaterId") int id, Model model) {
     Theater theater = theaterRepo.findTheater(id);

@@ -13,6 +13,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Repository class that is responsible with managing {@link Movie} data withing the database
+ */
 @Repository
 public class MovieRepository {
 
@@ -21,6 +24,11 @@ public class MovieRepository {
     @Autowired
     private TechnologyRepository technologyRepo;
 
+    /**
+     * Gets all movies from the database
+     *
+     * @return A list of {@link Movie} objects, or null if the database contains no such data
+     */
     public List<Movie> findAllMovies() {
         List<Movie> moviesList = new ArrayList<>();
 
@@ -33,6 +41,13 @@ public class MovieRepository {
         return moviesList;
     }
 
+    /**
+     * Helper method to extract the {@link Movie} object that
+     * the {@link SqlRowSet} is currently pointing to
+     *
+     * @param rs The {@link SqlRowSet} containing the data
+     * @return A {@link Movie} object
+     */
     private Movie extractNextMovieFromRowSet(SqlRowSet rs) {
         Movie movie = new Movie();
         movie.setId(rs.getInt("id"));
@@ -54,6 +69,12 @@ public class MovieRepository {
         return movie;
     }
 
+    /**
+     * Finds a particular {@link Movie} in the database based on the id
+     *
+     * @param id An integer representing the id to look up in the database
+     * @return A {@link Movie} object on success, otherwise null if nothing is found
+     */
     public Movie findMovieById(int id) {
         Movie movie = null;
 
@@ -65,6 +86,13 @@ public class MovieRepository {
         return movie;
     }
 
+    /**
+     * Saves the data of a {@link Movie} object to the database as a new entry
+     *
+     * @param movie The {@link Movie} object containing the data
+     * @return The updated {@link Movie} object also containing the id that
+     *         was just generated for the newly inserted entry
+     */
     public Movie addMovie(Movie movie) {
         PreparedStatementCreator psc = new PreparedStatementCreator() {
             @Override
@@ -99,6 +127,11 @@ public class MovieRepository {
         return movie;
     }
 
+    /**
+     * Updates an existing record in the database with the data of a {@link Movie} object
+     *
+     * @param movie A {@link Movie} object to update the database with
+     */
     public void updateMovie(Movie movie) {
         jdbc.update("UPDATE movies SET " +
                         "title = ?," +
@@ -131,11 +164,23 @@ public class MovieRepository {
         technologyRepo.setRequiredTechnologies(movie.getId(), movie.getRequiredTechnologies());
     }
 
+    /**
+     * Deletes a record from the database based on an id
+     *
+     * @param id An integer representing the id by which to
+     *           identify the record within the database
+     */
     public void deleteMovie(int id) {
         technologyRepo.setRequiredTechnologies(id, null);
         jdbc.update("DELETE FROM movies WHERE id = ?;", id);
     }
 
+    /**
+     * Checks whether a movie has any associated screenings
+     *
+     * @param m A {@link Movie} object to check for associated screenings
+     * @return true if no associated screenings are found, false otherwise
+     */
     public boolean canDelete(Movie m){
         String query = ("SELECT COUNT(*) FROM screenings WHERE movie_id = ?;");
         SqlRowSet rs = jdbc.queryForRowSet(query, m.getId());
@@ -145,15 +190,33 @@ public class MovieRepository {
         return noScreenings == 0;
     }
 
+    /**
+     * Add a movie to the upcoming movies list
+     *
+     * @param movie The {@link Movie} object to add to the list
+     * @param estimated_date A {@link LocalDate} object representing the movie's
+     *                       estimated screening debut date. Used for sorting purposes
+     */
     public void addMovieToUpcomingList(Movie movie, LocalDate estimated_date) {
         jdbc.update("INSERT INTO upcoming_movies VALUE (?, ?);", movie.getId(),
             Date.valueOf(estimated_date));
     }
 
+    /**
+     * Remove a movie from the list of upcoming movies
+     *
+     * @param movieId An integer id by which to identify the entry to be
+     *                deleted from the upcoming movies list
+     */
     public void removeMovieFromUpcomingList(int movieId) {
         jdbc.update("DELETE FROM upcoming_movies WHERE movie_id = ?;", movieId);
     }
 
+    /**
+     * Gets the full list of upcoming movies
+     *
+     * @return A list of {@link Movie} objects that are in the upcoming movies list
+     */
     public List<Movie> getUpcomingMovies() {
         SqlRowSet rs = jdbc.queryForRowSet("SELECT * FROM upcoming_movies " +
             "INNER JOIN movies ON upcoming_movies.movie_id = movies.id " +
@@ -167,6 +230,11 @@ public class MovieRepository {
         return result;
     }
 
+    /**
+     * Gets the list of movies that aren't in the upcoming movies list
+     *
+     * @return A list of {@link Movie} objects that aren't in the upcoming movies list
+     */
     public List<Movie> getMoviesThatArentUpcoming() {
         SqlRowSet rs = jdbc.queryForRowSet("SELECT * FROM movies " +
             "WHERE id NOT IN (SELECT movie_id FROM upcoming_movies);");
@@ -179,6 +247,12 @@ public class MovieRepository {
         return result;
     }
 
+    /**
+     * Gets the list of movies that have upcoming screenings associated, or
+     * with other words, that are currently playing in the theaters
+     *
+     * @return A list of {@link Movie} objects that have upcoming screenings associated
+     */
     public List<Movie> getMoviesCurrentlyPlaying() {
         SqlRowSet rs = jdbc.queryForRowSet("SELECT * FROM movies WHERE id IN " +
             "(SELECT DISTINCT movie_id FROM screenings WHERE start_time >= CURDATE());");

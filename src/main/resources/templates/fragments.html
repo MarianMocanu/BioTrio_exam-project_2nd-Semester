@@ -28,9 +28,9 @@
                 <a class="nav-link" href="/screenings">Screenings</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/manage">Manage</a>
+                <a class="nav-link" href="/manage" sec:authorize="authenticated">Manage</a>
             </li>
-            <li class="nav-item dropdown">
+            <li class="nav-item dropdown" sec:authorize="authenticated">
                 <a class="nav-link dropdown-toggle dropdown-toggle-split pl-0" href="#"
                    id="navbarDropdown" role="button" data-toggle="dropdown"
                    aria-haspopup="true" aria-expanded="false">
@@ -38,13 +38,17 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="/manage/ticketing">Ticketing</a>
+                    <th:block sec:authorize="hasAnyRole('ADMIN', 'MANAGER')">
                     <a class="dropdown-item" href="/manage/screenings">Screenings</a>
                     <a class="dropdown-item" href="/manage/movies">Movies</a>
                     <a class="dropdown-item" href="/manage/upcoming">Upcoming Movies</a>
+                    </th:block>
+                    <th:block sec:authorize="hasRole('ADMIN')">
                     <a class="dropdown-item" href="/manage/technologies">Technologies</a>
                     <a class="dropdown-item" href="/manage/theaters">Theaters</a>
                     <a class="dropdown-item" href="/manage/employees">Employees</a>
                     <a class="dropdown-item" href="/manage/users">Users</a>
+                    </th:block>
                 </div>
             </li>
             <li class="nav-item" sec:authorize="!authenticated">

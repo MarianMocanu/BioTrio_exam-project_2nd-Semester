@@ -10,17 +10,27 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
+/**
+ * Defines the routes related to {@link Technology} management
+ */
 @Controller
 public class TechnologyController {
   @Autowired
   private TechnologyRepository technologyRepo;
 
+  /**
+   * Displays the technology list view, which also includes a small add form
+   */
   @GetMapping("/manage/technologies")
   public String manageTechnologies(Model model) {
     model.addAttribute("technologies", technologyRepo.getAllTechnologies());
     return "theaters/technologies-manage";
   }
 
+  /**
+   * Saves the input data from the add form to the database if valid, then
+   * then redirects the user back to the technology list view
+   */
   @PostMapping("/manage/technologies/add")
   public String saveTechnology(@RequestParam String techName, Model model) {
     List<Technology> technologies = technologyRepo.getAllTechnologies();
@@ -53,6 +63,10 @@ public class TechnologyController {
     return "theaters/technologies-manage";
   }
 
+  /**
+   * Deletes an technology entry from the database, then
+   * redirects the user back to the technology list view
+   */
   @PostMapping("/manage/technologies/delete")
   public String confirmDelete(@RequestParam (name = "techId")int id) {
     technologyRepo.deleteTechnology(id);

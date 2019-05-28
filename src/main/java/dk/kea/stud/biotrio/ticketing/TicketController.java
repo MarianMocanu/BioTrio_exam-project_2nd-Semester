@@ -1,5 +1,6 @@
 package dk.kea.stud.biotrio.ticketing;
 
+import dk.kea.stud.biotrio.AppGlobals;
 import dk.kea.stud.biotrio.cinema.ScreeningRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -45,13 +46,12 @@ public class TicketController {
   @PostMapping("/manage/screening/{screeningId}/ticketing")
   public String screeningTicketing(@PathVariable(name = "screeningId") int id,
                                    @ModelAttribute SeatData data) {
-    for (Seat seat:seatRepo.getSeatsInfo(data.getSubmittedData())) {
+    for (Seat seat:seatRepo.convertStringSeatData(data.getSubmittedData())) {
       Ticket ticket = new Ticket();
       ticket.setScreening(screeningRepo.findById(id));
       ticket.setSeat(seat);
       ticketRepo.addTicket(ticket);
-      Helper.printTicket(ticket);
-      //TODO SomeClass.print(ticketRepo.addTicket(soldTicket));
+      AppGlobals.printTicket(ticket);
     }
     return "redirect:/manage/screening/" + id + "/ticketing";
   }
@@ -69,7 +69,7 @@ public class TicketController {
   @PostMapping("/manage/screening/{screeningId}/ticketing/void")
   public String deleteTicket(@PathVariable(name = "screeningId") int id,
                              @ModelAttribute SeatData data) {
-    for (Seat seat : seatRepo.getSeatsInfo(data.getSubmittedData())) {
+    for (Seat seat : seatRepo.convertStringSeatData(data.getSubmittedData())) {
       Ticket ticket = new Ticket();
       ticket.setScreening(screeningRepo.findById(id));
       ticket.setSeat(seat);
