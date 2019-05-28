@@ -26,7 +26,7 @@ public class TicketController {
 
 
   /**
-   * Displays the screenings list view
+   * Displays the manage upcoming screenings list view
    */
   @GetMapping("/manage/ticketing")
   public String screeningsForBookingOrSale(Model model){

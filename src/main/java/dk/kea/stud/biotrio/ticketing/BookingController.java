@@ -148,6 +148,9 @@ public class BookingController {
   }
 
 
+  /**
+   * Displays the screening's bookings list view
+   */
   @GetMapping("/manage/bookings/{screeningId}/list")
   public String showBookings(@PathVariable(name = "screeningId") int screeningId, Model model) {
     List<Booking> bookingList = bookingRepo.findBookingsForScreening(screeningId);
@@ -161,6 +164,9 @@ public class BookingController {
     }
   }
 
+  /**
+   * Displays the booking's seats view
+   */
   @GetMapping("/manage/bookings/redeem/{bookingId}")
   public String showBookedSeatsForBooking(Model model,
                                           @PathVariable(name = "bookingId") int bookingId) {
@@ -173,6 +179,11 @@ public class BookingController {
     return "ticketing/booking-redeem-seats";
   }
 
+  /**
+   * Converts the data received from the booking's seats view, saves the ticket data
+   * to the database and deletes the booking data from the database,
+   * then redirects to manage upcoming screenings list view
+   */
   @PostMapping("/manage/bookings/redeem/{bookingId}")
   public String showBookedSeats(@ModelAttribute SeatData data,
                                 @PathVariable(name = "bookingId") int bookingId) {
