@@ -19,21 +19,21 @@
                 <form action="/manage/theaters/add" method="post" th:object="${theaterform}">
                     <div class="form-group">
                         <label for="name">Theater name:</label>
-                        <input type="text" class="form-control"
+                        <input type="text" class="form-control" required
                                th:field="${theaterform.name}" id="name">
                     </div>
                     <div class="form-group">
                         <label for="no_of_rows">Number of rows:</label>
-                        <input type="text" class="form-control"
+                        <input type="number" class="form-control" required min="1" step="1"
                                th:field="${theaterform.noOfRows}" id="no_of_rows">
                     </div>
                     <div class="form-group">
                         <label for="seats_per_row">Seats per row:</label>
-                        <input type="text" class="form-control"
+                        <input type="number" class="form-control" required min="1" step="1"
                                th:field="${theaterform.seatsPerRow}" id="seats_per_row">
                     </div>
                     <div class="form-group">
-                        <label for="technologies">Projection type</label>
+                        <label for="technologies">Available technologies</label>
                         <select class="form-control" multiple size="5" id="technologies"
                                 name="selectedTechnologies">
                             <option th:each="technology:${technologies}"
