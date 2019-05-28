@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,7 +25,14 @@ public class TheaterController {
   @GetMapping("/manage/theaters")
   public String theaters(Model m) {
     List<Theater> theaterList = theaterRepo.findAllTheaters();
+    ArrayList<Boolean> editableTheaters = new ArrayList<>();
+
+    //Checking if the theaters can be edited and adding all answers in the array
+    for (Theater theater : theaterList) {
+      editableTheaters.add(theaterRepo.canDelete(theater));
+    }
     m.addAttribute("theaterlist", theaterList);
+    m.addAttribute("editableTheaters", editableTheaters);
 
     return "theaters/theaters-view";
   }
