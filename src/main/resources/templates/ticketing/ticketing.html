@@ -14,9 +14,9 @@
     <main class="flex-fill">
         <div class="container">
             <div class="jumbotron">
-                <h1 class="display-4">Upcoming Screenings</h1>
+                <h1 class="display-4">Tickets</h1>
                 <hr>
-                <p class="display-4">Type phone number!</p>
+                <p class="display-4">Redeem booking with phone no</p>
                 <form action="/manage/bookings/" method="get">
                     <div class="form-group">
                         <label for="phoneNo">Phone number: </label>
@@ -25,7 +25,7 @@
                     </div>
                     <button type="submit" class="btn btn-outline-danger">See booked seats</button>
                 </form>
-
+                <hr>
                 <!-- Navigation pills -->
                 <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                     <li class="nav-item" th:each="key,iter:${upcomingScreenings.keySet()}">
