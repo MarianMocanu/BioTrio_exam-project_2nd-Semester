@@ -43,7 +43,7 @@ CREATE TABLE bookings
     code         VARCHAR(255),
     screening_id INT,
     PRIMARY KEY (id),
-    FOREIGN KEY (screening_id) REFERENCES screenings (id)
+    FOREIGN KEY (screening_id) REFERENCES screenings (id) ON DELETE CASCADE
 );
 
 CREATE TABLE booked_seats
@@ -51,7 +51,8 @@ CREATE TABLE booked_seats
     booking_id INT,
     row_no     INT,
     seat_no    INT,
-    PRIMARY KEY (booking_id, row_no, seat_no)
+    PRIMARY KEY (booking_id, row_no, seat_no),
+    FOREIGN KEY (booking_id) REFERENCES bookings (id) ON DELETE CASCADE
 );
 
 CREATE TABLE employees
@@ -87,7 +88,7 @@ CREATE TABLE tickets
     row_no       INT NOT NULL,
     seat_no      INT NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (screening_id) REFERENCES screenings (id)
+    FOREIGN KEY (screening_id) REFERENCES screenings (id) ON DELETE CASCADE
 );
 
 CREATE TABLE upcoming_movies
@@ -123,21 +124,4 @@ CREATE TABLE technologies_to_theaters
     FOREIGN KEY (theater_id) REFERENCES theaters(id)
 );
 
--- update table tickets for cascade deleting
-ALTER TABLE `biotrio`.`tickets`
-DROP FOREIGN KEY `tickets_ibfk_1`;
-ALTER TABLE `biotrio`.`tickets`
-ADD CONSTRAINT `tickets_ibfk_1`
-  FOREIGN KEY (`screening_id`)
-  REFERENCES `biotrio`.`screenings` (`id`)
-  ON DELETE CASCADE
-  ON UPDATE RESTRICT;
 
--- update table bookings for cascade deleting
-ALTER TABLE `biotrio`.`bookings`
-DROP FOREIGN KEY `bookings_ibfk_1`;
-ALTER TABLE `biotrio`.`bookings`
-ADD CONSTRAINT `bookings_ibfk_1`
-  FOREIGN KEY (`screening_id`)
-  REFERENCES `biotrio`.`screenings` (`id`)
-  ON DELETE CASCADE;
