@@ -96,13 +96,16 @@ public class SeatRepository {
    */
   public List<Seat> convertStringSeatData(List<String> seatsInfo) {
     List<Seat> seatsPositions = new ArrayList<>();
-    for (String data : seatsInfo) {
-      Seat seat = new Seat();
-      String[] positions = data.split("_");
-      seat.setRowNo(Integer.valueOf(positions[0]));
-      seat.setSeatNo(Integer.valueOf(positions[1]));
-      seatsPositions.add(seat);
+    if (seatsInfo != null) {
+      for (String data : seatsInfo) {
+        Seat seat = new Seat();
+        String[] positions = data.split("_");
+        seat.setRowNo(Integer.valueOf(positions[0]));
+        seat.setSeatNo(Integer.valueOf(positions[1]));
+        seatsPositions.add(seat);
+      }
+      return seatsPositions;
     }
-    return seatsPositions;
+    return null;
   }
 }

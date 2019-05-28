@@ -55,7 +55,8 @@
                                     <td th:text="${screening.getTheater().getName()}"></td>
                                     <td th:text="${screening.getNoAvailableSeats()}"></td>
                                     <td>
-                                        <a th:href="'/booking/' + ${screening.getId()}">
+                                        <a class="btn btn-primary"
+                                           th:href="'/booking/' + ${screening.getId()}">
                                             Book tickets
                                         </a>
                                     </td>

@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Defines the routes relaed to {@link Booking} management
+ * Defines the routes related to {@link Booking} management
  */
 @Controller
 public class BookingController {
@@ -53,24 +53,29 @@ public class BookingController {
                             @RequestParam int screeningId,
                             @RequestParam String phoneNo,
                             Model model) {
-    List<Seat> seats = new ArrayList<>();
-    for (String bookedSeatString : seatData.getSubmittedData()) {
-      Seat currentSeat = new Seat();
-      String[] seatLocation = bookedSeatString.split("_");
-      currentSeat.setRowNo(Integer.valueOf(seatLocation[0]));
-      currentSeat.setSeatNo(Integer.valueOf(seatLocation[1]));
-      seats.add(currentSeat);
-    }
+    if (seatData.getSubmittedData().size() > 0 && seatData.getSubmittedData().size()
+        <= AppGlobals.MAX_NUMBER_OF_SEATS_PER_BOOKING) {
+      List<Seat> seats = new ArrayList<>();
+      for (String bookedSeatString : seatData.getSubmittedData()) {
+        Seat currentSeat = new Seat();
+        String[] seatLocation = bookedSeatString.split("_");
+        currentSeat.setRowNo(Integer.valueOf(seatLocation[0]));
+        currentSeat.setSeatNo(Integer.valueOf(seatLocation[1]));
+        seats.add(currentSeat);
+      }
 
-    Booking booking = new Booking();
-    booking.setSeats(seats);
-    booking.setScreening(screeningRepo.findById(screeningId));
-    booking.setCode(generateUniqueCode());
-    booking.setPhoneNo(phoneNo);
-    bookingRepo.addBooking(booking);
-    model.addAttribute("booking", booking);
-    AppGlobals.printBooking(booking);
-    return "bookings/user/booking-confirmed";
+      Booking booking = new Booking();
+      booking.setSeats(seats);
+      booking.setScreening(screeningRepo.findById(screeningId));
+      booking.setCode(generateUniqueCode());
+      booking.setPhoneNo(phoneNo);
+      bookingRepo.addBooking(booking);
+      model.addAttribute("booking", booking);
+      AppGlobals.printBooking(booking);
+      return "bookings/user/booking-confirmed";
+    } else {
+      return "bookings/user/booking-error";
+    }
   }
 
   /**
@@ -82,7 +87,7 @@ public class BookingController {
   }
 
   /**
-   *Deletes the booking from the database and displays the confirmation view
+   * Deletes the booking from the database and displays the confirmation view
    */
   @PostMapping("/booking/cancel")
   public String bookingCancelled(@RequestParam String bookingCode,
@@ -170,14 +175,16 @@ public class BookingController {
 
     List<Ticket> ticketsList = new ArrayList<>();
     int screeningId = bookingRepo.findBookingById(bookingId).getScreening().getId();
-    for (Seat seat : seatRepo.getSeatsInfo(data.getSubmittedData())) {
-      Ticket ticket = new Ticket();
-      ticket.setScreening(screeningRepo.findById(screeningId));
-      ticket.setSeat(seat);
-      ticketsList.add(ticket);
+    if (data != null) {
+      for (Seat seat : seatRepo.convertStringSeatData(data.getSubmittedData())) {
+        Ticket ticket = new Ticket();
+        ticket.setScreening(screeningRepo.findById(screeningId));
+        ticket.setSeat(seat);
+        ticketsList.add(ticket);
+      }
+      ticketRepo.addTickets(ticketsList);
+      bookingRepo.deleteBookingById(bookingId);
     }
-    ticketRepo.addTickets(ticketsList);
-    bookingRepo.deleteBookingById(bookingId);
     return "redirect:/manage/ticketing/";
   }
 
