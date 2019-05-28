@@ -170,7 +170,7 @@ public class BookingController {
 
     List<Ticket> ticketsList = new ArrayList<>();
     int screeningId = bookingRepo.findBookingById(bookingId).getScreening().getId();
-    for (Seat seat : seatRepo.getSeatsInfo(data.getSubmittedData())) {
+    for (Seat seat : seatRepo.convertStringSeatData(data.getSubmittedData())) {
       Ticket ticket = new Ticket();
       ticket.setScreening(screeningRepo.findById(screeningId));
       ticket.setSeat(seat);
