@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<html lang="en" xmlns:th="http://www.thymeleaf.org/"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Dashboard</title>
@@ -25,7 +26,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md d-flex justify-content-center">
+                    <div class="col-md d-flex justify-content-center" sec:authorize="hasAnyRole('ADMIN', 'MANAGER')">
                         <div class="card text-white bg-secondary m-2" style="width: 18rem;">
                             <img src="img/movies.png" class="card-img-top bg-dark" alt="Movies">
                             <div class="card-body text-center">
@@ -35,7 +36,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row" sec:authorize="hasAnyRole('ADMIN', 'MANAGER')">
                     <div class="col-md d-flex justify-content-center">
                         <div class="card text-white bg-secondary m-2" style="width: 18rem;">
                             <img src="img/screenings.png" class="card-img-top bg-dark" alt="Screenings">
@@ -55,7 +56,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row" sec:authorize="hasRole('ADMIN')">
                     <div class="col-md d-flex justify-content-center">
                         <div class="card text-white bg-secondary m-2" style="width: 18rem;">
                             <img src="img/theaters.png" class="card-img-top bg-dark" alt="Theaters">
@@ -74,7 +75,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row" sec:authorize="hasRole('ADMIN')">
                     <div class="col-md d-flex justify-content-center">
                         <div class="card text-white bg-secondary m-2" style="width: 18rem;">
                             <img src="img/employees.png" class="card-img-top bg-dark" alt="Employees">
