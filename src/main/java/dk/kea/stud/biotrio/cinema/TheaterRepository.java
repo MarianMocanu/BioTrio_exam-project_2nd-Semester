@@ -2,9 +2,15 @@ package dk.kea.stud.biotrio.cinema;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,9 +74,23 @@ public class TheaterRepository {
    * @param theater The {@link Theater} object to save in the database
    */
   public void insert(Theater theater) {
-    //this works like prepared statement
-    jdbc.update("INSERT INTO theaters(name, no_of_rows, seats_per_row) VALUES(?,?,?)",
-        theater.getName(), theater.getNoOfRows(), theater.getSeatsPerRow());
+
+    PreparedStatementCreator psc = new PreparedStatementCreator() {
+      @Override
+      public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
+        PreparedStatement ps = connection.prepareStatement("INSERT INTO theaters(name, no_of_rows, seats_per_row) VALUES(?,?,?)",
+            new String[]{"id"});
+        ps.setString(1, theater.getName());
+        ps.setInt(2, theater.getNoOfRows());
+        ps.setInt(3, theater.getSeatsPerRow());
+        return ps;
+      }
+    };
+
+    KeyHolder id = new GeneratedKeyHolder();
+    jdbc.update(psc, id);
+
+    theater.setId(id.getKey().intValue());
     technologyRepo.setSupportedTechnologies(theater.getId(), theater.getSupportedTechnologies());
   }
 
