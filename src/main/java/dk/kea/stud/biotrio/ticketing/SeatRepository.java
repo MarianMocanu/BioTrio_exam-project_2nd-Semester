@@ -44,21 +44,23 @@ public class SeatRepository {
         newSeat.setAvailable(true);
         newSeat.setSold(false);
 
-        for (Ticket ticket : screeningTickets) {
-          if (newSeat.getRowNo() == ticket.getSeat().getRowNo() &&
-              newSeat.getSeatNo() == ticket.getSeat().getSeatNo()) {
-            // If a ticket is found for the seat, set is as not
-            // available and as sold, and break out of the loop because
-            // if it has been found once, it won't be found again
-            newSeat.setAvailable(false);
-            newSeat.setSold(true);
-            break;
+        if (screeningTickets != null) {
+          for (Ticket ticket : screeningTickets) {
+            if (newSeat.getRowNo() == ticket.getSeat().getRowNo() &&
+                newSeat.getSeatNo() == ticket.getSeat().getSeatNo()) {
+              // If a ticket is found for the seat, set is as not
+              // available and as sold, and break out of the loop because
+              // if it has been found once, it won't be found again
+              newSeat.setAvailable(false);
+              newSeat.setSold(true);
+              break;
+            }
           }
         }
 
         // If the seat has already been marked as sold, no need to
         // check among the bookings too
-        if (!newSeat.isSold()) {
+        if (screeningBookings != null && !newSeat.isSold()) {
           for (Booking booking : screeningBookings) {
             for (Seat bookedSeat : booking.getSeats()) {
               if (newSeat.getRowNo() == bookedSeat.getRowNo() &&
