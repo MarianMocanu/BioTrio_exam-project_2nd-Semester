@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Screening</title>
+
+    <link th:replace="fragments :: bootstrap_head">
+    <link rel="stylesheet" th:href="@{'/css/style.css'}"/>
+</head>
+<body>
+<div class="d-flex flex-column sticky-footer-wrapper">
+    <div th:replace="fragments :: navbar"></div>
+
+    <main class="flex-fill">
+        <div class="container">
+            <div class="jumbotron">
+                <div class="row">
+                    <h3 class="display-4">Screening Details</h3>
+                </div>
+                <hr>
+                <p>Screening for movie: <a th:href="'/movie/' + ${screening.getMovie().getId()}"
+                        th:text="${screening.getMovie().getTitle()}"></a></p>
+                <p>Screening time: <span th:text="${screening.getFormattedStartTime()}"></span></p>
+                <p>Available seats:
+                    <span th:text="${screening.getNoAvailableSeats()}"></span> /
+                    <span th:text="${screening.getTheater().getNoOfRows()} *
+                     ${screening.getTheater().getSeatsPerRow()}"></span>
+                </p>
+                <hr>
+                <a class="btn btn-primary"
+                   th:href="'/manage/screening/'+${screening.id}+'/ticketing'">
+                    Sell seats</a>
+                <a class="btn btn-primary"
+                   th:href="'/manage/bookings/'+${screening.id}+'/list'">
+                    Redeem booking
+                </a>
+                <a class="btn btn-outline-danger"
+                   th:href="'/manage/screening/'+${screening.getId()}+'/ticketing/void'">
+                    Void tickets
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <div th:replace="fragments :: footer"></div>
+</div>
+<div th:replace="fragments :: bootstrap_body"></div>
+</body>
+</html>

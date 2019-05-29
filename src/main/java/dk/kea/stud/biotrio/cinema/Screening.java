@@ -1,5 +1,7 @@
 package dk.kea.stud.biotrio.cinema;
 
+import dk.kea.stud.biotrio.AppGlobals;
+
 import java.time.LocalDateTime;
 
 /**
@@ -81,6 +83,14 @@ public class Screening {
    */
   public LocalDateTime getStartTime() {
     return startTime;
+  }
+
+  /**
+   * @return A {@link String} object containing a formatted representation
+   * of the screening's starting time
+   */
+  public String getFormattedStartTime() {
+    return startTime.format(AppGlobals.DATE_TIME_FORMAT);
   }
 
   /**

@@ -162,7 +162,6 @@ public class BookingRepository {
       booking.setPhoneNo(rs.getString("phone_no"));
       booking.setCode(rs.getString("code"));
       int screeningId = rs.getInt("screening_id");
-      System.out.println(screeningId);
       booking.setScreening(screeningRepo.findById(screeningId));
       List<Seat> seats = new ArrayList<>();
       String queryForSeats = "SELECT * FROM booked_seats WHERE booking_id = ?";

@@ -157,6 +157,7 @@ public class BookingController {
     model.addAttribute("bookingList", bookingList);
     switch (bookingList.size()) {
       case 0:
+        model.addAttribute("screeningId", screeningId);
         return "ticketing/booking-none-screening";
       default:
         model.addAttribute("bookingList", bookingList);

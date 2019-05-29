@@ -34,6 +34,13 @@ public class TicketController {
     return "ticketing/ticketing";
   }
 
+  @GetMapping("/manage/ticketing/{id}")
+  public String screeningDetailView(@PathVariable int id,
+                                    Model model) {
+    model.addAttribute("screening", screeningRepo.findById(id));
+    return "ticketing/screening-detail-view";
+  }
+
   /**
    * Displays the add ticket view for selected screening
    */
@@ -72,7 +79,7 @@ public class TicketController {
       ticketRepo.addTicket(ticket);
       AppGlobals.printTicket(ticket);
     }
-    return "redirect:/manage/screening/" + id + "/ticketing";
+    return "redirect:/manage/ticketing/" + id;
   }
 
   /**
@@ -101,7 +108,7 @@ public class TicketController {
       ticket.setSeat(seat);
       ticketRepo.deleteTicket(ticket);
     }
-    return "redirect:/manage/screening/" + id + "/ticketing";
+    return "redirect:/manage/ticketing/" + id;
   }
 
 

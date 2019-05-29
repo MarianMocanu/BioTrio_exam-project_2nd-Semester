@@ -20,7 +20,7 @@ CREATE TABLE movies
     cast            VARCHAR(140),
     director        VARCHAR(140),
     age_restriction VARCHAR(140),
-    poster          VARCHAR(140),
+    poster          TEXT,
     PRIMARY KEY (id)
 );
 

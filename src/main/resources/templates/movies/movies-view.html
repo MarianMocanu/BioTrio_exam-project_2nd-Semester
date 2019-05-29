@@ -16,6 +16,7 @@
             <div class="jumbotron">
                 <h1 class="display-4">Movies</h1>
                 <hr>
+                <a class="btn btn-primary mb-3" th:href="'/manage/movies/add'">Add new movie</a>
                 <table class="table table-dark table-hover">
                     <thead>
                     <tr>
@@ -50,7 +51,7 @@
                     </tr>
                     </tbody>
                 </table>
-                <a class="btn btn-primary" th:href="'/manage/movies/add'">Add new movie</a>
+
                 <!-- Modal for deleting past screenings-->
                 <div class="modal fade" th:each="movie:${movies}"
                      th:id="'deleteMovie'+${movie.id}" tabindex="-1" role="dialog"
