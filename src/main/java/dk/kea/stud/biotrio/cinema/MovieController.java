@@ -67,7 +67,7 @@ public class MovieController {
     // set the movie's release date attribute to null
     LocalDate releaseDate;
     try {
-      releaseDate = LocalDate.parse(releaseDateString, AppGlobals.DateFormat);
+      releaseDate = LocalDate.parse(releaseDateString, AppGlobals.DATE_FORMAT);
     } catch (DateTimeParseException e) {
       releaseDate = null;
     }
@@ -85,10 +85,12 @@ public class MovieController {
   @GetMapping("/manage/movies/edit/{id}")
   public String editMovie(@PathVariable("id") int id, Model model) {
     Movie selectedMovie = movieRepo.findMovieById(id);
+    boolean hasScreenings = !movieRepo.canDelete(selectedMovie);
     model.addAttribute("technologies", technologyRepo.getAllTechnologies());
     model.addAttribute("currentMovie", selectedMovie);
     model.addAttribute("selectedTechnologies", technologyRepo.
         convertToIdList(selectedMovie.getRequiredTechnologies()));
+    model.addAttribute("hasScreenings", hasScreenings);
     return "movies/movies-edit";
   }
 
@@ -105,7 +107,7 @@ public class MovieController {
     // If the input release date fails to parse, set the field to null
     LocalDate releaseDate;
     try {
-      releaseDate = LocalDate.parse(releaseDateString, AppGlobals.DateFormat);
+      releaseDate = LocalDate.parse(releaseDateString, AppGlobals.DATE_FORMAT);
     } catch (DateTimeParseException e) {
       releaseDate = null;
     }
@@ -169,7 +171,7 @@ public class MovieController {
   public String saveInUpcomingList(@ModelAttribute("selectedMovie") int movieId,
                                    @ModelAttribute("estDate") String estDate) {
     try {
-      LocalDate estimatedDate = LocalDate.parse(estDate, AppGlobals.DateFormat);
+      LocalDate estimatedDate = LocalDate.parse(estDate, AppGlobals.DATE_FORMAT);
       movieRepo.addMovieToUpcomingList(movieRepo.findMovieById(movieId), estimatedDate);
       return "redirect:/manage/upcoming";
     } catch (DateTimeParseException e) {
@@ -186,5 +188,7 @@ public class MovieController {
     movieRepo.removeMovieFromUpcomingList(id);
     return "redirect:/manage/upcoming";
   }
+
+
 
 }

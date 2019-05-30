@@ -14,7 +14,11 @@
     <main class="flex-fill">
         <div class="container">
             <div class="jumbotron">
-                <h1 class="display-4">Unfortunately there are no booked seats for this screening!</h1>
+                <h1 class="display-4">Error</h1>
+                <hr>
+                <p>No bookings found for this screening</p>
+                <p><a class="btn btn-primary"
+                      th:href="'/manage/ticketing/' + ${screeningId}">Go back</a></p>
             </div>
         </div>
     </main>

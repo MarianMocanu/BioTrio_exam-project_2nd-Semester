@@ -207,7 +207,7 @@ public class Movie {
    * Meant for ease of use within Thymeleaf templates
    */
   public String getFormattedReleaseDate() {
-    return releaseDate == null ? null : releaseDate.format(AppGlobals.DateFormat);
+    return releaseDate == null ? null : releaseDate.format(AppGlobals.DATE_FORMAT);
   }
 
   /**

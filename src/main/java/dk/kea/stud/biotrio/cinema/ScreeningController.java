@@ -100,7 +100,7 @@ public class ScreeningController {
     formData.setId(id);
     formData.setMovieId(screening.getMovie().getId());
     formData.setTheaterId(screening.getTheater().getId());
-    formData.setStartTime(screening.getStartTime().format(AppGlobals.DTFormat));
+    formData.setStartTime(screening.getStartTime().format(AppGlobals.DATE_TIME_FORMAT));
     model.addAttribute("selectedScreening", formData);
     model.addAttribute("movies", movieRepo.findAllMovies());
     model.addAttribute("theaters", theaterRepo.findAllTheaters());
@@ -175,7 +175,7 @@ public class ScreeningController {
     screening.setTheater(theaterRepo.findTheater(formData.getTheaterId()));
     LocalDateTime startTime;
     try {
-      startTime = LocalDateTime.parse(formData.getStartTime(), AppGlobals.DTFormat);
+      startTime = LocalDateTime.parse(formData.getStartTime(), AppGlobals.DATE_TIME_FORMAT);
     } catch (DateTimeParseException e) {
       return null;
     }

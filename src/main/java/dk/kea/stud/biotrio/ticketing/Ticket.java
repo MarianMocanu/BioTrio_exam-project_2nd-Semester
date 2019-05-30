@@ -1,6 +1,7 @@
 package dk.kea.stud.biotrio.ticketing;
 
 import dk.kea.stud.biotrio.cinema.Screening;
+import dk.kea.stud.biotrio.cinema.Theater;
 
 /**
  * The representation of a ticket within the system
@@ -53,7 +54,7 @@ public class Ticket {
 
   /**
    * @return A {@link Seat} object representing a seat within the
-   * {@link Screening}'s {@link dk.kea.stud.biotrio.cinema.Theater}
+   * {@link Screening}'s {@link Theater}
    */
   public Seat getSeat() {
     return seat;
@@ -61,7 +62,7 @@ public class Ticket {
 
   /**
    * @param seat A {@link Seat} object to set a seat within
-   *             {@link Screening}'s {@link dk.kea.stud.biotrio.cinema.Theater}
+   *             {@link Screening}'s {@link Theater}
    */
   public void setSeat(Seat seat) {
     this.seat = seat;

@@ -1,7 +1,6 @@
 package dk.kea.stud.biotrio.ticketing;
 
 import dk.kea.stud.biotrio.AppGlobals;
-import dk.kea.stud.biotrio.cinema.Screening;
 import dk.kea.stud.biotrio.cinema.ScreeningRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,7 +28,7 @@ public class BookingController {
 
 
   /**
-   *Displays the make-booking view for selected screening
+   * Displays the make-booking view for selected screening
    */
   @GetMapping("/booking/{id}")
   public String showBookingsView(@PathVariable("id") int screeningId,
@@ -45,8 +44,9 @@ public class BookingController {
   }
 
   /**
-   *Converts the data received from the make-booking view and adds the booking data
-   * to the database, then diplays the booking-confirmed view
+   * Converts the data received from the make-booking view and adds the booking data
+   * to the database, then displays the booking-confirmed view. If there's an error
+   * on input validation (e.g. no seats selected) sends the user to the booking-error view
    */
   @PostMapping("/booking/save")
   public String saveBooking(@ModelAttribute SeatData seatData,
@@ -98,9 +98,9 @@ public class BookingController {
   }
 
   /**
-   * Generates an unique code to be used when saving a booking object
-   * as a new entry to the database
-   * @return
+   * Generates an unique code that the customer can use to cancel their booking
+   *
+   * @return A {@link String} object representing the code
    */
   private String generateUniqueCode() {
     Random random = new SecureRandom();
@@ -121,9 +121,14 @@ public class BookingController {
     return result.toString();
   }
 
-  @GetMapping("/manage/bookings/")
+  /**
+   * Displays the none booking view if there is not booking found for the phone number
+   * Displays booking's seats overview if there is only one booking found for the phone number
+   * Displays a list of bookings view if there are 2 or more bookings found
+   */
+  @PostMapping("/manage/bookings/")
   public String listBookingsForPhoneNo(@RequestParam(name = "bookingPhoneNo") String phoneNo,
-                           Model model) {
+                                       Model model) {
     List<Booking> bookingList = bookingRepo.findBookingByPhoneNo(phoneNo);
     model.addAttribute("bookingList", bookingList);
     model.addAttribute("phoneNo", phoneNo);
@@ -139,36 +144,47 @@ public class BookingController {
         return "ticketing/booking-redeem-seats";
       default:
         model.addAttribute("bookingList", bookingList);
-        return "ticketing/list-of-bookings-phoneNo";
+        return "ticketing/list-of-bookings";
     }
   }
 
-
+  /**
+   * Displays the screening's bookings list view
+   */
   @GetMapping("/manage/bookings/{screeningId}/list")
-    public String showBookings(@PathVariable(name = "screeningId") int screeningId, Model model) {
+  public String showBookings(@PathVariable(name = "screeningId") int screeningId, Model model) {
     List<Booking> bookingList = bookingRepo.findBookingsForScreening(screeningId);
     model.addAttribute("bookingList", bookingList);
     switch (bookingList.size()) {
       case 0:
+        model.addAttribute("screeningId", screeningId);
         return "ticketing/booking-none-screening";
-        default:
-          model.addAttribute("bookingList", bookingList);
-          return "ticketing/list-of-bookings-screening";
+      default:
+        model.addAttribute("bookingList", bookingList);
+        return "ticketing/list-of-bookings";
     }
-    }
+  }
 
+  /**
+   * Displays the booking's seats view
+   */
   @GetMapping("/manage/bookings/redeem/{bookingId}")
   public String showBookedSeatsForBooking(Model model,
-                                @PathVariable(name = "bookingId") int bookingId) {
+                                          @PathVariable(name = "bookingId") int bookingId) {
     Booking booking = bookingRepo.findBookingById(bookingId);
     SeatData bookingData = new SeatData();
     bookingData.setSeats(booking.getSeats());
     bookingData.setSubmittedData(new ArrayList<>());
     model.addAttribute("bookedSeats", bookingData);
-    model.addAttribute("bookingId", bookingId);
+    model.addAttribute("booking", bookingRepo.findBookingById(bookingId));
     return "ticketing/booking-redeem-seats";
   }
 
+  /**
+   * Converts the data received from the booking's seats view, saves the ticket data
+   * to the database and deletes the booking data from the database,
+   * then redirects to manage upcoming screenings list view
+   */
   @PostMapping("/manage/bookings/redeem/{bookingId}")
   public String showBookedSeats(@ModelAttribute SeatData data,
                                 @PathVariable(name = "bookingId") int bookingId) {
@@ -187,5 +203,4 @@ public class BookingController {
     }
     return "redirect:/manage/ticketing/";
   }
-
 }

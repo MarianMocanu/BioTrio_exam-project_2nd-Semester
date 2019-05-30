@@ -25,11 +25,18 @@ public class AppGlobals {
   /**
    * The default format for inputting / outputting date and time data
    */
-  public static final DateTimeFormatter DTFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+  public static final DateTimeFormatter DATE_TIME_FORMAT =
+      DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
   /**
    * The default format for inputting / outputting date data
    */
-  public static final DateTimeFormatter DateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+  public static final DateTimeFormatter DATE_FORMAT =
+      DateTimeFormatter.ofPattern("yyyy-MM-dd");
+  /**
+   * The format for creating the text labels on navigation tabs
+   */
+  public static final DateTimeFormatter TAB_LABEL_FORMAT =
+      DateTimeFormatter.ofPattern("EEE dd MMM");
 
   /**
    * Prints ticket data to a text file

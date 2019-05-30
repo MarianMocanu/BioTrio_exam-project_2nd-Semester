@@ -26,12 +26,19 @@ public class TicketController {
 
 
   /**
-   * Displays the upcoming screenings list view
+   * Displays the manage upcoming screenings list view
    */
   @GetMapping("/manage/ticketing")
   public String screeningsForBookingOrSale(Model model){
     model.addAttribute("upcomingScreenings", screeningRepo.findUpcomingScreeningsAsMap());
     return "ticketing/ticketing";
+  }
+
+  @GetMapping("/manage/ticketing/{id}")
+  public String screeningDetailView(@PathVariable int id,
+                                    Model model) {
+    model.addAttribute("screening", screeningRepo.findById(id));
+    return "ticketing/screening-detail-view";
   }
 
   /**
@@ -72,7 +79,7 @@ public class TicketController {
       ticketRepo.addTicket(ticket);
       AppGlobals.printTicket(ticket);
     }
-    return "redirect:/manage/screening/" + id + "/ticketing";
+    return "redirect:/manage/ticketing/" + id;
   }
 
   /**
@@ -95,14 +102,18 @@ public class TicketController {
   @PostMapping("/manage/screening/{screeningId}/ticketing/void")
   public String deleteTicket(@PathVariable(name = "screeningId") int id,
                              @ModelAttribute SeatData data) {
-    for (Seat seat : seatRepo.convertStringSeatData(data.getSubmittedData())) {
-      Ticket ticket = new Ticket();
-      ticket.setScreening(screeningRepo.findById(id));
-      ticket.setSeat(seat);
-      ticketRepo.deleteTicket(ticket);
+
+    if (data.getSubmittedData() != null) {
+      for (Seat seat : seatRepo.convertStringSeatData(data.getSubmittedData())) {
+        Ticket ticket = new Ticket();
+        ticket.setScreening(screeningRepo.findById(id));
+        ticket.setSeat(seat);
+        ticketRepo.deleteTicket(ticket);
+      }
     }
-    return "redirect:/manage/screening/" + id + "/ticketing";
+    return "redirect:/manage/ticketing/" + id;
   }
+
 
 
 
