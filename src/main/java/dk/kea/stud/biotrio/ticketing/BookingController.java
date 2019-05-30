@@ -1,7 +1,6 @@
 package dk.kea.stud.biotrio.ticketing;
 
 import dk.kea.stud.biotrio.AppGlobals;
-import dk.kea.stud.biotrio.cinema.Screening;
 import dk.kea.stud.biotrio.cinema.ScreeningRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -123,9 +122,11 @@ public class BookingController {
   }
 
   /**
-   * TODO figure these out after malgo finishes her part
+   * Displays the none booking view if there is not booking found for the phone number
+   * Displays booking's seats overview if there is only one booking found for the phone number
+   * Displays a list of bookings view if there are 2 or more bookings found
    */
-  @GetMapping("/manage/bookings/")
+  @PostMapping("/manage/bookings/")
   public String listBookingsForPhoneNo(@RequestParam(name = "bookingPhoneNo") String phoneNo,
                                        Model model) {
     List<Booking> bookingList = bookingRepo.findBookingByPhoneNo(phoneNo);
@@ -143,10 +144,9 @@ public class BookingController {
         return "ticketing/booking-redeem-seats";
       default:
         model.addAttribute("bookingList", bookingList);
-        return "ticketing/list-of-bookings-phoneNo";
+        return "ticketing/list-of-bookings";
     }
   }
-
 
   /**
    * Displays the screening's bookings list view
@@ -161,7 +161,7 @@ public class BookingController {
         return "ticketing/booking-none-screening";
       default:
         model.addAttribute("bookingList", bookingList);
-        return "ticketing/list-of-bookings-screening";
+        return "ticketing/list-of-bookings";
     }
   }
 
@@ -176,7 +176,7 @@ public class BookingController {
     bookingData.setSeats(booking.getSeats());
     bookingData.setSubmittedData(new ArrayList<>());
     model.addAttribute("bookedSeats", bookingData);
-    model.addAttribute("bookingId", bookingId);
+    model.addAttribute("booking", bookingRepo.findBookingById(bookingId));
     return "ticketing/booking-redeem-seats";
   }
 
@@ -203,5 +203,4 @@ public class BookingController {
     }
     return "redirect:/manage/ticketing/";
   }
-
 }

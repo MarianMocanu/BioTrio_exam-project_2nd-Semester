@@ -102,11 +102,14 @@ public class TicketController {
   @PostMapping("/manage/screening/{screeningId}/ticketing/void")
   public String deleteTicket(@PathVariable(name = "screeningId") int id,
                              @ModelAttribute SeatData data) {
-    for (Seat seat : seatRepo.convertStringSeatData(data.getSubmittedData())) {
-      Ticket ticket = new Ticket();
-      ticket.setScreening(screeningRepo.findById(id));
-      ticket.setSeat(seat);
-      ticketRepo.deleteTicket(ticket);
+
+    if (data.getSubmittedData() != null) {
+      for (Seat seat : seatRepo.convertStringSeatData(data.getSubmittedData())) {
+        Ticket ticket = new Ticket();
+        ticket.setScreening(screeningRepo.findById(id));
+        ticket.setSeat(seat);
+        ticketRepo.deleteTicket(ticket);
+      }
     }
     return "redirect:/manage/ticketing/" + id;
   }

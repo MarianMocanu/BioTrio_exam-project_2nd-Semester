@@ -69,6 +69,7 @@ public class BookingRepository {
 
   /**
    * Gets the full list of bookings for a particular screening
+   *
    * @param id An integer representing the screening id to look up in the database
    * @return A {@link List} of {@link Booking} objects of a particular screening
    */
@@ -208,7 +209,7 @@ public class BookingRepository {
    *
    * @param booking The {@link Booking} object containing the data
    * @return The updates {@link Booking} object also containing id that was just
-   *         generated for the newly inserted entry
+   * generated for the newly inserted entry
    */
   public Booking addBooking(Booking booking) {
     PreparedStatementCreator psc = new PreparedStatementCreator() {
@@ -279,30 +280,8 @@ public class BookingRepository {
     jdbc.update(query, id);
   }
 
-  /** TODO test and remove
-   * Deletes booked seats records from the database base on the booking id
-   *
-   * @param bookingId An integer representing the id by which to
-   *                  identify the records within the database
-   */
-  private void deleteBookedSeats(int bookingId) {
-    jdbc.update("DELETE FROM booked_seats WHERE booking_id = ?;", bookingId);
-  }
-
   public void deleteBookingsForScreening(int screeningId) {
-    //deleteBookedSeatsForScreening(screeningId); TODO test if cascade works here
     String query = "DELETE FROM bookings WHERE screening_id = ?;";
     jdbc.update(query, screeningId);
   }
-
-  // TODO if cascade deletion works out, remove this
-  private void deleteBookedSeatsForScreening(int screeningId) {
-    String query = "DELETE booked_seats " +
-        "FROM booked_seats INNER JOIN bookings " +
-        "ON booked_seats.booking_id = bookings.id " +
-        "WHERE bookings.screening_id = ?;";
-    jdbc.update(query,screeningId);
-  }
-
-
 }
