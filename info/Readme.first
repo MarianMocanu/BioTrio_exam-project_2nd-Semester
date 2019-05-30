@@ -1,0 +1,25 @@
+Hello, and thank you for your interest in checking out our project.
+
+Prerequisites:
+- MySQL or MariaDB is installed and running as a service on port 3306
+- Maven is installed and is on the path
+
+Assuming that you already cloned the git repository from GitHub locally to your computer, the only
+other thing you need to do before being able to run it, is set up the database structure. You can
+do this by logging into your DBMS (MySQL / MariaDB) as root, and run our "1_create.sql" script which
+can be found under the "sql" directory. This will create a database, a user with full
+privileges on that database, that the web application requires for operations, and all of the
+needed tables as well. If you want to also populate the database with some example data, you can
+also run "2_populate.sql". Unrelated to the setup, you can find a few query examples that use the
+database in the "3_test.sql" file.
+
+To actually run the application, you only need to open a terminal / command line and 'cd' to the
+directory where you cloned the repo, and execute:
+mvn spring-boot:run
+Then just point your browser to http://localhost:8080/ to start using the web application.
+
+As a final note, the "2_populate.sql" script creates a single user within the web application with
+administrator privileges, named "Admin" with the password "1234". Log in with these credentials to
+explore the full web application, and with these privileges (the "admin" role) you can create other
+users to also be able to see the application from the perspective of the projections manager (the
+"manager" role) or the ticket sales employee (the "user" role).
