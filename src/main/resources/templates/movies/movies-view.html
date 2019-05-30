@@ -31,7 +31,9 @@
                     </thead>
                     <tbody>
                     <tr th:each="movie:${movies}">
-                        <td th:text="${movie.title}"></td>
+                        <td>
+                            <a th:text="${movie.title}" th:href="'/movie/' + ${movie.getId()}"></a>
+                        </td>
                         <td th:text="${movie.runtime}"></td>
                         <td th:text="${movie.synopsis}"></td>
                         <td th:text="${movie.genre}"></td>
