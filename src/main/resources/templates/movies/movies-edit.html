@@ -61,7 +61,7 @@
                     <div class="form-group">
                         <label for="technologies">Projection type</label>
                         <select class="form-control" multiple size="5" id="technologies"
-                                name="selectedTechnologies">
+                                name="selectedTechnologies" th:disabled="${hasScreenings}">
                             <option th:each="technology:${technologies}"
                                     th:value="${technology.getId()}"
                                     th:text="${technology.getName()}"
