@@ -85,10 +85,12 @@ public class MovieController {
   @GetMapping("/manage/movies/edit/{id}")
   public String editMovie(@PathVariable("id") int id, Model model) {
     Movie selectedMovie = movieRepo.findMovieById(id);
+    boolean hasScreenings = !movieRepo.canDelete(selectedMovie);
     model.addAttribute("technologies", technologyRepo.getAllTechnologies());
     model.addAttribute("currentMovie", selectedMovie);
     model.addAttribute("selectedTechnologies", technologyRepo.
         convertToIdList(selectedMovie.getRequiredTechnologies()));
+    model.addAttribute("hasScreenings", hasScreenings);
     return "movies/movies-edit";
   }
 
@@ -186,5 +188,7 @@ public class MovieController {
     movieRepo.removeMovieFromUpcomingList(id);
     return "redirect:/manage/upcoming";
   }
+
+
 
 }
