@@ -123,9 +123,11 @@ public class BookingController {
   }
 
   /**
-   * TODO figure these out after malgo finishes her part
+   * Displays the none booking view if there is not booking found for the phone number
+   * Displays booking's seats overview if there is only one booking found for the phone number
+   * Displays a list of bookings view if there are 2 or more bookings found
    */
-  @GetMapping("/manage/bookings/")
+  @PostMapping("/manage/bookings/")
   public String listBookingsForPhoneNo(@RequestParam(name = "bookingPhoneNo") String phoneNo,
                                        Model model) {
     List<Booking> bookingList = bookingRepo.findBookingByPhoneNo(phoneNo);
