@@ -13,10 +13,12 @@
 
     <main class="flex-fill">
         <div class="container">
-            <form th:action="'/manage/bookings/redeem/' +${bookingId}" method="post">
+            <form th:action="'/manage/bookings/redeem/' +${booking.getId()}" method="post">
                 <div class="jumbotron">
                     <h1 class="display-4">Choose your seats:</h1>
                     <hr>
+                    <p th:text="${booking.getScreening().getMovie().getTitle()} + ' on ' +
+                                ${booking.getScreening().getFormattedStartTime()}"></p>
                     <table class="table table-dark table-hover" style="width: 20rem">
                         <thead>
                         <tr>

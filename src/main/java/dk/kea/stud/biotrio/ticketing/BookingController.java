@@ -176,7 +176,7 @@ public class BookingController {
     bookingData.setSeats(booking.getSeats());
     bookingData.setSubmittedData(new ArrayList<>());
     model.addAttribute("bookedSeats", bookingData);
-    model.addAttribute("bookingId", bookingId);
+    model.addAttribute("booking", bookingRepo.findBookingById(bookingId));
     return "ticketing/booking-redeem-seats";
   }
 

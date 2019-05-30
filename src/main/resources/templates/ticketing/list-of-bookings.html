@@ -16,12 +16,30 @@
             <div class="jumbotron">
                 <h1 class="display-4">Select booking</h1>
                 <hr>
-                <ul th:each= "booking:${bookingList}">
-                    <li><a th:href="'/manage/bookings/redeem/' +${booking.getId()}"
-                        th:text="'Booking number ' +${booking.getId()} +' for: '+${booking.getScreening().getMovie().getTitle()}">
-                    </a>
-                    </li>
-                </ul>
+                <table class="table table-dark table-hover">
+                    <thead>
+                    <tr>
+                        <th scope="col" style="text-align:center;">Screening</th>
+                        <th scope="col" style="text-align:center;">Booking number</th>
+                        <th scope="col" style="text-align:center;">Phone number</th>
+                        <th scope="col" style="text-align:center;"></th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="booking:${bookingList}">
+                        <td th:text="${booking.getScreening().getMovie().getTitle()}"
+                            style="text-align:center;"></td>
+                        <td th:text="${booking.getId()}" style="text-align:center;"></td>
+                        <td th:text="${booking.getPhoneNo()}" style="text-align:center;"></td>
+                        <td>
+                            <a th:href="'/manage/bookings/redeem/' +${booking.getId()}"
+                               class="btn btn-primary">Select
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </main>
