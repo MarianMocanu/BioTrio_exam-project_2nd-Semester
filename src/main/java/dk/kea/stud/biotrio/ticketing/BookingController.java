@@ -1,7 +1,6 @@
 package dk.kea.stud.biotrio.ticketing;
 
 import dk.kea.stud.biotrio.AppGlobals;
-import dk.kea.stud.biotrio.cinema.Screening;
 import dk.kea.stud.biotrio.cinema.ScreeningRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -145,10 +144,9 @@ public class BookingController {
         return "ticketing/booking-redeem-seats";
       default:
         model.addAttribute("bookingList", bookingList);
-        return "ticketing/list-of-bookings-phoneNo";
+        return "ticketing/list-of-bookings";
     }
   }
-
 
   /**
    * Displays the screening's bookings list view
@@ -163,7 +161,7 @@ public class BookingController {
         return "ticketing/booking-none-screening";
       default:
         model.addAttribute("bookingList", bookingList);
-        return "ticketing/list-of-bookings-screening";
+        return "ticketing/list-of-bookings";
     }
   }
 
@@ -205,5 +203,4 @@ public class BookingController {
     }
     return "redirect:/manage/ticketing/";
   }
-
 }
