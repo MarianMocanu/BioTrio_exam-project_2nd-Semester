@@ -65,7 +65,7 @@ public class TicketRepository {
    *
    * @param ticket The {@link Ticket} object containing the data
    * @return The updated {@link Ticket} object also containing the id that
-   *         was just generated for the newly inserted entry
+   * was just generated for the newly inserted entry
    */
   public Ticket addTicket(Ticket ticket) {
     PreparedStatementCreator psc = new PreparedStatementCreator() {

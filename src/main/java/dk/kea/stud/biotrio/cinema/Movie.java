@@ -175,7 +175,7 @@ public class Movie {
 
   /**
    * @param requiredTechnologies A list of {@link Technology} objects to set
-   *                            the {@link Movie}'s required technologies to
+   *                             the {@link Movie}'s required technologies to
    */
   public void setRequiredTechnologies(List<Technology> requiredTechnologies) {
     this.requiredTechnologies = requiredTechnologies;

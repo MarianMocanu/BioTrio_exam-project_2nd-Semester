@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.SecureRandom;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -153,6 +154,11 @@ public class BookingController {
    */
   @GetMapping("/manage/bookings/{screeningId}/list")
   public String showBookings(@PathVariable(name = "screeningId") int screeningId, Model model) {
+    // If it's X minutes before the screening's start, clear all the bookings
+    if (screeningRepo.findById(screeningId).getStartTime().isBefore(LocalDateTime.now()
+        .plusMinutes(AppGlobals.BOOKINGS_GO_ON_SALE_BEFORE_SCREENING_MINUTES))) {
+      bookingRepo.deleteBookingsForScreening(screeningId);
+    }
     List<Booking> bookingList = bookingRepo.findBookingsForScreening(screeningId);
     model.addAttribute("bookingList", bookingList);
     switch (bookingList.size()) {

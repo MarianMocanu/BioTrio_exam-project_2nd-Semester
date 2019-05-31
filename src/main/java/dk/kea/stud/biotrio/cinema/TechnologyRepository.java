@@ -50,7 +50,7 @@ public class TechnologyRepository {
    *
    * @param theaterId The integer id of the theater to look up
    * @return A list of {@link Technology} objects representing the list of
-   *         technologies supported by the theater
+   * technologies supported by the theater
    */
   public List<Technology> getSupportedTechnologies(int theaterId) {
     String query = "SELECT technologies.id, technologies.name FROM technologies_to_theaters " +
@@ -66,7 +66,7 @@ public class TechnologyRepository {
    *
    * @param movieId The integer id of the movie to look up
    * @return A list of {@link Technology} objects representing the list of
-   *         technologies required by the movie
+   * technologies required by the movie
    */
   public List<Technology> getRequiredTechnologies(int movieId) {
     String query = "SELECT technologies.id, technologies.name FROM technologies_to_movies " +
@@ -104,7 +104,7 @@ public class TechnologyRepository {
    *
    * @param techIds The list of {@link Integer} objects to convert
    * @return A list of {@link Technology} objects representing the data associated with
-   *         the integer ids
+   * the integer ids
    */
   public List<Technology> convertFromIdList(List<Integer> techIds) {
     if (techIds != null) {
@@ -162,7 +162,7 @@ public class TechnologyRepository {
   /**
    * Saves the list of a movie's required technologies to the database
    *
-   * @param movieId The integer of a {@link Movie}'s id to update its required technologies
+   * @param movieId      The integer of a {@link Movie}'s id to update its required technologies
    * @param technologies The list of {@link Technology} objects to associate with the movie
    *                     In case this is null, the movie's required technologies will be deleted
    */
@@ -189,7 +189,7 @@ public class TechnologyRepository {
   /**
    * Saves the list of a theater's supported technologies to the database
    *
-   * @param theaterId The integer of a {@link Theater}'s id to update its supported technologies
+   * @param theaterId    The integer of a {@link Theater}'s id to update its supported technologies
    * @param technologies The list of {@link Technology} objects to associate with the theater
    *                     In case this is null, the theater's supported technologies will be deleted
    */

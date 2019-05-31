@@ -34,7 +34,7 @@ public class ScreeningRepository {
    *
    * @return The list of {@link Screening} objects
    */
-  public List<Screening> findPastScreenings(){
+  public List<Screening> findPastScreenings() {
     String query = "SELECT * FROM screenings WHERE start_time < CURDATE() ORDER BY start_time";
     SqlRowSet rs = jdbc.queryForRowSet(query);
 
@@ -64,7 +64,7 @@ public class ScreeningRepository {
    * @param movieId An integer movie id by which to filter the screenings
    * @return The map of {@link Screening} objects
    */
-  public Map<String,List<Screening>> findUpcomingScreeningsForMovieAsMap(int movieId) {
+  public Map<String, List<Screening>> findUpcomingScreeningsForMovieAsMap(int movieId) {
     List<Screening> screeningList = findUpcomingScreeningsForMovieById(movieId);
     return convertScreeningsListToMap(screeningList);
   }
@@ -79,11 +79,11 @@ public class ScreeningRepository {
    * @return The map of {@link Screening} objects
    */
   private Map<String, List<Screening>> convertScreeningsListToMap(List<Screening> screeningsList) {
-    Map<String,List<Screening>> screenings = new LinkedHashMap<>();
-    for(Screening screening:screeningsList){
+    Map<String, List<Screening>> screenings = new LinkedHashMap<>();
+    for (Screening screening : screeningsList) {
 
       String screeningDate = screening.getStartTime().format(AppGlobals.TAB_LABEL_FORMAT);
-      if(!screenings.containsKey(screeningDate)) {
+      if (!screenings.containsKey(screeningDate)) {
         screenings.put(screeningDate, new ArrayList<>());
       }
       screenings.get(screeningDate).add(screening);
@@ -112,7 +112,7 @@ public class ScreeningRepository {
   /**
    * Helper method to get the count of available seats for a particular screening
    *
-   * @param id An integer that represents the {@link Screening}'s id
+   * @param id         An integer that represents the {@link Screening}'s id
    * @param theater_id An integer that represents the {@link Theater}'s id
    * @return An integer representing the number of available seats for the screening
    */
@@ -159,7 +159,7 @@ public class ScreeningRepository {
    *
    * @return The {@link Map} of {@link Screening} objects
    */
-  public Map<String,List<Screening>> findUpcomingScreeningsAsMap() {
+  public Map<String, List<Screening>> findUpcomingScreeningsAsMap() {
     List<Screening> screeningsList = findUpcomingScreenings();
     return convertScreeningsListToMap(screeningsList);
   }
@@ -169,7 +169,7 @@ public class ScreeningRepository {
    *
    * @return The {@link Map} of {@link Screening} objects
    */
-  public Map<String, List<Screening>> findAllScreeningsAsMap(){
+  public Map<String, List<Screening>> findAllScreeningsAsMap() {
     List<Screening> screeningsList = findAllScreenings();
     return convertScreeningsListToMap(screeningsList);
   }
@@ -279,7 +279,7 @@ public class ScreeningRepository {
   /**
    * Finds all past screenings and deletes them from the database
    */
-  public void deletePastScreenings(){
+  public void deletePastScreenings() {
     for (Screening screening : findPastScreenings()) {
       deleteScreening(screening.getId());
     }
@@ -320,7 +320,7 @@ public class ScreeningRepository {
    * @param s The {@link Screening} to check
    * @return A true if the screening can be safely deleted, false otherwise
    */
-  public boolean canDelete(Screening s){
+  public boolean canDelete(Screening s) {
     if (s.getStartTime().isBefore(LocalDateTime.now())) {
       return true;
     }

@@ -227,7 +227,7 @@ public class ScreeningController {
    * Determine if a movie's technological requirements are compatible with
    * a theater's supported technologies
    *
-   * @param movie The {@link Movie} object to check
+   * @param movie   The {@link Movie} object to check
    * @param theater The {@link Theater} object to check
    * @return true if they are compatible, false otherwise
    */

@@ -124,7 +124,7 @@ public class TheaterRepository {
    *          the database can be safely deleted
    * @return true if it can be safely deleted, otherwise false
    */
-  public boolean canDelete(Theater theater){
+  public boolean canDelete(Theater theater) {
     String query = ("SELECT COUNT(*) FROM screenings WHERE theater_id = ?;");
     SqlRowSet rs = jdbc.queryForRowSet(query, theater.getId());
     rs.first();

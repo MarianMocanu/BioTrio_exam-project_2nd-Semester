@@ -68,7 +68,7 @@ public class TechnologyController {
    * redirects the user back to the technology list view
    */
   @PostMapping("/manage/technologies/delete")
-  public String confirmDelete(@RequestParam (name = "techId")int id) {
+  public String confirmDelete(@RequestParam(name = "techId") int id) {
     technologyRepo.deleteTechnology(id);
     return "redirect:/manage/technologies";
   }
