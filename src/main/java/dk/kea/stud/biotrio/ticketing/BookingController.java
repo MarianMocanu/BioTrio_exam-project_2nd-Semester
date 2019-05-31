@@ -131,6 +131,20 @@ public class BookingController {
   public String listBookingsForPhoneNo(@RequestParam(name = "bookingPhoneNo") String phoneNo,
                                        Model model) {
     List<Booking> bookingList = bookingRepo.findBookingByPhoneNo(phoneNo);
+    // Check the bookings (most of the time it will be a single one) and if the time is X
+    // minutes or later before the screening's start, delete it (or them)
+    boolean bookingsChanged = false;
+    for (Booking booking : bookingList) {
+      if (screeningRepo.findById(booking.getScreening().getId()).getStartTime().isBefore(LocalDateTime.now()
+          .plusMinutes(AppGlobals.BOOKINGS_GO_ON_SALE_BEFORE_SCREENING_MINUTES))) {
+        bookingRepo.deleteBookingsForScreening(booking.getScreening().getId());
+        bookingsChanged = true;
+      }
+    }
+    // If any bookings were deleted, refresh the list
+    if (bookingsChanged) {
+      bookingList = bookingRepo.findBookingByPhoneNo(phoneNo);
+    }
     model.addAttribute("bookingList", bookingList);
     model.addAttribute("phoneNo", phoneNo);
     switch (bookingList.size()) {

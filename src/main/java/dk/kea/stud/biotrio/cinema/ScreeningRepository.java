@@ -143,12 +143,14 @@ public class ScreeningRepository {
   }
 
   /**
-   * Gets a {@link List} of screenings that have their start time in the future
+   * Gets a {@link List} of screenings that have their start
+   * time half an hour or more into the future
    *
    * @return The {@link List} of {@link Screening} objects
    */
   public List<Screening> findUpcomingScreenings() {
-    String query = "SELECT * FROM screenings WHERE start_time >= CURDATE() ORDER BY start_time";
+    String query = "SELECT * FROM screenings WHERE start_time >= " +
+        "ADDTIME(UTC_TIMESTAMP(), TIME('00:30')) ORDER BY start_time";
     SqlRowSet rs = jdbc.queryForRowSet(query);
 
     return extractScreeningsListFromRowSet(rs);
@@ -294,8 +296,8 @@ public class ScreeningRepository {
    */
   public List<Screening> findScreeningsThatMightConflict(Screening screening) {
     String query = "SELECT * FROM screenings " +
-        "WHERE start_time > ? - INTERVAL 12 HOUR " +
-        "AND start_time < ? + INTERVAL 12 HOUR " +
+        "WHERE start_time > ? - INTERVAL 8 HOUR " +
+        "AND start_time < ? + INTERVAL 8 HOUR " +
         "AND theater_id = ? " +
         "ORDER BY start_time;";
     Timestamp startTimeAsTimestamp = Timestamp.valueOf(screening.getStartTime());

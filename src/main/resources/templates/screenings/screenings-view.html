@@ -49,7 +49,10 @@
                             <tr>
                                 <td th:text="${screening.getStartTime().toLocalDate().toString()}"></td>
                                 <td th:text="${screening.getStartTime().toLocalTime().toString()}"></td>
-                                <td th:text="${screening.getMovie().getTitle()}"></td>
+                                <td>
+                                    <a th:href="'/movie/' + ${screening.getMovie().getId()}"
+                                       th:text="${screening.getMovie().getTitle()}"></a>
+                                </td>
                                 <td th:text="${screening.getTheater().getName()}"></td>
                                 <td><a class="btn btn-primary"
                                        th:href="'/manage/screenings/edit/' + ${screening.getId()}">

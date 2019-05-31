@@ -193,7 +193,8 @@ public class ScreeningController {
    * no conflict is found
    */
   private Screening checkForSchedulingConflicts(Screening screening) {
-    // Get a list that could potentially conflict with the one provided
+    // Get a list of screenings that could potentially conflict with the one passed as a
+    // parameter (they take place in the same theater +/- 8 hours from its start time)
     List<Screening> potentialConflictingScreenings = screeningRepo
         .findScreeningsThatMightConflict(screening);
 
@@ -204,7 +205,7 @@ public class ScreeningController {
       for (Screening otherScreening : potentialConflictingScreenings) {
         int otherScreeningLength = otherScreening.getMovie().getRuntime();
 
-
+        // In the case of editing the screening we need to avoid checking against its old self
         if (screening.getId() != otherScreening.getId() &&
             screening.getStartTime().isAfter(otherScreening.getStartTime()
                 .minusMinutes(screeningLength
