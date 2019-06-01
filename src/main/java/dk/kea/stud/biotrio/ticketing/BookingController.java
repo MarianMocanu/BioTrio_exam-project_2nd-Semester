@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.SecureRandom;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -130,18 +131,25 @@ public class BookingController {
   public String listBookingsForPhoneNo(@RequestParam(name = "bookingPhoneNo") String phoneNo,
                                        Model model) {
     List<Booking> bookingList = bookingRepo.findBookingByPhoneNo(phoneNo);
+    // Check the bookings (most of the time it will be a single one) and if the time is X
+    // minutes or later before the screening's start, delete it (or them)
+    boolean bookingsChanged = false;
+    for (Booking booking : bookingList) {
+      if (screeningRepo.findById(booking.getScreening().getId()).getStartTime().isBefore(LocalDateTime.now()
+          .plusMinutes(AppGlobals.BOOKINGS_GO_ON_SALE_BEFORE_SCREENING_MINUTES))) {
+        bookingRepo.deleteBookingsForScreening(booking.getScreening().getId());
+        bookingsChanged = true;
+      }
+    }
+    // If any bookings were deleted, refresh the list
+    if (bookingsChanged) {
+      bookingList = bookingRepo.findBookingByPhoneNo(phoneNo);
+    }
     model.addAttribute("bookingList", bookingList);
     model.addAttribute("phoneNo", phoneNo);
     switch (bookingList.size()) {
       case 0:
         return "ticketing/booking-none";
-      case 1:
-        SeatData bookingData = new SeatData();
-        bookingData.setSeats(bookingList.get(0).getSeats());
-        bookingData.setSubmittedData(new ArrayList<>());
-        model.addAttribute("bookedSeats", bookingData);
-        model.addAttribute("bookingId", bookingList.get(0).getId());
-        return "ticketing/booking-redeem-seats";
       default:
         model.addAttribute("bookingList", bookingList);
         return "ticketing/list-of-bookings";
@@ -153,6 +161,11 @@ public class BookingController {
    */
   @GetMapping("/manage/bookings/{screeningId}/list")
   public String showBookings(@PathVariable(name = "screeningId") int screeningId, Model model) {
+    // If it's X minutes before the screening's start, clear all the bookings
+    if (screeningRepo.findById(screeningId).getStartTime().isBefore(LocalDateTime.now()
+        .plusMinutes(AppGlobals.BOOKINGS_GO_ON_SALE_BEFORE_SCREENING_MINUTES))) {
+      bookingRepo.deleteBookingsForScreening(screeningId);
+    }
     List<Booking> bookingList = bookingRepo.findBookingsForScreening(screeningId);
     model.addAttribute("bookingList", bookingList);
     switch (bookingList.size()) {
@@ -176,7 +189,7 @@ public class BookingController {
     bookingData.setSeats(booking.getSeats());
     bookingData.setSubmittedData(new ArrayList<>());
     model.addAttribute("bookedSeats", bookingData);
-    model.addAttribute("booking", bookingRepo.findBookingById(bookingId));
+    model.addAttribute("booking", booking);
     return "ticketing/booking-redeem-seats";
   }
 

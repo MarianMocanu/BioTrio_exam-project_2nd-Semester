@@ -34,8 +34,8 @@ public class ScreeningRepository {
    *
    * @return The list of {@link Screening} objects
    */
-  public List<Screening> findPastScreenings(){
-    String query = "SELECT * FROM screenings WHERE start_time < CURDATE() ORDER BY start_time";
+  public List<Screening> findPastScreenings() {
+    String query = "SELECT * FROM screenings WHERE start_time < CURDATE() ORDER BY start_time;";
     SqlRowSet rs = jdbc.queryForRowSet(query);
 
     return extractScreeningsListFromRowSet(rs);
@@ -50,7 +50,7 @@ public class ScreeningRepository {
    */
   public List<Screening> findUpcomingScreeningsForMovieById(int movieId) {
     String query = "SELECT * FROM screenings WHERE start_time >= CURDATE()" +
-        " AND movie_id = ? ORDER BY start_time";
+        " AND movie_id = ? ORDER BY start_time;";
     SqlRowSet rs = jdbc.queryForRowSet(query, movieId);
 
     return extractScreeningsListFromRowSet(rs);
@@ -64,7 +64,7 @@ public class ScreeningRepository {
    * @param movieId An integer movie id by which to filter the screenings
    * @return The map of {@link Screening} objects
    */
-  public Map<String,List<Screening>> findUpcomingScreeningsForMovieAsMap(int movieId) {
+  public Map<String, List<Screening>> findUpcomingScreeningsForMovieAsMap(int movieId) {
     List<Screening> screeningList = findUpcomingScreeningsForMovieById(movieId);
     return convertScreeningsListToMap(screeningList);
   }
@@ -79,11 +79,11 @@ public class ScreeningRepository {
    * @return The map of {@link Screening} objects
    */
   private Map<String, List<Screening>> convertScreeningsListToMap(List<Screening> screeningsList) {
-    Map<String,List<Screening>> screenings = new LinkedHashMap<>();
-    for(Screening screening:screeningsList){
+    Map<String, List<Screening>> screenings = new LinkedHashMap<>();
+    for (Screening screening : screeningsList) {
 
       String screeningDate = screening.getStartTime().format(AppGlobals.TAB_LABEL_FORMAT);
-      if(!screenings.containsKey(screeningDate)) {
+      if (!screenings.containsKey(screeningDate)) {
         screenings.put(screeningDate, new ArrayList<>());
       }
       screenings.get(screeningDate).add(screening);
@@ -99,7 +99,7 @@ public class ScreeningRepository {
    */
   public Screening findById(int id) {
     Screening result = null;
-    String query = "SELECT * FROM screenings WHERE id = ?";
+    String query = "SELECT * FROM screenings WHERE id = ?;";
     SqlRowSet rs = jdbc.queryForRowSet(query, id);
 
     if (rs.first()) {
@@ -112,7 +112,7 @@ public class ScreeningRepository {
   /**
    * Helper method to get the count of available seats for a particular screening
    *
-   * @param id An integer that represents the {@link Screening}'s id
+   * @param id         An integer that represents the {@link Screening}'s id
    * @param theater_id An integer that represents the {@link Theater}'s id
    * @return An integer representing the number of available seats for the screening
    */
@@ -124,7 +124,7 @@ public class ScreeningRepository {
     // Count the number of booked seats for the screening
     int bookedSeats = 0;
     String query = "SELECT COUNT(*) FROM bookings INNER JOIN booked_seats ON " +
-        "booked_seats.booking_id = bookings.id WHERE bookings.screening_id = ?";
+        "booked_seats.booking_id = bookings.id WHERE bookings.screening_id = ?;";
     SqlRowSet rs = jdbc.queryForRowSet(query, id);
     if (rs.first()) {
       bookedSeats = rs.getInt(1);
@@ -132,7 +132,7 @@ public class ScreeningRepository {
 
     // Count the number of tickets for the screening
     int soldSeats = 0;
-    query = "SELECT COUNT(*) FROM tickets WHERE screening_id = ?";
+    query = "SELECT COUNT(*) FROM tickets WHERE screening_id = ?;";
     rs = jdbc.queryForRowSet(query, id);
     if (rs.first()) {
       soldSeats = rs.getInt(1);
@@ -143,12 +143,15 @@ public class ScreeningRepository {
   }
 
   /**
-   * Gets a {@link List} of screenings that have their start time in the future
+   * Gets a {@link List} of screenings that have their start
+   * time half an hour or more into the future
    *
    * @return The {@link List} of {@link Screening} objects
    */
   public List<Screening> findUpcomingScreenings() {
-    String query = "SELECT * FROM screenings WHERE start_time >= CURDATE() ORDER BY start_time";
+    String query = "SELECT * FROM screenings WHERE start_time >= " +
+        "ADDTIME(UTC_TIMESTAMP(), TIME('00:" +
+        AppGlobals.BOOKINGS_GO_ON_SALE_BEFORE_SCREENING_MINUTES + "')) ORDER BY start_time;";
     SqlRowSet rs = jdbc.queryForRowSet(query);
 
     return extractScreeningsListFromRowSet(rs);
@@ -159,7 +162,7 @@ public class ScreeningRepository {
    *
    * @return The {@link Map} of {@link Screening} objects
    */
-  public Map<String,List<Screening>> findUpcomingScreeningsAsMap() {
+  public Map<String, List<Screening>> findUpcomingScreeningsAsMap() {
     List<Screening> screeningsList = findUpcomingScreenings();
     return convertScreeningsListToMap(screeningsList);
   }
@@ -169,7 +172,7 @@ public class ScreeningRepository {
    *
    * @return The {@link Map} of {@link Screening} objects
    */
-  public Map<String, List<Screening>> findAllScreeningsAsMap(){
+  public Map<String, List<Screening>> findAllScreeningsAsMap() {
     List<Screening> screeningsList = findAllScreenings();
     return convertScreeningsListToMap(screeningsList);
   }
@@ -234,7 +237,7 @@ public class ScreeningRepository {
       public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
         PreparedStatement ps = connection.prepareStatement(
             "INSERT INTO screenings (movie_id, theater_id, start_time) " +
-                "VALUES (?, ?, ?)", new String[]{"id"}
+                "VALUES (?, ?, ?);", new String[]{"id"}
         );
         ps.setInt(1, screening.getMovie().getId());
         ps.setInt(2, screening.getTheater().getId());
@@ -279,7 +282,7 @@ public class ScreeningRepository {
   /**
    * Finds all past screenings and deletes them from the database
    */
-  public void deletePastScreenings(){
+  public void deletePastScreenings() {
     for (Screening screening : findPastScreenings()) {
       deleteScreening(screening.getId());
     }
@@ -294,8 +297,8 @@ public class ScreeningRepository {
    */
   public List<Screening> findScreeningsThatMightConflict(Screening screening) {
     String query = "SELECT * FROM screenings " +
-        "WHERE start_time > ? - INTERVAL 12 HOUR " +
-        "AND start_time < ? + INTERVAL 12 HOUR " +
+        "WHERE start_time > ? - INTERVAL 8 HOUR " +
+        "AND start_time < ? + INTERVAL 8 HOUR " +
         "AND theater_id = ? " +
         "ORDER BY start_time;";
     Timestamp startTimeAsTimestamp = Timestamp.valueOf(screening.getStartTime());
@@ -320,7 +323,7 @@ public class ScreeningRepository {
    * @param s The {@link Screening} to check
    * @return A true if the screening can be safely deleted, false otherwise
    */
-  public boolean canDelete(Screening s){
+  public boolean canDelete(Screening s) {
     if (s.getStartTime().isBefore(LocalDateTime.now())) {
       return true;
     }
@@ -328,7 +331,7 @@ public class ScreeningRepository {
         "WHERE screening_id = ? " +
         "UNION " +
         "SELECT id FROM tickets " +
-        "WHERE screening_id = ?) AS x");
+        "WHERE screening_id = ?) AS x;");
     SqlRowSet rs = jdbc.queryForRowSet(query, s.getId(), s.getId());
     rs.first();
     int noSeats = rs.getInt(1);

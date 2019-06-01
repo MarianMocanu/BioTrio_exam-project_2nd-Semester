@@ -18,6 +18,7 @@
                     <h3 class="display-4" th:text="${movie.getTitle()}"></h3>
                 </div>
                 <hr>
+                <th:block th:unless="${movie.getTrailerLink().isEmpty()}">
                 <div class="embed-responsive embed-responsive-16by9" th:if="${movie.getTrailerLink()}">
                     <iframe id="ytplayer" type="text/html" allowfullscreen class="trailerPlayer"
                             th:src="'https://www.youtube.com/embed/' + ${movie.getTrailerLink()} +
@@ -25,58 +26,81 @@
                             frameborder="0"></iframe>
                 </div>
                 <hr>
+                </th:block>
                 <div class="row">
                     <div class="col-md-8">
                         <p>
                             <b>Synopsis:</b>
-                            <span th:text="${movie.getSynopsis()}"></span>
+                            <span th:unless="${movie.getSynopsis().isEmpty()}"
+                                  th:text="${movie.getSynopsis()}"></span>
+                            <span th:if="${movie.getSynopsis().isEmpty()}">N/A</span>
                         </p>
                         <p>
                             <b>Main cast:</b>
-                            <span th:text="${movie.getCast()}"></span>
+                            <span th:unless="${movie.getCast().isEmpty()}"
+                                  th:text="${movie.getCast()}"></span>
+                            <span th:if="${movie.getCast().isEmpty()}">N/A</span>
                         </p>
                         <p>
                             <b>Director:</b>
-                            <span th:text="${movie.getDirector()}"></span>
+                            <span th:unless="${movie.getDirector().isEmpty()}"
+                                  th:text="${movie.getDirector()}"></span>
+                            <span th:if="${movie.getDirector().isEmpty()}">N/A</span>
                         </p>
                         <p>
                             <b>Runtime:</b>
-                            <span th:text="${movie.getRuntime()}"></span> minutes
+                            <th:block th:unless="${movie.getRuntime()} == 0">
+                            <span
+                                  th:text="${movie.getRuntime()}"></span> minutes
+                            </th:block>
+                            <span th:if="${movie.getRuntime()} == 0">Unknown</span>
                         </p>
                         <p>
                             <b>Genre:</b>
-                            <span th:text="${movie.getGenre()}"></span>
+                            <span th:unless="${movie.getGenre().isEmpty()}"
+                                  th:text="${movie.getGenre()}"></span>
+                            <span th:if="${movie.getGenre().isEmpty()}">N/A</span>
                         </p>
                         <p>
                             <b>Release date:</b>
-                            <span th:text="${movie.getReleaseDate()}"></span>
+                            <span th:unless="${movie.getReleaseDate()} == null"
+                                  th:text="${movie.getFormattedReleaseDate()}"></span>
+                            <span th:if="${movie.getReleaseDate()} == null">N/A</span>
                         </p>
                         <p>
                             <b>Language:</b>
-                            <span th:text="${movie.getLanguage()}"></span>
+                            <span th:unless="${movie.getLanguage().isEmpty()}"
+                                  th:text="${movie.getLanguage()}"></span>
+                            <span th:if="${movie.getLanguage().isEmpty()}">N/A</span>
                         </p>
                         <p>
                             <b>Subtitles:</b>
-                            <span th:text="${movie.getSubtitles()}"></span>
+                            <span th:unless="${movie.getSubtitles().isEmpty()}"
+                                  th:text="${movie.getSubtitles()}"></span>
+                            <span th:if="${movie.getSubtitles().isEmpty()}">N/A</span>
                         </p>
                         <p><b>Technologies:</b>
-
+                            <span th:if="${movie.getRequiredTechnologies()} == null">
+                                None
+                            </span>
                             <th:block th:each="technology, iter:${movie.getRequiredTechnologies()}">
                                 <span th:text="${technology.getName()} + (${iter.last} ? '' : ', ')"></span><br>
                             </th:block>
                         </p>
                         <p>
                             <b>Age restriction:</b>
-                            <span th:text="${movie.getAgeRestriction()}"></span>
+                            <span th:unless="${movie.getAgeRestriction().isEmpty()}"
+                                  th:text="${movie.getAgeRestriction()}"></span>
+                            <span th:if="${movie.getAgeRestriction().isEmpty()}">N/A</span>
                         </p>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-4" th:unless="${movie.getPoster().isEmpty()}">
                         <img th:if="${movie.getPoster()}" th:src="${movie.getPoster()}"
                              th:alt="'Poster for ' + ${movie.getTitle()}" class="img-fluid">
                     </div>
                 </div>
                 <hr>
-                <th:block th:if="${upcomingMovieScreenings}">
+                <th:block th:if="${upcomingMovieScreenings.size()} > 0">
                 <h2>Available screenings:</h2>
                 <!--upcoming screenings for this particular movie-->
                 <!-- Navigation pills -->

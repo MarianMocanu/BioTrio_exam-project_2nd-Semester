@@ -99,8 +99,14 @@ public class SeatRepository {
   public List<Seat> convertStringSeatData(List<String> seatsInfo) {
     List<Seat> seatsPositions = new ArrayList<>();
     if (seatsInfo != null) {
+      // The returned list of Strings from a form only contains as many values as the number of
+      // checkboxes that have been selected by the user. It is important to note here that the data
+      // we have initially sent through this list, to help generate the view, is completely
+      // discarded by Spring upon form submission, and replaced by the data of the selected seats.
       for (String data : seatsInfo) {
         Seat seat = new Seat();
+        // Split the string value that we got from the form, and interpret the two parts
+        // as the row number and seat number, respectively
         String[] positions = data.split("_");
         seat.setRowNo(Integer.valueOf(positions[0]));
         seat.setSeatNo(Integer.valueOf(positions[1]));

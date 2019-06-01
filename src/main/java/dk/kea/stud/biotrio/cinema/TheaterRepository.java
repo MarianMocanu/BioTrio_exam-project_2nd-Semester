@@ -78,7 +78,8 @@ public class TheaterRepository {
     PreparedStatementCreator psc = new PreparedStatementCreator() {
       @Override
       public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
-        PreparedStatement ps = connection.prepareStatement("INSERT INTO theaters(name, no_of_rows, seats_per_row) VALUES(?,?,?)",
+        PreparedStatement ps = connection.prepareStatement(
+            "INSERT INTO theaters(name, no_of_rows, seats_per_row) VALUES(?,?,?)",
             new String[]{"id"});
         ps.setString(1, theater.getName());
         ps.setInt(2, theater.getNoOfRows());
@@ -124,7 +125,7 @@ public class TheaterRepository {
    *          the database can be safely deleted
    * @return true if it can be safely deleted, otherwise false
    */
-  public boolean canDelete(Theater theater){
+  public boolean canDelete(Theater theater) {
     String query = ("SELECT COUNT(*) FROM screenings WHERE theater_id = ?;");
     SqlRowSet rs = jdbc.queryForRowSet(query, theater.getId());
     rs.first();

@@ -16,7 +16,8 @@
             <div class="jumbotron">
                 <h1 class="display-4">Delete a screening</h1>
                 <hr>
-                <p th:text=" 'This screening of ' + ${movieTitle} + ' can not be deleted, because tickets were booked or sold for it'">
+                <p th:text="'This screening of ' + ${movieTitle} +
+                   ' can not be deleted, because seats were booked or sold for it'">
                     Error
                 </p>
             </div>

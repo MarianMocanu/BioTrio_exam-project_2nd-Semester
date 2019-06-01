@@ -19,7 +19,8 @@
                 <!-- Navigation pills -->
                 <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                     <li class="nav-item" th:each="key,iter:${screenings.keySet()}">
-                        <a th:class="${iter.index} == 0 ? 'nav-link our-pills active' : 'nav-link our-pills'"
+                        <a th:class="${iter.index} == 0 ?
+                           'nav-link our-pills active' : 'nav-link our-pills'"
                            th:id="'pill'+${iter.index}"
                            th:href="'#linkPill'+${iter.index}"
                            role="tab"
@@ -41,20 +42,43 @@
                                 <th scope="col">Time</th>
                                 <th scope="col">Movie</th>
                                 <th scope="col">Theater</th>
+                                <th scope="col">Seats</th>
                                 <th scope="col">Edit</th>
                                 <th scope="col">Delete</th>
                             </tr>
                             </thead>
                             <tbody th:each="screening: ${entry.getValue()}">
                             <tr>
-                                <td th:text="${screening.getStartTime().toLocalDate().toString()}"></td>
-                                <td th:text="${screening.getStartTime().toLocalTime().toString()}"></td>
-                                <td th:text="${screening.getMovie().getTitle()}"></td>
+                                <td th:text="${screening.getStartTime().toLocalDate().toString()}">
+                                </td>
+                                <td th:text="${screening.getStartTime().toLocalTime().toString()}">
+                                </td>
+                                <td>
+                                    <a th:href="'/movie/' + ${screening.getMovie().getId()}"
+                                       th:text="${screening.getMovie().getTitle()}"></a>
+                                </td>
                                 <td th:text="${screening.getTheater().getName()}"></td>
-                                <td><a class="btn btn-primary"
+                                <td>
+                                    <span th:text="${screening.getNoAvailableSeats()}"></span> /
+                                    <span th:text="${screening.getTheater().getNoOfRows()} *
+                                         ${screening.getTheater().getSeatsPerRow()}"></span>
+                                </td>
+                                <td>
+                                    <a th:if="${screening.getNoAvailableSeats()} ==
+                                     (${screening.getTheater().getNoOfRows()} *
+                                      ${screening.getTheater().getSeatsPerRow()})"
+                                       class="btn btn-primary"
                                        th:href="'/manage/screenings/edit/' + ${screening.getId()}">
-                                    Edit
-                                </a></td>
+                                        Edit
+                                    </a>
+                                    <a th:unless="${screening.getNoAvailableSeats()} ==
+                                     (${screening.getTheater().getNoOfRows()} *
+                                      ${screening.getTheater().getSeatsPerRow()})"
+                                       class="btn btn-primary disabled"
+                                       href="#">
+                                        Edit
+                                    </a>
+                                </td>
                                 <td>
                                     <!--Button trigger modal-->
                                     <a class="btn btn-outline-danger"
@@ -70,7 +94,9 @@
                 </div>
 
                 <div class="btn-toolbar justify-content-between" role="toolbar">
-                    <a class="btn btn-primary" href="/manage/screenings/add">Create new screening</a>
+                    <a class="btn btn-primary" href="/manage/screenings/add">
+                        Create new screening
+                    </a>
                     <!-- Button trigger modal -->
                     <button type="button" class="btn btn-outline-danger" data-toggle="modal"
                        data-target="#deletePastScreenings">

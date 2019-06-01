@@ -22,6 +22,7 @@ public class AppGlobals {
    * The maximum number of seats a customer can select per booking
    */
   public static final int MAX_NUMBER_OF_SEATS_PER_BOOKING = 4;
+  public static final int BOOKINGS_GO_ON_SALE_BEFORE_SCREENING_MINUTES = 30;
   /**
    * The default format for inputting / outputting date and time data
    */
