@@ -1,5 +1,5 @@
 INSERT INTO users(username, password, role, employee_id) VALUES
-('Admin', '1234', 1, NULL);
+('Admin', '$2a$10$2ecgsDBozgKB4ddluh3ZR.QSlnebMfvC9Hg8.W7bCBRw7TRrNUXEq', 1, NULL);
 
 INSERT INTO theaters (name, no_of_rows, seats_per_row) VALUES
 ('The Blue Theater', 14, 20),('The Red Theater', 8, 12),('The Orange Theater', 8, 6);

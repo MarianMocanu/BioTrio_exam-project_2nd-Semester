@@ -8,6 +8,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +33,7 @@ public class CustomAuthentication implements AuthenticationProvider {
   @Override
   public Authentication authenticate(Authentication auth)
       throws AuthenticationException {
-
+    BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     // Extract the username and password from the credentials, as strings
     String username = auth.getName();
     String password = auth.getCredentials().toString();
@@ -46,7 +47,7 @@ public class CustomAuthentication implements AuthenticationProvider {
 
     // If the user is found, check the input password against the user's associated
     // password in the database
-    if (!password.equals(user.getPassword())) {
+    if (!passwordEncoder.matches(password, user.getPassword())) {
       throw new BadCredentialsException("Username Or Password Is invalid");
     }
 

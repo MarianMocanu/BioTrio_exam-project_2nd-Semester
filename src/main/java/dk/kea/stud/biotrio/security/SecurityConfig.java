@@ -6,6 +6,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 /**
  * The Spring Security settings for the web application. This is where
@@ -26,9 +27,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   protected void configure(final HttpSecurity http) throws Exception {
     http.csrf().disable();
 
-    //http.authorizeRequests().antMatchers("/**").permitAll();
-    http.authorizeRequests().antMatchers("/manage/theaters/**", "/manage/technologies/**", "/manage/employees/**", "/manage/users/**").hasRole("ADMIN");
-    http.authorizeRequests().antMatchers("/manage/screenings/**", "/manage/movies/**", "/manage/upcoming/**").hasAnyRole("MANAGER", "ADMIN");
+    http.authorizeRequests().antMatchers("/manage/theaters/**",
+        "/manage/technologies/**", "/manage/employees/**", "/manage/users/**").hasRole("ADMIN");
+    http.authorizeRequests().antMatchers("/manage/screenings/**", "/manage/movies/**",
+        "/manage/upcoming/**").hasAnyRole("MANAGER", "ADMIN");
     http.authorizeRequests().antMatchers("/manage/**").authenticated();
 
 
@@ -37,10 +39,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .usernameParameter("username").passwordParameter("password")
         .and()
         .logout().logoutSuccessUrl("/login?logout");
-
-    //        http.authorizeRequests().antMatchers("/**").authenticated();
-    //
-    //        http.authorizeRequests().antMatchers("/admin/users/**").hasRole("ADMIN");
 
     http.authorizeRequests().and().exceptionHandling().accessDeniedPage("/accessdenied");
   }

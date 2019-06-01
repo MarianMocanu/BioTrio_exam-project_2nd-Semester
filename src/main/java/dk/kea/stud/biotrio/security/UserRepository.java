@@ -4,6 +4,7 @@ import dk.kea.stud.biotrio.administration.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -140,8 +141,9 @@ public class UserRepository {
    */
   public void addUser(User userData) {
     int roleId = getRoleId(userData.getRole());
+    BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     String query = "INSERT INTO users (username, password, role, employee_id) VALUES (?, ?, ?, ?);";
-    jdbc.update(query, userData.getUsername(), userData.getPassword(),
+    jdbc.update(query, userData.getUsername(), passwordEncoder.encode(userData.getPassword()),
         roleId, userData.getEmployee() != null ? userData.getEmployee().getId() : null);
   }
 
@@ -163,6 +165,7 @@ public class UserRepository {
   public void editUser(User user) {
     // Find the role's id within the database; to be used for the foreign key
     int roleId = getRoleId(user.getRole());
+    BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     if (user.getPassword() == null) {
       // If the password attribute is null, update the rest of the information
@@ -174,8 +177,8 @@ public class UserRepository {
       // If there is a password set, update that as well
       jdbc.update("UPDATE users SET username = ?, password = ?, role = ?, employee_id = ?" +
               " WHERE id = ?",
-          user.getUsername(), user.getPassword(), roleId, user.getEmployee() == null ?
-              null : user.getEmployee().getId(), user.getId());
+          user.getUsername(), passwordEncoder.encode(user.getPassword()), roleId,
+          user.getEmployee() == null ? null : user.getEmployee().getId(), user.getId());
     }
   }
 }
