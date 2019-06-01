@@ -150,13 +150,6 @@ public class BookingController {
     switch (bookingList.size()) {
       case 0:
         return "ticketing/booking-none";
-      case 1:
-        SeatData bookingData = new SeatData();
-        bookingData.setSeats(bookingList.get(0).getSeats());
-        bookingData.setSubmittedData(new ArrayList<>());
-        model.addAttribute("bookedSeats", bookingData);
-        model.addAttribute("bookingId", bookingList.get(0).getId());
-        return "ticketing/booking-redeem-seats";
       default:
         model.addAttribute("bookingList", bookingList);
         return "ticketing/list-of-bookings";
@@ -196,7 +189,7 @@ public class BookingController {
     bookingData.setSeats(booking.getSeats());
     bookingData.setSubmittedData(new ArrayList<>());
     model.addAttribute("bookedSeats", bookingData);
-    model.addAttribute("booking", bookingRepo.findBookingById(bookingId));
+    model.addAttribute("booking", booking);
     return "ticketing/booking-redeem-seats";
   }
 
