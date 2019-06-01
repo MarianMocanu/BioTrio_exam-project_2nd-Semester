@@ -1,8 +1,12 @@
 INSERT INTO users(username, password, role, employee_id) VALUES
-('Admin', '$2a$10$2ecgsDBozgKB4ddluh3ZR.QSlnebMfvC9Hg8.W7bCBRw7TRrNUXEq', 1, NULL);
+('Admin', '$2a$10$2ecgsDBozgKB4ddluh3ZR.QSlnebMfvC9Hg8.W7bCBRw7TRrNUXEq', 1, NULL),
+('Manager', '$2a$10$WHMo/M2mPyNGx5/EAyVcXOWVJGAZgCxOUqeiv.pU/KifRL2Tsu/gG', 2, NULL),
+('User', '$2a$10$XmkP3gwQ8LGu9DqdCNGFy.oV46CVjRSPWxLSAFEIY7a5YqYmcKywi', 3, NULL);
 
 INSERT INTO theaters (name, no_of_rows, seats_per_row) VALUES
-('The Blue Theater', 14, 20),('The Red Theater', 8, 12),('The Orange Theater', 8, 6);
+('The Blue Theater', 14, 20),
+('The Red Theater', 8, 12),
+('The Orange Theater', 8, 6);
 
 INSERT INTO technologies (name) VALUES ('3D'), ('Dolby Atmos');
 
@@ -65,9 +69,23 @@ INSERT INTO upcoming_movies VALUES
 ((SELECT id FROM movies WHERE title='The Dead Don\'t Die'), DATE('2019-07-26')),
 ((SELECT id FROM movies WHERE title='Child\'s Play'), DATE('2019-08-03')),
 ((SELECT id FROM movies WHERE title='The Lion King'), DATE('2019-08-15')),
-((SELECT id FROM movies WHERE title='The Informer'), DATE('2019-08-23'));
+((SELECT id FROM movies WHERE title='The Informer'), DATE('2019-08-16')),
+((SELECT id FROM movies WHERE title='Angel Has Fallen'), DATE('2019-08-23')),
+((SELECT id FROM movies WHERE title='It Chapter Two'), DATE('2019-09-06')),
+((SELECT id FROM movies WHERE title='Abominable'), DATE('2019-09-27')),
+((SELECT id FROM movies WHERE title='Joker'), DATE('2019-10-04')),
+((SELECT id FROM movies WHERE title='The Addams Family'), DATE('2019-10-11'));
 
 INSERT INTO screenings (movie_id, theater_id, start_time) VALUES
+# A few past screenings for demo purposes
+((SELECT id FROM movies WHERE title='The Matrix'), (SELECT id FROM theaters WHERE name='The Blue Theater'), TIMESTAMP('2019-05-27 15:30')),
+((SELECT id FROM movies WHERE title='Primer'), (SELECT id FROM theaters WHERE name='The Blue Theater'), TIMESTAMP('2019-05-27 18:30')),
+((SELECT id FROM movies WHERE title='Memento'), (SELECT id FROM theaters WHERE name='The Red Theater'), TIMESTAMP('2019-05-27 15:45')),
+((SELECT id FROM movies WHERE title='Snatch'), (SELECT id FROM theaters WHERE name='The Red Theater'), TIMESTAMP('2019-05-27 18:15')),
+((SELECT id FROM movies WHERE title='Fight Club'), (SELECT id FROM theaters WHERE name='The Blue Theater'), TIMESTAMP('2019-05-27 15:30')),
+((SELECT id FROM movies WHERE title='The Silence of the Lambs'), (SELECT id FROM theaters WHERE name='The Blue Theater'), TIMESTAMP('2019-06-27 18:15')),
+((SELECT id FROM movies WHERE title='Office Space'), (SELECT id FROM theaters WHERE name='The Orange Theater'), TIMESTAMP('2019-05-27 15:45')),
+((SELECT id FROM movies WHERE title='Donnie Darko'), (SELECT id FROM theaters WHERE name='The Orange Theater'), TIMESTAMP('2019-05-27 17:45')),
 # Week 1: 24/6 - 30/6
 ((SELECT id FROM movies WHERE title='The Matrix'), (SELECT id FROM theaters WHERE name='The Blue Theater'), TIMESTAMP('2019-06-24 15:30')),
 ((SELECT id FROM movies WHERE title='Primer'), (SELECT id FROM theaters WHERE name='The Blue Theater'), TIMESTAMP('2019-06-24 18:30')),
