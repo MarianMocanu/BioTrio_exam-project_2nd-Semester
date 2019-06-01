@@ -78,7 +78,8 @@ public class TheaterRepository {
     PreparedStatementCreator psc = new PreparedStatementCreator() {
       @Override
       public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
-        PreparedStatement ps = connection.prepareStatement("INSERT INTO theaters(name, no_of_rows, seats_per_row) VALUES(?,?,?)",
+        PreparedStatement ps = connection.prepareStatement(
+            "INSERT INTO theaters(name, no_of_rows, seats_per_row) VALUES(?,?,?)",
             new String[]{"id"});
         ps.setString(1, theater.getName());
         ps.setInt(2, theater.getNoOfRows());

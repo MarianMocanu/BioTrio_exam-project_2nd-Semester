@@ -116,42 +116,6 @@ public class BookingRepository {
     return screeningBookings;
   }
 
-  //
-  //  public List<Booking> findBookingByPhoneNo(String phoneNo) {
-  //    String query = "SELECT * FROM bookings WHERE phone_no = ?";
-  //    SqlRowSet rs = jdbc.queryForRowSet(query, phoneNo);
-  //    List<Booking> result = new ArrayList<>();
-  //    while (rs.next()) {
-  //      Booking booking = new Booking();
-  //      booking.setId(rs.getInt("id"));
-  //      booking.setPhoneNo(rs.getString("phone_no"));
-  //      booking.setCode(rs.getString("code"));
-  //      booking.setScreening(screeningRepo.findById(rs.getInt("screening_id")));
-  //      List<Seat> seats = new ArrayList<>();
-  //      String queryForSeats = "SELECT * FROM booked_seats WHERE booking_id = ?";
-  //      SqlRowSet seatsRS = jdbc.queryForRowSet(queryForSeats, booking.getId());
-  //
-  //      //iteration for setting the seats received from database
-  //      while (seatsRS.next()) {
-  //        Seat seat = new Seat();
-  //        seat.setRowNo(seatsRS.getInt("row_no"));
-  //        seat.setSeatNo(seatsRS.getInt("seat_no"));
-  //        seat.setAvailable(false);
-  //        seat.setSold(false);
-  //
-  //        //adding the booked seat in the array
-  //        seats.add(seat);
-  //      }
-  //
-  //      //setting the last attribute of the Booking object
-  //      booking.setSeats(seats);
-  //
-  //      //adding the Booking object in the screenings Array
-  //      result.add(booking);
-  //    }
-  //    return result;
-  //  }
-  ///////////////////////////////////////////////////////////////////////////////////////////////
   public List<Booking> findBookingByPhoneNo(String phoneNo) {
     String query = "SELECT * FROM bookings WHERE phone_no = ?";
     SqlRowSet rs = jdbc.queryForRowSet(query, phoneNo);

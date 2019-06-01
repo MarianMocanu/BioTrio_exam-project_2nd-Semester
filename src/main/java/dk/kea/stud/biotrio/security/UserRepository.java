@@ -67,8 +67,8 @@ public class UserRepository {
    */
   public List<User> getAllUsers() {
     List<User> result = new ArrayList<>();
-    String query = "SELECT users.id, users.username, users.password, users.employee_id, roles.name as role " +
-        "FROM users INNER JOIN roles ON users.role = roles.id";
+    String query = "SELECT users.id, users.username, users.password, users.employee_id, " +
+        "roles.name as role FROM users INNER JOIN roles ON users.role = roles.id;";
     SqlRowSet rs = jdbc.queryForRowSet(query);
 
     while (rs.next()) {
@@ -85,7 +85,7 @@ public class UserRepository {
    */
   public List<String> getAllRoles() {
     List<String> result = new ArrayList<>();
-    String query = "SELECT * FROM roles";
+    String query = "SELECT * FROM roles;";
     SqlRowSet rs = jdbc.queryForRowSet(query);
 
     while (rs.next()) {
@@ -170,13 +170,13 @@ public class UserRepository {
     if (user.getPassword() == null) {
       // If the password attribute is null, update the rest of the information
       // without modifying the password
-      jdbc.update("UPDATE users SET username = ?, role = ?, employee_id = ? WHERE id = ?",
+      jdbc.update("UPDATE users SET username = ?, role = ?, employee_id = ? WHERE id = ?;",
           user.getUsername(), roleId, user.getEmployee() == null ?
               null : user.getEmployee().getId(), user.getId());
     } else {
       // If there is a password set, update that as well
-      jdbc.update("UPDATE users SET username = ?, password = ?, role = ?, employee_id = ?" +
-              " WHERE id = ?",
+      jdbc.update("UPDATE users SET username = ?, password = ?, role = ?, employee_id = ? " +
+              "WHERE id = ?;",
           user.getUsername(), passwordEncoder.encode(user.getPassword()), roleId,
           user.getEmployee() == null ? null : user.getEmployee().getId(), user.getId());
     }
