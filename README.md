@@ -13,5 +13,5 @@ First year final project, implemented in Java Spring Boot with MySQL
 3. If you want some dummy data, execute the queries in 'sql\2_populate.sql'. We would strongly recommend running at least the very first query that creates the user accounts.
 4. Open a terminal / command line and 'cd' to the directory where you cloned the repository
 5. Execute 'mvn spring-boot:run'
-6. Point your browset to 'http://localhost:8080/'
+6. Point your browser to 'http://localhost:8080/'
 7. If you ran the query for creating the user accounts, you can log in with the 'Admin', 'Manager', and 'User' accounts, with the password '1234' on all three, and explore the application from the point of view of the three different permission levels. The fourth level is a customer's perspective, which is the equivalent of not being logged in.
