@@ -83,7 +83,9 @@ public class BookingController {
    * Displays the view for cancelling a booking
    */
   @GetMapping("/booking/cancel")
-  public String cancelBooking() {
+  public String cancelBooking(@RequestParam (value = "error", required = false) String error, Model model) {
+    if(error != null)
+      model.addAttribute("error", error);
     return "bookings/user/booking-cancel";
   }
 
@@ -93,9 +95,14 @@ public class BookingController {
   @PostMapping("/booking/cancel")
   public String bookingCancelled(@RequestParam String bookingCode,
                                  Model model) {
+
     boolean success = bookingRepo.deleteBookingByCode(bookingCode.toLowerCase());
-    model.addAttribute("success", success);
-    return "bookings/user/booking-cancelled";
+    if(!success)
+      return "redirect:/booking/cancel/?error=no_booking_found";
+    else
+      model.addAttribute("success", success);
+      return "bookings/user/booking-cancelled";
+
   }
 
   /**
@@ -149,7 +156,7 @@ public class BookingController {
     model.addAttribute("phoneNo", phoneNo);
     switch (bookingList.size()) {
       case 0:
-        return "ticketing/booking-none";
+        return "redirect:/manage/ticketing/?error=booking-none";
       default:
         model.addAttribute("bookingList", bookingList);
         return "ticketing/list-of-bookings";

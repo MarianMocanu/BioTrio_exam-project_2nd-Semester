@@ -16,6 +16,10 @@
             <div class="jumbotron">
                 <h1 class="display-4">Add a user</h1>
                 <hr>
+                <div th:if="${error}" class="alert alert-danger">
+                    <span th:if="${error.equals('username_taken')}">Username taken. Try again.</span>
+                    <span th:if="${error.equals('password_dont_match')}">The password must match. Try again.</span>
+                </div>
                 <form action="/manage/users/add" method="post" th:object="${userData}">
                     <div class="form-group">
                         <label for="username">Username</label>

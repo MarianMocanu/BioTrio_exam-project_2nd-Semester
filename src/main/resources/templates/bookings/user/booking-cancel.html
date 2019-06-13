@@ -17,6 +17,9 @@
                 <h1 class="display-4">Cancel booking</h1>
                 <hr>
                 <h3><b>WARNING!</b> This action cannot be undone.</h3>
+                <div th:if="${error}" class="alert alert-danger">
+                    <span th:if="${error.equals('no_booking_found')}">No booking was found with such a code. Check your spelling.</span>
+                </div>
                 <form action="/booking/cancel" method="post">
                     <div class="form-group">
                         <label for="code">Booking code: </label>

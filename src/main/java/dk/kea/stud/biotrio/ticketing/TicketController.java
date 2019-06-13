@@ -30,7 +30,10 @@ public class TicketController {
    * Displays the manage upcoming screenings list view
    */
   @GetMapping("/manage/ticketing")
-  public String screeningsForBookingOrSale(Model model) {
+  public String screeningsForBookingOrSale(@RequestParam(value = "error", required = false) String error, Model model) {
+    if(error != null) {
+      model.addAttribute("error", error);
+    }
     model.addAttribute("upcomingScreenings", screeningRepo.findUpcomingScreeningsAsMap());
     return "ticketing/ticketing";
   }

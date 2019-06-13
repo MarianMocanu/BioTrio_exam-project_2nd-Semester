@@ -32,7 +32,10 @@ public class UserController {
    * Displays the add user view
    */
   @GetMapping("/manage/users/add")
-  public String addUser(Model model) {
+  public String addUser(@RequestParam(value = "error", required = false) String error, Model model) {
+    if(error != null) {
+      model.addAttribute("error", error);
+    }
     model.addAttribute("employees", employeeRepo.findAllEmployeesWithoutAccount());
     model.addAttribute("roles", userRepo.getAllRoles());
     model.addAttribute("userData", new User());
@@ -52,10 +55,11 @@ public class UserController {
     boolean success = false;
     if (userRepo.findByUsername(userData.getUsername()) != null) {
       // The username must be unique
-      message = "Username taken. Choose something different.";
+//      message = "Username taken. Choose something different.";
+      return "redirect:/manage/users/add/?error=username_taken";
     } else if (!confPassword.equals(userData.getPassword())) {
       // The password must match
-      message = "Passwords don't match. Try again.";
+      return "redirect:/manage/users/add/?error=password_dont_match";
     } else {
       // Sets the associated Employee object according to
       // the selection made in the view
