@@ -45,8 +45,8 @@ INSERT INTO movies(title, runtime, synopsis, genre, language, subtitles, trailer
 ('Rocketman', 121, 'A musical fantasy about the fantastical human story of Elton John\'s breakthrough years.', 'Biography, Drama, Music', 'English', 'Danish', 'S3vO8E2e6G0', DATE('2019-05-31'), 'Taron Egerton, Jamie Bell, Richard Madden', 'Dexter Fletcher', 'R', 'https://m.media-amazon.com/images/M/MV5BMTY0MzUwODc4N15BMl5BanBnXkFtZTgwMjMyMjY0NzM@._V1_SY1000_CR0,0,675,1000_AL_.jpg'),
 ('Bohemian Rhapsody', 134, 'The story of the legendary rock band Queen and lead singer Freddie Mercury, leading up to their famous performance at Live Aid (1985).', 'Biography, Drama, Music', 'English', 'Danish', 'mP0VHJYFOAU', DATE('2018-11-02'), 'Rami Malek, Lucy Boynton, Gwilym Lee', 'Bryan Singer', 'PG-13', 'https://m.media-amazon.com/images/M/MV5BMTA2NDc3Njg5NDVeQTJeQWpwZ15BbWU4MDc1NDcxNTUz._V1_SY1000_CR0,0,674,1000_AL_.jpg'),
 ('Hellboy', 120, 'Based on the graphic novels by Mike Mignola, Hellboy, caught between the worlds of the supernatural and human, battles an ancient sorceress bent on revenge.', 'Action, Adventure, Fantasy', 'English', 'Danish', 'ZsBO4b3tyZg', DATE('2019-04-12'), 'David Harbour, Milla Jovovich, Ian McShane', 'Neil Marshall', 'R', 'https://m.media-amazon.com/images/M/MV5BODdkMDQzMzItZDc4YS00OGM4LTkxNTQtNjUzNzU0ZmJkMWY2XkEyXkFqcGdeQXVyMjMxOTE0ODA@._V1_SY1000_SX675_AL_.jpg'),
-('Dark Phoenix', 0, 'Jean Grey begins to develop incredible powers that corrupt and turn her into a Dark Phoenix. Now the X-Men will have to decide if the life of a team member is worth more than all the people living in the world.', 'Action, Adventure, Sci-Fi', 'English', 'Danish', '1-q8C_c-nlM', DATE('2019-06-07'), 'Sophie Turner, Jennifer Lawrence, Jessica Chastain', 'Simon Kinberg', 'PG-13', 'https://m.media-amazon.com/images/M/MV5BMjAwNDgxNTI0M15BMl5BanBnXkFtZTgwNTY4MDI1NzM@._V1_SY1000_CR0,0,631,1000_AL_.jpg'),
-('Shaft', 0, 'John Shaft Jr., a cyber security expert with a degree from MIT, enlists his family\'s help to uncover the truth behind his best friend\'s untimely death.', 'Action, Crime', 'English', 'Danish', 'lD41XdWcmbY', DATE('2019-06-14'), 'Samuel L. Jackson, Avan Jogia, Alexandra Shipp', 'Tim Story', 'R', 'https://m.media-amazon.com/images/M/MV5BNmExNGZmYzItZTMzMi00YWJjLWJkYmQtMDg5MjgzYjYyZDk1XkEyXkFqcGdeQXVyNjg3MDMxNzU@._V1_SY1000_CR0,0,674,1000_AL_.jpg'),
+('Dark Phoenix', 113, 'Jean Grey begins to develop incredible powers that corrupt and turn her into a Dark Phoenix. Now the X-Men will have to decide if the life of a team member is worth more than all the people living in the world.', 'Action, Adventure, Sci-Fi', 'English', 'Danish', '1-q8C_c-nlM', DATE('2019-06-07'), 'Sophie Turner, Jennifer Lawrence, Jessica Chastain', 'Simon Kinberg', 'PG-13', 'https://m.media-amazon.com/images/M/MV5BMjAwNDgxNTI0M15BMl5BanBnXkFtZTgwNTY4MDI1NzM@._V1_SY1000_CR0,0,631,1000_AL_.jpg'),
+('Shaft', 111, 'John Shaft Jr., a cyber security expert with a degree from MIT, enlists his family\'s help to uncover the truth behind his best friend\'s untimely death.', 'Action, Crime', 'English', 'Danish', 'lD41XdWcmbY', DATE('2019-06-14'), 'Samuel L. Jackson, Avan Jogia, Alexandra Shipp', 'Tim Story', 'R', 'https://m.media-amazon.com/images/M/MV5BNmExNGZmYzItZTMzMi00YWJjLWJkYmQtMDg5MjgzYjYyZDk1XkEyXkFqcGdeQXVyNjg3MDMxNzU@._V1_SY1000_CR0,0,674,1000_AL_.jpg'),
 ('The Dead Don\'t Die', 105, 'The peaceful town of Centerville finds itself battling a zombie horde as the dead start rising from their graves.', 'Comedy, Fantasy, Horror', 'English', 'Danish', 'bs5ZOcU6Bnw', DATE('2019-06-14'), 'Bill Murray, Adam Driver, Alyssa Maria App', 'Jim Jarmusch', 'R', 'https://m.media-amazon.com/images/M/MV5BMTk4NTM1OTY3Ml5BMl5BanBnXkFtZTgwNzc2NDg3NzM@._V1_SY1000_SX675_AL_.jpg'),
 ('Child\'s Play', 120, 'A mother gives her son a toy doll for his birthday, unaware of its more sinister nature.', 'Horror', 'English', 'Danish', 'PeHNLikDiVw', DATE('2019-06-21'), 'Aubrey Plaza, Mark Hamill, Tim Matheson', 'Lars Klevberg', 'R', 'https://m.media-amazon.com/images/M/MV5BNTNlNjIxNjktOWUyMS00YWY5LWEwZGItMjZmODJlZWNiZGM2XkEyXkFqcGdeQXVyNDg4NjY5OTQ@._V1_SY1000_CR0,0,674,1000_AL_.jpg'),
 ('The Lion King', 0, 'After the murder of his father, a young lion prince flees his kingdom only to learn the true meaning of responsibility and bravery.', 'Animation, Adventure, Drama', 'English', 'Danish', '7TavVZMewpY', DATE('2019-07-19'), 'Seth Rogen, Donald Glover, Chiwetel Ejiofor', 'Jon Favreau', 'G', 'https://m.media-amazon.com/images/M/MV5BMjIwMjE1Nzc4NV5BMl5BanBnXkFtZTgwNDg4OTA1NzM@._V1_SY1000_CR0,0,674,1000_AL_.jpg'),
@@ -62,6 +62,8 @@ INSERT INTO movies(title, runtime, synopsis, genre, language, subtitles, trailer
 ('Lost In Translation', 102, 'A faded movie star and a neglected young woman form an unlikely bond after crossing paths in Tokyo.', 'Drama', 'English', 'Danish', 'W6iVPCRflQM', DATE('2003-10-03'), 'Bill Murray, Scarlett Johansson, Giovanni Ribisi', 'Sofia Coppola', 'R', 'https://m.media-amazon.com/images/M/MV5BMTI2NDI5ODk4N15BMl5BanBnXkFtZTYwMTI3NTE3._V1_.jpg'),
 ('Trainspotting', 93, 'Renton, deeply immersed in the Edinburgh drug scene, tries to clean up and get out, despite the allure of the drugs and influence of friends.', 'Drama', 'English', 'Danish', '8LuxOYIpu-I', DATE('1996-08-09'), 'Ewan McGregor, Ewen Bremner, Jonny Lee Miller', 'Danny Boyle', 'R', 'https://m.media-amazon.com/images/M/MV5BMzA5Zjc3ZTMtMmU5YS00YTMwLWI4MWUtYTU0YTVmNjVmODZhXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_SY1000_SX675_AL_.jpg');
 
+INSERT INTO technologies_to_movies VALUES
+((SELECT id FROM technologies WHERE name='3D'), (SELECT id FROM movies WHERE title='Dark Phoenix'));
 
 INSERT INTO upcoming_movies VALUES
 ((SELECT id FROM movies WHERE title='Dark Phoenix'), DATE('2019-07-15')),
@@ -258,3 +260,51 @@ INSERT INTO screenings (movie_id, theater_id, start_time) VALUES
 ((SELECT id FROM movies WHERE title='Rocketman'), (SELECT id FROM theaters WHERE name='The Orange Theater'), TIMESTAMP('2019-07-21 09:00')),
 ((SELECT id FROM movies WHERE title='Requiem for a Dream'), (SELECT id FROM theaters WHERE name='The Orange Theater'), TIMESTAMP('2019-07-21 15:30')),
 ((SELECT id FROM movies WHERE title='The Dark Knight'), (SELECT id FROM theaters WHERE name='The Orange Theater'), TIMESTAMP('2019-07-21 17:30'));
+
+INSERT INTO bookings (phone_no, code, screening_id) VALUES
+('70321987', 'abcdefgh', (SELECT id FROM screenings WHERE start_time=TIMESTAMP('2019-06-25 15:45'))),
+('71666777', 'bcdefghi', (SELECT id FROM screenings WHERE start_time=TIMESTAMP('2019-06-25 15:45')));
+INSERT INTO booked_seats VALUES
+((SELECT id FROM bookings WHERE phone_no='70321987'), 6, 4),
+((SELECT id FROM bookings WHERE phone_no='71666777'), 6, 2),
+((SELECT id FROM bookings WHERE phone_no='71666777'), 6, 3),
+((SELECT id FROM bookings WHERE phone_no='71666777'), 7, 2),
+((SELECT id FROM bookings WHERE phone_no='71666777'), 7, 3);
+
+INSERT INTO tickets (screening_id, row_no, seat_no) VALUES
+((SELECT id FROM screenings WHERE start_time=TIMESTAMP('2019-06-25 15:45')), 1, 2),
+((SELECT id FROM screenings WHERE start_time=TIMESTAMP('2019-06-25 15:45')), 1, 3),
+((SELECT id FROM screenings WHERE start_time=TIMESTAMP('2019-06-25 15:45')), 2, 1),
+((SELECT id FROM screenings WHERE start_time=TIMESTAMP('2019-06-25 15:45')), 2, 2),
+((SELECT id FROM screenings WHERE start_time=TIMESTAMP('2019-06-25 15:45')), 2, 3),
+((SELECT id FROM screenings WHERE start_time=TIMESTAMP('2019-06-25 15:45')), 3, 2),
+((SELECT id FROM screenings WHERE start_time=TIMESTAMP('2019-06-25 15:45')), 4, 3),
+((SELECT id FROM screenings WHERE start_time=TIMESTAMP('2019-06-25 15:45')), 4, 4),
+((SELECT id FROM screenings WHERE start_time=TIMESTAMP('2019-06-25 15:45')), 5, 4),
+((SELECT id FROM screenings WHERE start_time=TIMESTAMP('2019-06-25 15:45')), 5, 5);
+
+INSERT INTO tickets (screening_id, row_no, seat_no) VALUES
+((SELECT id FROM screenings WHERE start_time=TIMESTAMP('2019-06-25 17:45')), 1, 2),
+((SELECT id FROM screenings WHERE start_time=TIMESTAMP('2019-06-25 17:45')), 1, 3),
+((SELECT id FROM screenings WHERE start_time=TIMESTAMP('2019-06-25 17:45')), 1, 6),
+((SELECT id FROM screenings WHERE start_time=TIMESTAMP('2019-06-25 17:45')), 2, 2),
+((SELECT id FROM screenings WHERE start_time=TIMESTAMP('2019-06-25 17:45')), 2, 3),
+((SELECT id FROM screenings WHERE start_time=TIMESTAMP('2019-06-25 17:45')), 2, 4),
+((SELECT id FROM screenings WHERE start_time=TIMESTAMP('2019-06-25 17:45')), 3, 1),
+((SELECT id FROM screenings WHERE start_time=TIMESTAMP('2019-06-25 17:45')), 3, 2),
+((SELECT id FROM screenings WHERE start_time=TIMESTAMP('2019-06-25 17:45')), 3, 4),
+((SELECT id FROM screenings WHERE start_time=TIMESTAMP('2019-06-25 17:45')), 3, 5),
+((SELECT id FROM screenings WHERE start_time=TIMESTAMP('2019-06-25 17:45')), 4, 1),
+((SELECT id FROM screenings WHERE start_time=TIMESTAMP('2019-06-25 17:45')), 4, 2),
+((SELECT id FROM screenings WHERE start_time=TIMESTAMP('2019-06-25 17:45')), 4, 6),
+((SELECT id FROM screenings WHERE start_time=TIMESTAMP('2019-06-25 17:45')), 5, 1),
+((SELECT id FROM screenings WHERE start_time=TIMESTAMP('2019-06-25 17:45')), 5, 2),
+((SELECT id FROM screenings WHERE start_time=TIMESTAMP('2019-06-25 17:45')), 5, 4),
+((SELECT id FROM screenings WHERE start_time=TIMESTAMP('2019-06-25 17:45')), 5, 5),
+((SELECT id FROM screenings WHERE start_time=TIMESTAMP('2019-06-25 17:45')), 5, 6),
+((SELECT id FROM screenings WHERE start_time=TIMESTAMP('2019-06-25 17:45')), 6, 2),
+((SELECT id FROM screenings WHERE start_time=TIMESTAMP('2019-06-25 17:45')), 6, 3),
+((SELECT id FROM screenings WHERE start_time=TIMESTAMP('2019-06-25 17:45')), 6, 5),
+((SELECT id FROM screenings WHERE start_time=TIMESTAMP('2019-06-25 17:45')), 7, 3),
+((SELECT id FROM screenings WHERE start_time=TIMESTAMP('2019-06-25 17:45')), 7, 4),
+((SELECT id FROM screenings WHERE start_time=TIMESTAMP('2019-06-25 17:45')), 8, 5);

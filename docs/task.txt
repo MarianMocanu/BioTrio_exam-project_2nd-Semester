@@ -1,0 +1,27 @@
+Theater: The Green Theater
+Rows: 10
+Seats per row: 12
+
+Title: Ad Astra
+Cast: Brad Pitt, Liv Tyler, Tommy Lee Jones
+Director: James Gray
+Runtime: 0
+Genre: Adventure, Drama, Mystery
+Release Date: 2019-09-20
+Language: English
+Subtitles: Danish
+Technologies: 
+Age Restriction:
+Synopsis: An astronaut travels to the outer edges of the solar system to find his father and unravel a mystery that threatens the survival of our planet. He uncovers secrets which challenge the nature of human existence and our place in the cosmos. 
+Poster: https://m.media-amazon.com/images/M/MV5BYjNlOGU4OWQtYmRjMS00NTc3LTk4OWYtYjMwMDQ2MGJkMjVlXkEyXkFqcGdeQXVyNjg2NjQwMDQ@._V1_SY1000_CR0,0,675,1000_AL_.jpg
+Trailer: P6AaSMfXHbA
+
+SCREENING 1:
+Movie: Dark Phoenix
+Theater: The Green Theater
+Screening Time: 2019-07-22 17:30
+
+SCREENING 2:
+Movie: Shaft
+Theater: The Green Theater
+Screening Time: 2019-07-22 18:45
