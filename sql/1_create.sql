@@ -51,7 +51,7 @@ CREATE TABLE bookings
     code         VARCHAR(140) NOT NULL,
     screening_id INT NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (screening_id) REFERENCES screenings (id) ON DELETE CASCADE
+            FOREIGN KEY (screening_id) REFERENCES screenings (id) ON DELETE CASCADE
 );
 
 CREATE TABLE booked_seats

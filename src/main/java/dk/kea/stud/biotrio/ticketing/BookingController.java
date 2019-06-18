@@ -1,6 +1,7 @@
 package dk.kea.stud.biotrio.ticketing;
 
 import dk.kea.stud.biotrio.AppGlobals;
+import dk.kea.stud.biotrio.cinema.Screening;
 import dk.kea.stud.biotrio.cinema.ScreeningRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -206,21 +207,21 @@ public class BookingController {
    * then redirects to manage upcoming screenings list view
    */
   @PostMapping("/manage/bookings/redeem/{bookingId}")
-  public String showBookedSeats(@ModelAttribute SeatData data,
+  public String processRedeemedSeats(@ModelAttribute SeatData data,
                                 @PathVariable(name = "bookingId") int bookingId) {
 
     List<Ticket> ticketsList = new ArrayList<>();
-    int screeningId = bookingRepo.findBookingById(bookingId).getScreening().getId();
+    Screening screening = bookingRepo.findBookingById(bookingId).getScreening();
     if (data != null) {
       for (Seat seat : seatRepo.convertStringSeatData(data.getSubmittedData())) {
         Ticket ticket = new Ticket();
-        ticket.setScreening(screeningRepo.findById(screeningId));
+        ticket.setScreening(screening);
         ticket.setSeat(seat);
         ticketsList.add(ticket);
       }
       ticketRepo.addTickets(ticketsList);
       bookingRepo.deleteBookingById(bookingId);
     }
-    return "redirect:/manage/ticketing/";
+    return "redirect:/manage/ticketing/" + screening.getId();
   }
 }
