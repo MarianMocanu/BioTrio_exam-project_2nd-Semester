@@ -321,3 +321,17 @@ INSERT INTO tickets (screening_id, row_no, seat_no) VALUES
 ((SELECT id FROM screenings WHERE start_time=TIMESTAMP('2019-06-25 17:45')), 7, 3),
 ((SELECT id FROM screenings WHERE start_time=TIMESTAMP('2019-06-25 17:45')), 7, 4),
 ((SELECT id FROM screenings WHERE start_time=TIMESTAMP('2019-06-25 17:45')), 8, 5);
+
+INSERT INTO employees (first_name, last_name) VALUES
+('Kailee', 'Morgan'),
+('Dean', 'Baxter'),
+('Mohamed', 'Glover'),
+('Braxton', 'Silva'),
+('Sonia', 'Estes'),
+('Damian', 'Rangel'),
+('Maximilian', 'Valdez'),
+('Asa', 'Coleman'),
+('Francis', 'Kaufman'),
+('Beckham', 'Calhoun'),
+('Riley', 'Yates'),
+('Jane', 'Cuevas');
