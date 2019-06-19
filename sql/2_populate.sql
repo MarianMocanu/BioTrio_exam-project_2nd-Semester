@@ -263,13 +263,43 @@ INSERT INTO screenings (movie_id, theater_id, start_time) VALUES
 
 INSERT INTO bookings (phone_no, code, screening_id) VALUES
 ('70321987', 'abcdefgh', (SELECT id FROM screenings WHERE start_time=TIMESTAMP('2019-06-25 15:45'))),
-('71666777', 'bcdefghi', (SELECT id FROM screenings WHERE start_time=TIMESTAMP('2019-06-25 15:45')));
+('71666777', 'bcdefghi', (SELECT id FROM screenings WHERE start_time=TIMESTAMP('2019-06-25 15:45'))),
+('73456123', 'cdefghij', (SELECT id FROM screenings WHERE start_time=TIMESTAMP('2019-06-25 17:45'))),
+('70054882', 'hijklmno', (SELECT id FROM screenings WHERE start_time=TIMESTAMP('2019-06-25 17:45'))),
+('70557799', 'defghijk', (SELECT id FROM screenings WHERE start_time=TIMESTAMP('2019-06-28 17:00'))),
+('71431814', 'efghijkl', (SELECT id FROM screenings WHERE start_time=TIMESTAMP('2019-06-28 17:00'))),
+('71139147', 'fghijklm', (SELECT id FROM screenings WHERE start_time=TIMESTAMP('2019-06-28 17:00'))),
+('70944159', 'ghijklmn', (SELECT id FROM screenings WHERE start_time=TIMESTAMP('2019-06-28 17:00')));
+
 INSERT INTO booked_seats VALUES
 ((SELECT id FROM bookings WHERE phone_no='70321987'), 6, 4),
 ((SELECT id FROM bookings WHERE phone_no='71666777'), 6, 2),
 ((SELECT id FROM bookings WHERE phone_no='71666777'), 6, 3),
 ((SELECT id FROM bookings WHERE phone_no='71666777'), 7, 2),
-((SELECT id FROM bookings WHERE phone_no='71666777'), 7, 3);
+((SELECT id FROM bookings WHERE phone_no='71666777'), 7, 3),
+((SELECT id FROM bookings WHERE phone_no='73456123'), 5, 4),
+((SELECT id FROM bookings WHERE phone_no='73456123'), 5, 5),
+((SELECT id FROM bookings WHERE phone_no='73456123'), 5, 6),
+((SELECT id FROM bookings WHERE phone_no='70054882'), 3, 1),
+((SELECT id FROM bookings WHERE phone_no='70054882'), 3, 2),
+((SELECT id FROM bookings WHERE phone_no='70054882'), 4, 1),
+((SELECT id FROM bookings WHERE phone_no='70054882'), 4, 2),
+((SELECT id FROM bookings WHERE phone_no='70557799'), 1, 3),
+((SELECT id FROM bookings WHERE phone_no='70557799'), 1, 4),
+((SELECT id FROM bookings WHERE phone_no='70557799'), 2, 2),
+((SELECT id FROM bookings WHERE phone_no='70557799'), 2, 3),
+((SELECT id FROM bookings WHERE phone_no='71431814'), 6, 9),
+((SELECT id FROM bookings WHERE phone_no='71431814'), 6, 10),
+((SELECT id FROM bookings WHERE phone_no='71431814'), 7, 7),
+((SELECT id FROM bookings WHERE phone_no='71431814'), 7, 8),
+((SELECT id FROM bookings WHERE phone_no='70944159'), 3, 11),
+((SELECT id FROM bookings WHERE phone_no='70944159'), 3, 12),
+((SELECT id FROM bookings WHERE phone_no='70944159'), 4, 11),
+((SELECT id FROM bookings WHERE phone_no='70944159'), 4, 12),
+((SELECT id FROM bookings WHERE phone_no='71139147'), 3, 6),
+((SELECT id FROM bookings WHERE phone_no='71139147'), 3, 7),
+((SELECT id FROM bookings WHERE phone_no='71139147'), 6, 2),
+((SELECT id FROM bookings WHERE phone_no='71139147'), 6, 3);
 
 INSERT INTO tickets (screening_id, row_no, seat_no) VALUES
 ((SELECT id FROM screenings WHERE start_time=TIMESTAMP('2019-06-25 15:45')), 1, 2),
@@ -290,12 +320,8 @@ INSERT INTO tickets (screening_id, row_no, seat_no) VALUES
 ((SELECT id FROM screenings WHERE start_time=TIMESTAMP('2019-06-25 17:45')), 2, 2),
 ((SELECT id FROM screenings WHERE start_time=TIMESTAMP('2019-06-25 17:45')), 2, 3),
 ((SELECT id FROM screenings WHERE start_time=TIMESTAMP('2019-06-25 17:45')), 2, 4),
-((SELECT id FROM screenings WHERE start_time=TIMESTAMP('2019-06-25 17:45')), 3, 1),
-((SELECT id FROM screenings WHERE start_time=TIMESTAMP('2019-06-25 17:45')), 3, 2),
 ((SELECT id FROM screenings WHERE start_time=TIMESTAMP('2019-06-25 17:45')), 3, 4),
 ((SELECT id FROM screenings WHERE start_time=TIMESTAMP('2019-06-25 17:45')), 3, 5),
-((SELECT id FROM screenings WHERE start_time=TIMESTAMP('2019-06-25 17:45')), 4, 1),
-((SELECT id FROM screenings WHERE start_time=TIMESTAMP('2019-06-25 17:45')), 4, 2),
 ((SELECT id FROM screenings WHERE start_time=TIMESTAMP('2019-06-25 17:45')), 4, 6),
 ((SELECT id FROM screenings WHERE start_time=TIMESTAMP('2019-06-25 17:45')), 5, 1),
 ((SELECT id FROM screenings WHERE start_time=TIMESTAMP('2019-06-25 17:45')), 5, 2),
