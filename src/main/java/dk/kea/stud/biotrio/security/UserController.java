@@ -55,7 +55,6 @@ public class UserController {
     boolean success = false;
     if (userRepo.findByUsername(userData.getUsername()) != null) {
       // The username must be unique
-//      message = "Username taken. Choose something different.";
       return "redirect:/manage/users/add/?error=username_taken";
     } else if (!confPassword.equals(userData.getPassword())) {
       // The password must match
